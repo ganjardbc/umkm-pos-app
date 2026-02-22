@@ -12,7 +12,7 @@
     </div>
     <Popover ref="opProfileMenu" position="right" class="ui-sidebar-profile__popper">
       <div class="space-y-4 w-55">
-        <div class="flex items-center gap-2">
+        <router-link :to="PRP_PROFILE" class="flex items-center gap-2">
           <Avatar
             :label="personalInfo?.user?.name?.charAt(0)"
             size="small"
@@ -28,7 +28,7 @@
               {{ personalInfo?.user?.email || '-' }}
             </div>
           </div>
-        </div>
+        </router-link>
         <Divider />
         <Button
           severity="secondary"
@@ -52,6 +52,7 @@ import { removeAuth } from '@/helpers/auth.ts';
 import { confirmConfig, toastConfig } from "@/helpers/toast.ts";
 import { getPersonalInformation } from '@/helpers/auth.ts';
 import { PREFIX_ROUTE_PATH as PRP_AUTH } from '@/modules/auth/services/constants.ts';
+import { PREFIX_ROUTE_PATH as PRP_PROFILE } from '@/modules/profile/services/constants.ts';
 
 defineProps({
   isCollapsed: {

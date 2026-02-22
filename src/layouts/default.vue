@@ -61,18 +61,26 @@
           'flex-row': !isSmallSidebar,
         }"
       >
-        <Button
-          severity="secondary" 
-          variant="outlined"
-          size="medium"
-          icon="pi pi-comment"
-        />
-        <Button
-          severity="secondary" 
-          variant="outlined"
-          size="medium"
-          icon="pi pi-cog"
-        />
+        <router-link
+          to="/notification"
+        >
+          <Button
+            severity="secondary" 
+            variant="outlined"
+            size="medium"
+            icon="pi pi-bell"
+          />
+        </router-link>
+        <router-link
+          to="/settings"
+        >
+          <Button
+            severity="secondary" 
+            variant="outlined"
+            size="medium"
+            icon="pi pi-cog"
+          />
+        </router-link>
       </div>
     </div>
 
