@@ -1,0 +1,19 @@
+:root {
+  --p-popover-gutter: 0 !important;
+}
+
+@theme {
+  /* Primary Colors */
+  --primary-color: #409EFF;
+  --primary-25: #ecf8ff;
+  --primary-50: #e1f5ff;
+  --primary-100: #c9ebff;
+  --primary-200: #98d8ff;
+  --primary-300: #68c4ff;
+  --primary-400: #40b0ff;
+  --primary-500: #409EFF;
+  --primary-600: #3381e5;
+  --primary-700: #2b6cbf;
+  --primary-800: #225799;
+  --primary-900: #11335f;
+}

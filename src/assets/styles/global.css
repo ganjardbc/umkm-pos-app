@@ -1,0 +1,21 @@
+@import "tailwindcss";
+@import "tailwindcss-primeui";
+@import "primeicons/primeicons.css";
+@import './variables.css';
+@import './themes.css';
+
+@custom-variant dark (&:where(.my-app-dark, .my-app-dark *));
+
+html {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+#layout-footer {
+  display: none;
+}
+
+#layout-footer:not(:empty) {
+  display: block;
+}

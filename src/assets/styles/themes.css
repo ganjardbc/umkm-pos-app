@@ -1,0 +1,121 @@
+/* Background Utility */
+@utility bg-primary {
+  background-color: var(--primary-color);
+}
+@utility bg-primary-25 {
+  background-color: var(--primary-25);
+}
+@utility bg-primary-50 {
+  background-color: var(--primary-50);
+}
+@utility bg-primary-100 {
+  background-color: var(--primary-100);
+}
+@utility bg-primary-200 {
+  background-color: var(--primary-200);
+}
+@utility bg-primary-300 {
+  background-color: var(--primary-300);
+}
+@utility bg-primary-400 {
+  background-color: var(--primary-400);
+}
+@utility bg-primary-500 {
+  background-color: var(--primary-500);
+}
+@utility bg-primary-600 {
+  background-color: var(--primary-600);
+}
+@utility bg-primary-700 {
+  background-color: var(--primary-700);
+}
+@utility bg-primary-800 {
+  background-color: var(--primary-800);
+}
+@utility bg-primary-900 {
+  background-color: var(--primary-900);
+}
+
+/* Text Utility */
+@utility text-primary {
+  color: var(--primary-color);
+}
+@utility text-primary-25 {
+  color: var(--primary-25);
+}
+@utility text-primary-50 {
+  color: var(--primary-50);
+}
+@utility text-primary-100 {
+  color: var(--primary-100);
+}
+@utility text-primary-200 {
+  color: var(--primary-200);
+}
+@utility text-primary-300 {
+  color: var(--primary-300);
+}
+@utility text-primary-400 {
+  color: var(--primary-400);
+}
+@utility text-primary-500 {
+  color: var(--primary-500);
+}
+@utility text-primary-600 {
+  color: var(--primary-600);
+}
+@utility text-primary-700 {
+  color: var(--primary-700);
+}
+@utility text-primary-800 {
+  color: var(--primary-800);
+}
+@utility text-primary-900 {
+  color: var(--primary-900);
+}
+
+/* Border Utility */
+@utility border-primary {
+  border-color: var(--primary-color);
+}
+@utility border-primary-25 {
+  border-color: var(--primary-25);  
+}
+@utility border-primary-50 {
+  border-color: var(--primary-50);  
+}
+@utility border-primary-100 {
+  border-color: var(--primary-100);  
+}
+@utility border-primary-200 {
+  border-color: var(--primary-200);  
+}
+@utility border-primary-300 {
+  border-color: var(--primary-300);  
+}
+@utility border-primary-400 {
+  border-color: var(--primary-400);  
+}
+@utility border-primary-500 {
+  border-color: var(--primary-500);  
+}
+@utility border-primary-600 {
+  border-color: var(--primary-600);  
+}
+@utility border-primary-700 {
+  border-color: var(--primary-700);  
+}
+@utility border-primary-800 {
+  border-color: var(--primary-800);  
+}
+@utility border-primary-900 {
+  border-color: var(--primary-900);  
+}
+
+/* Gradient Background Utility */
+@utility bg-gradient-primary {
+  background-image: linear-gradient(to right, var(--primary-900), var(--primary-500));
+}
+@utility bg-gradiend-primary-reverse {
+  background-image: linear-gradient(to right, var(--primary-500), var(--primary-900));
+}
