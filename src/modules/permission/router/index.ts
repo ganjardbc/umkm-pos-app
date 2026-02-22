@@ -1,31 +1,33 @@
 import {
   PREFIX_ROUTE_PATH,
   PREFIX_ROUTE_NAME,
-} from '@/modules/dashboard/services/constants.ts';
+} from '@/modules/permission/services/constants.ts';
+
 import {
   PERMISSIONS,
-} from '@/modules/dashboard/services/rbac.ts';
+} from '@/modules/permission/services/rbac.ts';
 
 export default [
   {
     path: PREFIX_ROUTE_PATH,
-    name: `${PREFIX_ROUTE_NAME}`,
-    component: () => import('@/modules/dashboard/pages/index.vue'),
+    name: PREFIX_ROUTE_NAME,
+    component: () => import('@/modules/permission/pages/index.vue'),
     meta: {
-      title: 'Dashboard',
+      title: 'Permission',
       layout: 'default',
       permission: PERMISSIONS,
       breadcrumbs: [
         {
           label: 'Home',
           route: '/',
+          isActive: false,
         },
         {
-          label: 'Dashboard',
+          label: 'Permission',
           route: PREFIX_ROUTE_PATH,
           isActive: true,
         },
       ]
     }
-  }
+  },
 ];

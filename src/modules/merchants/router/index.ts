@@ -1,31 +1,32 @@
 import {
   PREFIX_ROUTE_PATH,
-  PREFIX_ROUTE_NAME,
-} from '@/modules/dashboard/services/constants.ts';
+  PREFIX_ROUTE_NAME
+} from '@/modules/merchants/services/constants.ts';
 import {
   PERMISSIONS,
-} from '@/modules/dashboard/services/rbac.ts';
+} from '@/modules/merchants/services/rbac.ts';
 
 export default [
   {
     path: PREFIX_ROUTE_PATH,
-    name: `${PREFIX_ROUTE_NAME}`,
-    component: () => import('@/modules/dashboard/pages/index.vue'),
+    name: PREFIX_ROUTE_NAME,
+    component: () => import('@/modules/merchants/pages/index.vue'),
     meta: {
-      title: 'Dashboard',
+      title: 'Merchants',
       layout: 'default',
       permission: PERMISSIONS,
       breadcrumbs: [
         {
           label: 'Home',
           route: '/',
+          isActive: false,
         },
         {
-          label: 'Dashboard',
+          label: 'Merchants',
           route: PREFIX_ROUTE_PATH,
           isActive: true,
         },
       ]
     }
-  }
+  },
 ];

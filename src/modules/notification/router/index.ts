@@ -1,31 +1,28 @@
 import {
   PREFIX_ROUTE_PATH,
   PREFIX_ROUTE_NAME,
-} from '@/modules/dashboard/services/constants.ts';
-import {
-  PERMISSIONS,
-} from '@/modules/dashboard/services/rbac.ts';
+} from '@/modules/notification/services/constants.ts';
 
 export default [
   {
     path: PREFIX_ROUTE_PATH,
-    name: `${PREFIX_ROUTE_NAME}`,
-    component: () => import('@/modules/dashboard/pages/index.vue'),
+    name: PREFIX_ROUTE_NAME,
+    component: () => import('@/modules/notification/pages/index.vue'),
     meta: {
-      title: 'Dashboard',
+      title: 'Notification',
       layout: 'default',
-      permission: PERMISSIONS,
       breadcrumbs: [
         {
           label: 'Home',
           route: '/',
+          isActive: false,
         },
         {
-          label: 'Dashboard',
+          label: 'Notification',
           route: PREFIX_ROUTE_PATH,
           isActive: true,
         },
       ]
     }
-  }
+  },
 ];

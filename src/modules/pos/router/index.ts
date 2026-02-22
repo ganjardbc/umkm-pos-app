@@ -1,31 +1,33 @@
 import {
   PREFIX_ROUTE_PATH,
   PREFIX_ROUTE_NAME,
-} from '@/modules/dashboard/services/constants.ts';
+} from '@/modules/pos/services/constants.ts';
+
 import {
   PERMISSIONS,
-} from '@/modules/dashboard/services/rbac.ts';
+} from '@/modules/pos/services/rbac.ts';
 
 export default [
   {
     path: PREFIX_ROUTE_PATH,
-    name: `${PREFIX_ROUTE_NAME}`,
-    component: () => import('@/modules/dashboard/pages/index.vue'),
+    name: PREFIX_ROUTE_NAME,
+    component: () => import('@/modules/pos/pages/index.vue'),
     meta: {
-      title: 'Dashboard',
+      title: 'Point of Sale',
       layout: 'default',
       permission: PERMISSIONS,
       breadcrumbs: [
         {
           label: 'Home',
           route: '/',
+          isActive: false,
         },
         {
-          label: 'Dashboard',
+          label: 'Pos',
           route: PREFIX_ROUTE_PATH,
           isActive: true,
         },
       ]
     }
-  }
+  },
 ];
