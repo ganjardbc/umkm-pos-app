@@ -1,3 +1,43 @@
+import dayjs from 'dayjs';
+
+const FORMAT_TIME = 'HH:mm';
+const FORMAT_DATE = 'DD/MM/YYYY';
+const FORMAT_DATE_TIME = 'DD/MM/YYYY HH:mm';
+
+export const isDateValid = (date: string) => {
+  return dayjs(date).isValid();
+}
+
+export const formatTime = (time: string) => {
+  return isDateValid(time) ? dayjs(time).format(FORMAT_TIME) : '-';
+}
+
+export const formatRangeTime = (startTime: string, endTime: string) => {
+  const start = isDateValid(startTime) ? dayjs(startTime).format(FORMAT_TIME) : '-';
+  const end = isDateValid(endTime) ? dayjs(endTime).format(FORMAT_TIME) : '-';
+  return `${start} - ${end}`;
+}
+
+export const formatDate = (date: string) => {
+  return isDateValid(date) ? dayjs(date).format(FORMAT_DATE) : '-';
+}
+
+export const formatRangeDate = (startDate: string, endDate: string) => {
+  const start = isDateValid(startDate) ? dayjs(startDate).format(FORMAT_DATE) : '-';
+  const end = isDateValid(endDate) ? dayjs(endDate).format(FORMAT_DATE) : '-';
+  return `${start} - ${end}`;
+}
+
+export const formatDateTime = (date: string) => {
+  return isDateValid(date) ? dayjs(date).format(FORMAT_DATE_TIME) : '-';
+}
+
+export const formatRangeDateTime = (startDate: string, endDate: string) => {
+  const start = isDateValid(startDate) ? dayjs(startDate).format(FORMAT_DATE_TIME) : '-';
+  const end = isDateValid(endDate) ? dayjs(endDate).format(FORMAT_DATE_TIME) : '-';
+  return `${start} - ${end}`;
+}
+
 export const getCurrency = (value: any) => {
   if (typeof value !== 'number') {
     value = Number(value);
@@ -39,12 +79,12 @@ export const getNoTable = (index: number, page: number, rows: number) => {
 };
 
 export const getSummaryPage = (pagination: any) => {
-  return `Halaman ${pagination?.page || '0'} dari ${pagination?.pageCount || '0'} (${pagination?.totalRecords || '0'} data)`;
+  return `Page ${pagination?.page || '0'} - ${pagination?.pageCount || '0'} (${pagination?.totalRecords || '0'} data)`;
 }
 
 export const useDebounce = <T extends (...args: any[]) => void>(fn: T, delay: number) => {
   let timeout: ReturnType<typeof setTimeout>;
-  return function(this: any, ...args: Parameters<T>) {
+  return function (this: any, ...args: Parameters<T>) {
     clearTimeout(timeout);
     timeout = setTimeout(() => fn.apply(this, args), delay);
   };
