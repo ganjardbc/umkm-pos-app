@@ -1,30 +1,30 @@
 import api from '@/plugins/axios.ts';
 
-export const getListmerchants = async (data: any, options:any = {}) => {
+export const getListMerchants = async (data: any, options: any = {}) => {
   return await api.get(
-    '/api/merchants',
+    '/api/v1/merchants',
     { params: data, ...(options || {}) },
   );
 };
 
-export const getDetailmerchants = async (id: string|number, options:any = {}) => {
+export const getDetailMerchants = async (id: string | number, options: any = {}) => {
   return await api.get(
-    `/api/merchants/${id}`,
+    `/api/v1/merchants/${id}`,
     { ...(options || {}) },
   );
 };
 
-export const postmerchants = async (data: any, options:any = {}) => {
+export const postMerchants = async (data: any, options: any = {}) => {
   return await api.post(
-    `/api/merchants`,
+    `/api/v1/merchants`,
     data,
     { ...(options || {}) },
   );
 };
 
-export const putmerchants = async (id: string|number, data: any, options:any = {}) => {
+export const putMerchants = async (id: string | number, data: any, options: any = {}) => {
   return await api.put(
-    `/api/merchants/${id}`,
+    `/api/v1/merchants/${id}`,
     data,
     { ...(options || {}) },
   );

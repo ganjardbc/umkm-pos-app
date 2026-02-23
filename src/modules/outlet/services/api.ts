@@ -1,30 +1,30 @@
 import api from '@/plugins/axios.ts';
 
-export const getListoutlet = async (data: any, options:any = {}) => {
+export const getListOutlet = async (data: any, options: any = {}) => {
   return await api.get(
-    '/api/outlet',
+    '/api/v1/outlets',
     { params: data, ...(options || {}) },
   );
 };
 
-export const getDetailoutlet = async (id: string|number, options:any = {}) => {
+export const getDetailOutlet = async (id: string | number, options: any = {}) => {
   return await api.get(
-    `/api/outlet/${id}`,
+    `/api/v1/outlets/${id}`,
     { ...(options || {}) },
   );
 };
 
-export const postoutlet = async (data: any, options:any = {}) => {
+export const postOutlet = async (data: any, options: any = {}) => {
   return await api.post(
-    `/api/outlet`,
+    `/api/v1/outlets`,
     data,
     { ...(options || {}) },
   );
 };
 
-export const putoutlet = async (id: string|number, data: any, options:any = {}) => {
+export const putOutlet = async (id: string | number, data: any, options: any = {}) => {
   return await api.put(
-    `/api/outlet/${id}`,
+    `/api/v1/outlets/${id}`,
     data,
     { ...(options || {}) },
   );

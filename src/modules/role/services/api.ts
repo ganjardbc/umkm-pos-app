@@ -1,30 +1,30 @@
 import api from '@/plugins/axios.ts';
 
-export const getListrole = async (data: any, options:any = {}) => {
+export const getListRole = async (data: any, options: any = {}) => {
   return await api.get(
-    '/api/role',
+    '/api/v1/rbac/roles',
     { params: data, ...(options || {}) },
   );
 };
 
-export const getDetailrole = async (id: string|number, options:any = {}) => {
+export const getDetailRole = async (id: string | number, options: any = {}) => {
   return await api.get(
-    `/api/role/${id}`,
+    `/api/v1/rbac/roles/${id}`,
     { ...(options || {}) },
   );
 };
 
-export const postrole = async (data: any, options:any = {}) => {
+export const postRole = async (data: any, options: any = {}) => {
   return await api.post(
-    `/api/role`,
+    `/api/v1/rbac/roles`,
     data,
     { ...(options || {}) },
   );
 };
 
-export const putrole = async (id: string|number, data: any, options:any = {}) => {
+export const putRole = async (id: string | number, data: any, options: any = {}) => {
   return await api.put(
-    `/api/role/${id}`,
+    `/api/v1/rbac/roles/${id}`,
     data,
     { ...(options || {}) },
   );

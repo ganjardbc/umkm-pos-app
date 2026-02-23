@@ -1,30 +1,30 @@
 import api from '@/plugins/axios.ts';
 
-export const getListpermission = async (data: any, options:any = {}) => {
+export const getListPermission = async (data: any, options: any = {}) => {
   return await api.get(
-    '/api/permission',
+    '/api/v1/rbac/permissions',
     { params: data, ...(options || {}) },
   );
 };
 
-export const getDetailpermission = async (id: string|number, options:any = {}) => {
+export const getDetailPermission = async (id: string | number, options: any = {}) => {
   return await api.get(
-    `/api/permission/${id}`,
+    `/api/v1/rbac/permissions/${id}`,
     { ...(options || {}) },
   );
 };
 
-export const postpermission = async (data: any, options:any = {}) => {
+export const postPermission = async (data: any, options: any = {}) => {
   return await api.post(
-    `/api/permission`,
+    `/api/v1/rbac/permissions`,
     data,
     { ...(options || {}) },
   );
 };
 
-export const putpermission = async (id: string|number, data: any, options:any = {}) => {
+export const putPermission = async (id: string | number, data: any, options: any = {}) => {
   return await api.put(
-    `/api/permission/${id}`,
+    `/api/v1/rbac/permissions/${id}`,
     data,
     { ...(options || {}) },
   );

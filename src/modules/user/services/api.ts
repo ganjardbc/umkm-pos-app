@@ -1,30 +1,30 @@
 import api from '@/plugins/axios.ts';
 
-export const getListuser = async (data: any, options:any = {}) => {
+export const getListUser = async (data: any, options: any = {}) => {
   return await api.get(
-    '/api/user',
+    '/api/v1/users',
     { params: data, ...(options || {}) },
   );
 };
 
-export const getDetailuser = async (id: string|number, options:any = {}) => {
+export const getDetailUser = async (id: string | number, options: any = {}) => {
   return await api.get(
-    `/api/user/${id}`,
+    `/api/v1/users/${id}`,
     { ...(options || {}) },
   );
 };
 
-export const postuser = async (data: any, options:any = {}) => {
+export const postUser = async (data: any, options: any = {}) => {
   return await api.post(
-    `/api/user`,
+    `/api/v1/users`,
     data,
     { ...(options || {}) },
   );
 };
 
-export const putuser = async (id: string|number, data: any, options:any = {}) => {
+export const putUser = async (id: string | number, data: any, options: any = {}) => {
   return await api.put(
-    `/api/user/${id}`,
+    `/api/v1/users/${id}`,
     data,
     { ...(options || {}) },
   );
