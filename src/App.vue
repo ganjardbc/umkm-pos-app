@@ -1,6 +1,7 @@
 <template>
   <UiToast />
   <UiConfirmDialog />
+  <UiGlobalLoading />
 
   <component :is="isAuthRoute ? AuthLayout : DefaultLayout">
     <router-view />
@@ -17,6 +18,7 @@ import AuthLayout from '@/layouts/auth.vue';
 
 import UiToast from '@/components/UiToast.vue';
 import UiConfirmDialog from '@/components/UiConfirmDialog.vue';
+import UiGlobalLoading from '@/components/UiGlobalLoading.vue';
 
 import { useAuthStore } from '@/modules/auth/stores/index.ts';
 
