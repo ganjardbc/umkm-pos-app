@@ -48,7 +48,7 @@ interface MenuItem {
   menus?: MenuItem[];
 }
 
-const props = defineProps({
+defineProps({
   item: {
     type: Object as () => MenuItem,
     required: true,

@@ -38,6 +38,40 @@ export const formatRangeDateTime = (startDate: string, endDate: string) => {
   return `${start} - ${end}`;
 }
 
+export const getDuration = (startDate: string, endDate: string) => {
+  if (!isDateValid(startDate) || !isDateValid(endDate)) {
+    return '0 minutes';
+  }
+
+  const start = dayjs(startDate);
+  const end = dayjs(endDate);
+  
+  const diffInMinutes = end.diff(start, 'minute');
+  const diffInHours = end.diff(start, 'hour');
+  const diffInDays = end.diff(start, 'day');
+
+  // If duration is less than 60 minutes, show in minutes
+  if (diffInMinutes < 60) {
+    return `${diffInMinutes} ${diffInMinutes === 1 ? 'minute' : 'minutes'}`;
+  }
+  
+  // If duration is less than 24 hours, show in hours
+  if (diffInHours < 24) {
+    const remainingMinutes = diffInMinutes % 60;
+    if (remainingMinutes === 0) {
+      return `${diffInHours} ${diffInHours === 1 ? 'hour' : 'hours'}`;
+    }
+    return `${diffInHours} ${diffInHours === 1 ? 'hour' : 'hours'} ${remainingMinutes} ${remainingMinutes === 1 ? 'minute' : 'minutes'}`;
+  }
+  
+  // If duration is 24 hours or more, show in days
+  const remainingHours = diffInHours % 24;
+  if (remainingHours === 0) {
+    return `${diffInDays} ${diffInDays === 1 ? 'day' : 'days'}`;
+  }
+  return `${diffInDays} ${diffInDays === 1 ? 'day' : 'days'} ${remainingHours} ${remainingHours === 1 ? 'hour' : 'hours'}`;
+}
+
 export const getCurrency = (value: any) => {
   if (typeof value !== 'number') {
     value = Number(value);

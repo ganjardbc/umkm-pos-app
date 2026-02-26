@@ -73,11 +73,10 @@
 import { ref, computed } from "vue";
 import { useRouter } from 'vue-router';
 import { useConfirm } from 'primevue/useconfirm';
-import { useToast } from 'primevue/usetoast';
 import { storeToRefs } from 'pinia';
 import { useAuthStore } from '@/modules/auth/stores/index.ts';
 import { removeAuth } from '@/helpers/auth.ts';
-import { toastConfig } from '@/helpers/toast.ts';
+import { showToast } from '@/helpers/toast.ts';
 import { getListOutlet, getOutlet, setOutlet } from '@/helpers/auth.ts';
 
 defineProps({
@@ -96,7 +95,6 @@ const isMobile = computed(() => deviceType.value === 'mobile');
 // Personal info
 const router = useRouter();
 const confirm = useConfirm();
-const toast = useToast();
 
 const listOutlet = computed(() => getListOutlet());
 const activeOutlet = computed(() => getOutlet());
@@ -114,7 +112,11 @@ const onVisitOutlet = async (outlet) => {
   }
   catch (error) {
     console.error(error);
-    toast.add(toastConfig('error', 'Error', error.message));
+    showToast({
+      type: 'error',
+      title: 'Error',
+      message: error.message,
+    })
   }
 };
 </script>

@@ -1,5 +1,10 @@
 <template>
-  <div class="w-full flex flex-col md:flex-row items-center justify-between">
+  <div
+    class="w-full flex flex-col md:flex-row items-center justify-between"
+    :class="{
+      'px-4 py-2': !noPadding,
+    }"
+  >
     <div class="text-sm text-gray-900 font-semibold">
       {{ getSummaryPage(pagination) }}
     </div>
@@ -22,6 +27,13 @@ type Pagination = {
   rows: number;
   totalRecords: number;
 };
+
+defineProps({
+  noPadding: {
+    type: Boolean,
+    default: false,
+  },
+});
 
 const pagination = defineModel<Pagination>({
   type: Object as PropType<Pagination>,

@@ -46,10 +46,8 @@
 <script setup>
 import { ref, computed } from "vue";
 import { useRouter } from 'vue-router';
-import { useConfirm } from "primevue/useconfirm";
-import { useToast } from "primevue/usetoast";
 import { removeAuth } from '@/helpers/auth.ts';
-import { confirmConfig, toastConfig } from "@/helpers/toast.ts";
+import { showConfirm, showToast } from "@/helpers/toast.ts";
 import { getPersonalInformation } from '@/helpers/auth.ts';
 import { PREFIX_ROUTE_PATH as PRP_AUTH } from '@/modules/auth/services/constants.ts';
 import { PREFIX_ROUTE_PATH as PRP_PROFILE } from '@/modules/profile/services/constants.ts';
@@ -62,30 +60,24 @@ defineProps({
 });
 
 const router = useRouter();
-const confirm = useConfirm();
-const toast = useToast();
 
 const personalInfo = computed(() => getPersonalInformation());
 
 const handleLogout = () => {
-  confirm.require({
-    ...confirmConfig({
-      // message: 'Semua data akan disimpan.',
-      header: 'Logout dari Akun ini?',
-      rejectLabel: 'Batal',
-      acceptLabel: 'Ok, Lanjutkan',
-      type: 'warn',
-    }),
+  showConfirm({
+    header: 'Logout dari Akun ini?',
+    rejectLabel: 'Batal',
+    acceptLabel: 'Ok, Lanjutkan',
+    type: 'warn',
     accept: () => {
       removeAuth();
 
-      toast.add(toastConfig({
+      showToast({
         type: 'success',
         title: 'Logout Succesfully',
-      }));
-
+      });
       router.push(PRP_AUTH);
-    },
+    }
   });
 }
 

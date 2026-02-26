@@ -43,7 +43,7 @@ interface SubmenuItem {
   menus?: SubmenuItem[];
 }
 
-const props = defineProps({
+defineProps({
   item: {
     type: Object as () => SubmenuItem,
     required: true,

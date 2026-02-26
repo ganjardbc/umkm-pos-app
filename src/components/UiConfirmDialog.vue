@@ -1,12 +1,12 @@
 <template>
   <ConfirmDialog
     group="headless"
-    :style="{ width: '25rem' }"
+    :style="{ width: '24rem' }"
   >
     <template #container="{ message, acceptCallback, rejectCallback }">
-      <div class="flex flex-col items-center p-8 bg-surface-0 dark:bg-surface-900 rounded">
+      <div class="flex flex-col items-center px-4 py-6 bg-surface-0 dark:bg-surface-900 rounded-xl">
         <div
-          class="rounded-full inline-flex justify-center items-center h-24 w-24 -mt-20"
+          class="rounded-full inline-flex justify-center items-center h-24 w-24 -mt-18"
           :class="[
             getHeaderBgIcon(message?.type),
             getHeaderColorIcon(message?.type),
@@ -37,6 +37,26 @@
   </ConfirmDialog>
 </template>
 <script lang="ts" setup>
+import { watch } from 'vue';
+import { useConfirm } from 'primevue/useconfirm';
+import { useGlobalConfirm } from '@/composables/useGlobalConfirm';
+
+const confirm = useConfirm();
+const { confirmQueue } = useGlobalConfirm();
+
+watch(
+  confirmQueue,
+  (queue) => {
+    if (queue.length > 0) {
+      const confirmOptions = queue.shift();
+      if (confirmOptions) {
+        confirm.require(confirmOptions);
+      }
+    }
+  },
+  { deep: true }
+);
+
 const getHeaderBgIcon = (type: any) => {
   switch (type) {
     case 'info':

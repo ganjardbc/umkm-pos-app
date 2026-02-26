@@ -1,61 +1,15 @@
-interface ToastConfigParams {
-  type: 'success' | 'error' | 'info';
-  title: string;
-  message: string;
-}
+import { useGlobalToast } from '@/composables/useGlobalToast';
+import { useGlobalConfirm } from '@/composables/useGlobalConfirm';
+import type { ShowToastParams } from '@/composables/useGlobalToast';
+import type { ShowConfirmParams } from '@/composables/useGlobalConfirm';
 
-export const toastConfig = ({
-  type,
-  title,
-  message
-}: ToastConfigParams) => {
-  return {
-    severity: type,
-    summary: title,
-    detail: message,
-    life: 3000
-  }
+const { showToast: globalShowToast } = useGlobalToast();
+const { showConfirm: globalShowConfirm } = useGlobalConfirm();
+
+export const showToast = (params: ShowToastParams) => {
+  globalShowToast(params);
 };
 
-interface ConfirmConfigParams {
-  message: string;
-  header: string;
-  rejectLabel?: string;
-  acceptLabel?: string;
-  icon?: string;
-  type?: string;
-  position?: string;
-}
-
-export const confirmConfig = ({
-  message,
-  header,
-  rejectLabel,
-  acceptLabel,
-  icon,
-  type,
-  position,
-}: ConfirmConfigParams) => {
-  return {
-    group: 'headless',
-    message: message,
-    header: header,
-    icon: icon,
-    type: type || 'info', // info, warn, danger, success
-    position: position || 'center',
-    rejectProps: {
-      label: rejectLabel || 'Batal',
-      severity: 'secondary',
-      outlined: true,
-      fluid: true
-    },
-    acceptProps: {
-      label: acceptLabel || 'Ok, Lanjutkan',
-      severity: 'primary',
-      outlined: true,
-      fluid: true
-    },
-    accept: () => {},
-    reject: () => {}
-  }
+export const showConfirm = (params: ShowConfirmParams) => {
+  globalShowConfirm(params);
 };
