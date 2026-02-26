@@ -130,7 +130,7 @@
                   <a :href="href" v-bind="props.action" @click="navigate">
                     <span :class="[item.icon, 'text-color']" />
                     <span
-                      class="text-xs! text-gray-500 font-normal truncate"
+                      class="text-sm! text-gray-500 font-normal truncate"
                       :class="{
                         'text-primary-500 font-semibold': item.isActive,
                       }"
@@ -138,7 +138,7 @@
                   </a>
                 </router-link>
                 <a v-else :href="item.url" :target="item.target" v-bind="props.action">
-                  <span class="text-xs! text-surface-700 dark:text-surface-0 truncate">{{ item.label }}</span>
+                  <span class="text-sm! text-surface-700 dark:text-surface-0 truncate">{{ item.label }}</span>
                 </a>
               </template>
             </Breadcrumb>
@@ -199,7 +199,7 @@ const breadcrumbs = computed(() => Array.isArray(route.meta.breadcrumbs) ? route
 
 const home = computed(() => ({
   icon: 'pi pi-home',
-  route: '/',
+  route: '/landing',
 }));
 
 const router = useRouter();
