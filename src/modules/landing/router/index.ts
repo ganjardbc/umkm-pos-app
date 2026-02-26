@@ -14,7 +14,7 @@ export default [
       breadcrumbs: [
         {
           label: 'Home',
-          route: '/',
+          route: '/landing',
           isActive: true,
         },
       ]

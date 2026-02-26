@@ -19,12 +19,39 @@ export default [
       breadcrumbs: [
         {
           label: 'Home',
-          route: '/',
+          route: '/landing',
           isActive: false,
         },
         {
           label: 'Permission',
           route: PREFIX_ROUTE_PATH,
+          isActive: true,
+        },
+      ]
+    }
+  },
+  {
+    path: `${PREFIX_ROUTE_PATH}/create`,
+    name: `${PREFIX_ROUTE_NAME}-create`,
+    component: () => import('@/modules/permission/pages/create.vue'),
+    meta: {
+      title: 'Permission',
+      layout: 'default',
+      permission: PERMISSIONS,
+      breadcrumbs: [
+        {
+          label: 'Home',
+          route: '/landing',
+          isActive: false,
+        },
+        {
+          label: 'Permission',
+          route: PREFIX_ROUTE_PATH,
+          isActive: false,
+        },
+        {
+          label: 'Add Permission',
+          route: `${PREFIX_ROUTE_PATH}/create`,
           isActive: true,
         },
       ]

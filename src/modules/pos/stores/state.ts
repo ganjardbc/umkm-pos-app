@@ -1,7 +1,15 @@
+export interface CartItem {
+	id: string;
+	name: string;
+	price: string;
+	quantity: number;
+	stock_qty: number;
+	thumbnail: string | null;
+	category: string;
+}
+
 export function state() {
 	return {
-    message: 'Hello World',
-
-		// Add your state properties here
+		cartItems: [] as CartItem[],
 	};
 }

@@ -21,9 +21,9 @@
       />
     </div>
 
-    <UiCard>
+    <UiCard class="p-0! gap-0! overflow-hidden!">
       <DataTable :value="permissions" tableStyle="min-width: 50rem">
-        <Column field="no" header="NO" class="w-[64px]">
+        <Column field="no" header="NO" class="w-18">
           <template #body="slotProps">
             {{ getNoTable(slotProps.index, pagination.page, pagination.rows) }}
           </template>
@@ -43,22 +43,15 @@
             {{ formatDateTime(slotProps.data.created_at) }}
           </template>
         </Column>
-        <Column field="action" header="#" class="w-[128px]">
+        <Column field="action" header="#" class="w-[92px]">
           <template #body="slotProps">
             <div class="flex gap-2">
               <Button
                 severity="secondary" 
                 variant="outlined"
-                icon="pi pi-pencil"
-                size="small"
-                @click="editPermission(slotProps.data)"
-              />
-              <Button
-                severity="secondary" 
-                variant="outlined"
                 icon="pi pi-trash"
                 size="small"
-                @click="deletePermission(slotProps.data)"
+                @click="onDeletePermission(slotProps.data)"
               />
             </div>
           </template>
@@ -74,15 +67,17 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import { useToast } from 'primevue/usetoast';
+import { useRouter } from 'vue-router';
 import { getNoTable, getErrorMessage, formatDateTime } from '@/helpers/utils.ts';
-import { getListPermission } from '@/modules/permission/services/api.ts';
-import { toastConfig } from '@/helpers/toast.ts';
+import { getListPermission, deletePermission } from '@/modules/permission/services/api.ts';
+import { showToast, showConfirm } from '@/helpers/toast.ts';
+import { showLoading, hideLoading } from '@/helpers/loading.ts';
+import { PREFIX_ROUTE_NAME } from '@/modules/permission/services/constants.ts';
 import UiCard from '@/components/UiCard.vue';
 import UiSearch from '@/components/UiSearch.vue';
 import UiPagination from '@/components/UiPagination.vue';
 
-const toast = useToast();
+const router = useRouter();
 
 // Fetch Data
 const permissions = ref([]);
@@ -107,11 +102,11 @@ const fetchPermission = async () => {
     pagination.value.pageCount = meta?.totalPages;
   } catch (error) {
     console.log(error);
-    toast.add(toastConfig({
-        type: 'error',
-        title: 'Error.',
-        message: getErrorMessage(error) || 'There was an error.',
-    }));
+    showToast({
+      type: 'error',
+      title: 'Error.',
+      message: getErrorMessage(error) || 'There was an error.',
+    });
   }
 };
 
@@ -122,15 +117,48 @@ const onPageChange = (event: any) => {
 
 // Actions
 const addPermission = () => {
-  console.log('add permission');
+  router.push({
+    name: `${PREFIX_ROUTE_NAME}-create`,
+  });
 };
 
-const editPermission = (permission: any) => {
-  console.log('edit permission', permission);
+// Delete Process
+const removePermission = async (id: string) => {
+  try {
+    showLoading();
+
+    const response = await deletePermission(id);
+    const { success } = response?.data || {};
+    if (success) {
+      showToast({
+        type: 'success',
+        title: 'Success',
+        message: 'Permission has been deleted.'
+      });
+      fetchPermission();
+    }
+  } catch (error) {
+    showToast({
+      type: 'error',
+      title: 'Error.',
+      message: getErrorMessage(error) || 'There was an error.',
+    });
+  } finally {
+    hideLoading();
+  }
 };
 
-const deletePermission = (permission: any) => {
-  console.log('delete permission', permission);
+const onDeletePermission = (permission: any) => {
+  showConfirm({
+    header: 'Delete Permission',
+    message: 'Are you sure you want to delete this permission?',
+    rejectLabel: 'Cancel',
+    acceptLabel: 'Delete',
+    type: 'warn',
+    accept: () => {
+      removePermission(permission?.id);
+    },
+  });
 };
 
 // Search

@@ -73,7 +73,6 @@
 <script setup>
 import { onMounted, ref } from 'vue';
 import { zodResolver } from '@primevue/forms/resolvers/zod';
-import { useToast } from 'primevue/usetoast';
 import { useRouter } from 'vue-router';
 import { z } from 'zod';
 
@@ -81,7 +80,7 @@ import defaultLogo from '@/assets/vue.svg';
 
 import { setAuth } from '@/helpers/auth.ts';
 import { getErrorMessage } from '@/helpers/utils.ts';
-import { toastConfig } from '@/helpers/toast.ts';
+import { showToast } from '@/helpers/toast.ts';
 import { postLogin } from '@/modules/auth/services/api.ts';
 
 import UiFormGroup from '@/components/UiFormGroup.vue';
@@ -89,7 +88,6 @@ import UiFormGroup from '@/components/UiFormGroup.vue';
 import { PREFIX_ROUTE_PATH as PRP_LANDING } from '@/modules/landing/services/constants';
 
 const router = useRouter();
-const toast = useToast();
 const initialValues = ref({
   email: '',
   password: ''
@@ -121,17 +119,17 @@ const onFormSubmit = async ({ valid, values }) => {
         await setAuth(data);
 
         router.push(PRP_LANDING);
-        toast.add(toastConfig({
+        showToast({
           type: 'success',
           title: 'Login Success',
-        }));
+        });
       }
     } catch (error) {
-      toast.add(toastConfig({
+      showToast({
         type: 'error',
         title: 'Login Failed.',
         message: getErrorMessage(error) || 'There was an error.',
-      }));
+      });
     } finally {
       loading.value = false;
     }

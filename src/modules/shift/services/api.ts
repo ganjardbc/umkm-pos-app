@@ -14,7 +14,21 @@ export const getDetailShift = async (id: string | number, options: any = {}) => 
   );
 };
 
-export const postShift = async (data: any, options: any = {}) => {
+export const getUserShift = async (userId: string | number, options: any = {}) => {
+  return await api.get(
+    `/api/v1/shifts/user/${userId}`,
+    { ...(options || {}) },
+  );
+};
+
+export const getOutletShift = async (outletId: string | number, options: any = {}) => {
+  return await api.get(
+    `/api/v1/shifts/outlet/${outletId}`,
+    { ...(options || {}) },
+  );
+};
+
+export const openShift = async (data: any, options: any = {}) => {
   return await api.post(
     `/api/v1/shifts`,
     data,
@@ -22,10 +36,9 @@ export const postShift = async (data: any, options: any = {}) => {
   );
 };
 
-export const putShift = async (id: string | number, data: any, options: any = {}) => {
-  return await api.put(
-    `/api/v1/shifts/${id}`,
-    data,
+export const closeShift = async (id: string | number, options: any = {}) => {
+  return await api.patch(
+    `/api/v1/shifts/${id}/close`,
     { ...(options || {}) },
   );
 };

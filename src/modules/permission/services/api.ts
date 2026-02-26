@@ -22,10 +22,9 @@ export const postPermission = async (data: any, options: any = {}) => {
   );
 };
 
-export const putPermission = async (id: string | number, data: any, options: any = {}) => {
-  return await api.put(
+export const deletePermission = async (id: string | number, options: any = {}) => {
+  return await api.delete(
     `/api/v1/rbac/permissions/${id}`,
-    data,
     { ...(options || {}) },
   );
 };

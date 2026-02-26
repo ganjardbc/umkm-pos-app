@@ -21,9 +21,9 @@
       />
     </div>
 
-    <UiCard>
+    <UiCard class="p-0! gap-0! overflow-hidden!">
       <DataTable :value="merchants" tableStyle="min-width: 50rem">
-        <Column field="no" header="NO" class="w-[64px]">
+        <Column field="no" header="NO" class="w-18">
           <template #body="slotProps">
             {{ getNoTable(slotProps.index, pagination.page, pagination.rows) }}
           </template>
@@ -65,15 +65,12 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import { useToast } from 'primevue/usetoast';
 import { getNoTable, getErrorMessage, formatDateTime } from '@/helpers/utils.ts';
 import { getListMerchants } from '@/modules/merchants/services/api.ts';
-import { toastConfig } from '@/helpers/toast.ts';
+import { showToast } from '@/helpers/toast.ts';
 import UiCard from '@/components/UiCard.vue';
 import UiSearch from '@/components/UiSearch.vue';
 import UiPagination from '@/components/UiPagination.vue';
-
-const toast = useToast();
 
 // Fetch Data
 const merchants = ref([]);
@@ -98,11 +95,11 @@ const fetchMerchants = async () => {
     pagination.value.pageCount = meta?.totalPages;
   } catch (error) {
     console.log(error);
-    toast.add(toastConfig({
+    showToast({
         type: 'error',
         title: 'Error.',
         message: getErrorMessage(error) || 'There was an error.',
-    }));
+    });
   }
 };
 
