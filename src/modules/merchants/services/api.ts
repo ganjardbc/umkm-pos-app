@@ -23,9 +23,16 @@ export const postMerchants = async (data: any, options: any = {}) => {
 };
 
 export const putMerchants = async (id: string | number, data: any, options: any = {}) => {
-  return await api.put(
+  return await api.patch(
     `/api/v1/merchants/${id}`,
     data,
+    { ...(options || {}) },
+  );
+};
+
+export const deleteMerchants = async (id: string | number, options: any = {}) => {
+  return await api.delete(
+    `/api/v1/merchants/${id}`,
     { ...(options || {}) },
   );
 };

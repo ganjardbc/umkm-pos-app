@@ -40,16 +40,23 @@
               <Button
                 severity="secondary" 
                 variant="outlined"
+                icon="pi pi-eye"
+                size="small"
+                @click="onDetailMerchant(slotProps.data)"
+              />
+              <Button
+                severity="secondary" 
+                variant="outlined"
                 icon="pi pi-pencil"
                 size="small"
-                @click="editMerchant(slotProps.data)"
+                @click="onEditMerchant(slotProps.data)"
               />
               <Button
                 severity="secondary" 
                 variant="outlined"
                 icon="pi pi-trash"
                 size="small"
-                @click="deleteMerchant(slotProps.data)"
+                @click="onDeleteMerchant(slotProps.data)"
               />
             </div>
           </template>
@@ -65,12 +72,17 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
+import { useRouter } from 'vue-router';
 import { getNoTable, getErrorMessage, formatDateTime } from '@/helpers/utils.ts';
-import { getListMerchants } from '@/modules/merchants/services/api.ts';
-import { showToast } from '@/helpers/toast.ts';
+import { showToast, showConfirm } from '@/helpers/toast.ts';
+import { showLoading, hideLoading } from '@/helpers/loading.ts';
+import { getListMerchants, deleteMerchants } from '@/modules/merchants/services/api.ts';
+import { PREFIX_ROUTE_NAME } from '@/modules/merchants/services/constants.ts';
 import UiCard from '@/components/UiCard.vue';
 import UiSearch from '@/components/UiSearch.vue';
 import UiPagination from '@/components/UiPagination.vue';
+
+const router = useRouter();
 
 // Fetch Data
 const merchants = ref([]);
@@ -110,15 +122,60 @@ const onPageChange = (event: any) => {
 
 // Actions
 const addMerchant = () => {
-  console.log('add merchant');
+  router.push({ name: `${PREFIX_ROUTE_NAME}-create` });
 };
 
-const editMerchant = (merchant: any) => {
-  console.log('edit merchant', merchant);
+const onDetailMerchant = (merchant: any) => {
+  router.push({
+    name: `${PREFIX_ROUTE_NAME}-detail`,
+    params: { id: merchant.id }
+  });
 };
 
-const deleteMerchant = (merchant: any) => {
-  console.log('delete merchant', merchant);
+const onEditMerchant = (merchant: any) => {
+  router.push({
+    name: `${PREFIX_ROUTE_NAME}-edit`,
+    params: { id: merchant.id }
+  });
+};
+
+const onDeleteMerchant = (merchant: any) => {
+  showConfirm({
+    header: 'Delete Merchant',
+    message: 'Are you sure you want to delete this merchant?',
+    rejectLabel: 'Cancel',
+    acceptLabel: 'Delete',
+    type: 'warn',
+    accept: () => {
+      removeMerchant(merchant?.id);
+    },
+  });
+};
+
+// Delete Process
+const removeMerchant = async (id: string) => {
+  try {
+    showLoading();
+
+    const response = await deleteMerchants(id);
+    const { success } = response?.data || {};
+    if (success) {
+      showToast({
+        type: 'success',
+        title: 'Success',
+        message: 'Merchant has been deleted.'
+      });
+      fetchMerchants();
+    }
+  } catch (error) {
+    showToast({
+      type: 'error',
+      title: 'Error.',
+      message: getErrorMessage(error) || 'There was an error.',
+    });
+  } finally {
+    hideLoading();
+  }
 };
 
 // Search
