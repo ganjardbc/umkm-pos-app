@@ -23,9 +23,16 @@ export const postOutlet = async (data: any, options: any = {}) => {
 };
 
 export const putOutlet = async (id: string | number, data: any, options: any = {}) => {
-  return await api.put(
+  return await api.patch(
     `/api/v1/outlets/${id}`,
     data,
+    { ...(options || {}) },
+  );
+};
+
+export const deleteOutlet = async (id: string | number, options: any = {}) => {
+  return await api.delete(
+    `/api/v1/outlets/${id}`,
     { ...(options || {}) },
   );
 };

@@ -23,6 +23,11 @@
 
     <UiCard class="p-0! gap-0! overflow-hidden!">
       <DataTable :value="outlets" tableStyle="min-width: 50rem">
+        <template #empty>
+          <span class="w-full text-center flex justify-center">
+            Outlets are empty.
+          </span>
+        </template>
         <Column field="no" header="NO" class="w-18">
           <template #body="slotProps">
             {{ getNoTable(slotProps.index, pagination.page, pagination.rows) }}
@@ -35,27 +40,43 @@
             {{ slotProps.data.merchants.name }}
           </template>
         </Column>
+        <Column field="status" header="Status">
+          <template #body="slotProps">
+            <Tag
+              :value="slotProps.data.is_active ? 'Active' : 'Inactive'"
+              :severity="slotProps.data.is_active ? 'success' : 'danger'"
+              class="capitalize"
+            />
+          </template>
+        </Column>
         <Column field="created_at" header="Created At">
           <template #body="slotProps">
             {{ formatDateTime(slotProps.data.created_at) }}
           </template>
         </Column>
-        <Column field="action" header="#" class="w-[128px]">
+        <Column field="action" header="#" class="w-[148px]">
           <template #body="slotProps">
             <div class="flex gap-2">
               <Button
                 severity="secondary" 
                 variant="outlined"
+                icon="pi pi-eye"
+                size="small"
+                @click="onDetailOutlet(slotProps.data)"
+              />
+              <Button
+                severity="secondary" 
+                variant="outlined"
                 icon="pi pi-pencil"
                 size="small"
-                @click="editOutlet(slotProps.data)"
+                @click="onEditOutlet(slotProps.data)"
               />
               <Button
                 severity="secondary" 
                 variant="outlined"
                 icon="pi pi-trash"
                 size="small"
-                @click="deleteOutlet(slotProps.data)"
+                @click="onDeleteOutlet(slotProps.data)"
               />
             </div>
           </template>
@@ -71,12 +92,17 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
+import { useRouter  } from 'vue-router';
 import { getNoTable, getErrorMessage, formatDateTime } from '@/helpers/utils.ts';
-import { getListOutlet } from '@/modules/outlet/services/api.ts';
-import { showToast } from '@/helpers/toast.ts';
+import { getListOutlet, deleteOutlet } from '@/modules/outlet/services/api.ts';
+import { showToast, showConfirm } from '@/helpers/toast.ts';
+import { showLoading, hideLoading } from '@/helpers/loading.ts';
+import { PREFIX_ROUTE_NAME } from '@/modules/outlet/services/constants.ts';
 import UiCard from '@/components/UiCard.vue';
 import UiSearch from '@/components/UiSearch.vue';
 import UiPagination from '@/components/UiPagination.vue';
+
+const router = useRouter();
 
 // Fetch Data
 const outlets = ref([]);
@@ -116,15 +142,60 @@ const onPageChange = (event: any) => {
 
 // Actions
 const addOutlet = () => {
-  console.log('add outlet');
+  router.push({ name: `${PREFIX_ROUTE_NAME}-create` });
 };
 
-const editOutlet = (outlet: any) => {
-  console.log('edit outlet', outlet);
+const onDetailOutlet = (outlet: any) => {
+  router.push({
+    name: `${PREFIX_ROUTE_NAME}-detail`,
+    params: { id: outlet.id },
+  });
 };
 
-const deleteOutlet = (outlet: any) => {
-  console.log('delete outlet', outlet);
+const onEditOutlet = (outlet: any) => {
+  router.push({
+    name: `${PREFIX_ROUTE_NAME}-edit`,
+    params: { id: outlet.id },
+  });
+};
+
+// Delete Process
+const removeOutlet = async (id: string) => {
+  try {
+    showLoading();
+
+    const response = await deleteOutlet(id);
+    const { success } = response?.data || {};
+    if (success) {
+      showToast({
+        type: 'success',
+        title: 'Success',
+        message: 'Outlet has been deleted.'
+      });
+      fetchOutlet();
+    }
+  } catch (error) {
+    showToast({
+      type: 'error',
+      title: 'Error.',
+      message: getErrorMessage(error) || 'There was an error.',
+    });
+  } finally {
+    hideLoading();
+  }
+};
+
+const onDeleteOutlet = (outlet: any) => {
+  showConfirm({
+    header: 'Delete Outlet',
+    message: 'Are you sure you want to delete this outlet?',
+    rejectLabel: 'Cancel',
+    acceptLabel: 'Delete',
+    type: 'warn',
+    accept: () => {
+      removeOutlet(outlet?.id);
+    },
+  });
 };
 
 // Search
