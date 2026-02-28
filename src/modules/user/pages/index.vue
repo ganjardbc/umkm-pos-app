@@ -17,12 +17,17 @@
         icon="pi pi-plus"
         label="Add User"
         class="w-full md:w-[192px]"
-        @click="addUser"
+        @click="onAddUser"
       />
     </div>
 
     <UiCard class="p-0! gap-0! overflow-hidden!">
       <DataTable :value="users" tableStyle="min-width: 50rem">
+        <template #empty>
+          <span class="w-full text-center flex justify-center">
+            Users are empty.
+          </span>
+        </template>
         <Column field="no" header="NO" class="w-18">
           <template #body="slotProps">
             {{ getNoTable(slotProps.index, pagination.page, pagination.rows) }}
@@ -57,22 +62,29 @@
             {{ formatDateTime(slotProps.data.created_at) }}
           </template>
         </Column>
-        <Column field="action" header="#" class="w-[128px]">
+        <Column field="action" header="#" class="w-[148px]">
           <template #body="slotProps">
             <div class="flex gap-2">
               <Button
                 severity="secondary" 
                 variant="outlined"
+                icon="pi pi-eye"
+                size="small"
+                @click="onDetailUser(slotProps.data)"
+              />
+              <Button
+                severity="secondary" 
+                variant="outlined"
                 icon="pi pi-pencil"
                 size="small"
-                @click="editUser(slotProps.data)"
+                @click="onEditUser(slotProps.data)"
               />
               <Button
                 severity="secondary" 
                 variant="outlined"
                 icon="pi pi-trash"
                 size="small"
-                @click="deleteUser(slotProps.data)"
+                @click="onDeleteUser(slotProps.data)"
               />
             </div>
           </template>
@@ -88,12 +100,16 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
+import { useRouter } from 'vue-router';
 import { getNoTable, getErrorMessage, formatDateTime } from '@/helpers/utils.ts';
 import { getListUser } from '@/modules/user/services/api.ts';
 import { showToast } from '@/helpers/toast.ts';
+import { PREFIX_ROUTE_NAME } from '@/modules/user/services/constants.ts';
 import UiCard from '@/components/UiCard.vue';
 import UiSearch from '@/components/UiSearch.vue';
 import UiPagination from '@/components/UiPagination.vue';
+
+const router = useRouter();
 
 // Fetch Data
 const users = ref([]);
@@ -132,15 +148,31 @@ const onPageChange = (event: any) => {
 };
 
 // Actions
-const addUser = () => {
-  console.log('add user');
+const onAddUser = () => {
+  router.push({
+    name: `${PREFIX_ROUTE_NAME}-create`
+  });
 };
 
-const editUser = (user: any) => {
-  console.log('edit user', user);
+const onDetailUser = (user: any) => {
+  router.push({
+    name: `${PREFIX_ROUTE_NAME}-detail`,
+    params: {
+      id: user.id
+    }
+  });
 };
 
-const deleteUser = (user: any) => {
+const onEditUser = (user: any) => {
+  router.push({
+    name: `${PREFIX_ROUTE_NAME}-edit`,
+    params: {
+      id: user.id
+    }
+  });
+};
+
+const onDeleteUser = (user: any) => {
   console.log('delete user', user);
 };
 
