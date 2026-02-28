@@ -13,10 +13,10 @@
         class="flex-1 overflow-hidden flex flex-col"
       >
         <div class="text-xs text-gray-900 text-right truncate">
-          {{ activeOutlet?.name || '-' }}
+          {{ merchant?.name || '-' }}
         </div>
         <div class="text-[10px] text-gray-400 text-right truncate">
-          Your Outlets
+          {{ activeOutlet?.name || '-' }}
         </div>
       </div>
 
@@ -32,6 +32,9 @@
       class="ui-sidebar-outlet__popper"
     >
       <div class="space-y-4 w-75">
+        <div class="text-xs text-gray-900 font-semibold">
+          Outlet Lists
+        </div>
         <div
           v-for="(outlet, i) in listOutlet"
           :key="i"
@@ -77,7 +80,7 @@ import { storeToRefs } from 'pinia';
 import { useAuthStore } from '@/modules/auth/stores/index.ts';
 import { removeAuth } from '@/helpers/auth.ts';
 import { showToast } from '@/helpers/toast.ts';
-import { getListOutlet, getOutlet, setOutlet } from '@/helpers/auth.ts';
+import { getMerchant, getListOutlet, getOutlet, setOutlet } from '@/helpers/auth.ts';
 
 defineProps({
   isCollapsed: {
@@ -95,6 +98,8 @@ const isMobile = computed(() => deviceType.value === 'mobile');
 // Personal info
 const router = useRouter();
 const confirm = useConfirm();
+
+const merchant = computed(() => getMerchant());
 
 const listOutlet = computed(() => getListOutlet());
 const activeOutlet = computed(() => getOutlet());
