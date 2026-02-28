@@ -35,7 +35,7 @@ export default [
     name: `${PREFIX_ROUTE_NAME}-create`,
     component: () => import('@/modules/role/pages/create.vue'),
     meta: {
-      title: 'Add Role',
+      title: 'Role',
       layout: 'default',
       permission: PERMISSIONS,
       breadcrumbs: [
@@ -50,7 +50,7 @@ export default [
           isActive: false,
         },
         {
-          label: 'Add Role',
+          label: 'Add',
           route: `${PREFIX_ROUTE_PATH}/create`,
           isActive: true,
         },
@@ -62,7 +62,7 @@ export default [
     name: `${PREFIX_ROUTE_NAME}-edit`,
     component: () => import('@/modules/role/pages/edit.vue'),
     meta: {
-      title: 'Edit Role',
+      title: 'Role',
       layout: 'default',
       permission: PERMISSIONS,
       breadcrumbs: [
@@ -77,7 +77,7 @@ export default [
           isActive: false,
         },
         {
-          label: 'Edit Role',
+          label: 'Edit',
           route: `${PREFIX_ROUTE_PATH}/edit`,
           isActive: true,
         },
@@ -89,7 +89,7 @@ export default [
     name: `${PREFIX_ROUTE_NAME}-detail`,
     component: () => import('@/modules/role/pages/detail.vue'),
     meta: {
-      title: 'Detail Role',
+      title: 'Role',
       layout: 'default',
       permission: PERMISSIONS,
       breadcrumbs: [
@@ -104,7 +104,7 @@ export default [
           isActive: false,
         },
         {
-          label: 'Detail Role',
+          label: 'Detail',
           route: `${PREFIX_ROUTE_PATH}/view`,
           isActive: true,
         },

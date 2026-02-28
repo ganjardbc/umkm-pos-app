@@ -50,7 +50,7 @@ export default [
           isActive: false,
         },
         {
-          label: 'Add Permission',
+          label: 'Add',
           route: `${PREFIX_ROUTE_PATH}/create`,
           isActive: true,
         },

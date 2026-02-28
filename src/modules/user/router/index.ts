@@ -35,7 +35,7 @@ export default [
     name: `${PREFIX_ROUTE_NAME}-create`,
     component: () => import('@/modules/user/pages/create.vue'),
     meta: {
-      title: 'Add User',
+      title: 'User',
       layout: 'default',
       permission: PERMISSIONS,
       breadcrumbs: [
@@ -50,7 +50,7 @@ export default [
           isActive: false,
         },
         {
-          label: 'Add User',
+          label: 'Add',
           route: `${PREFIX_ROUTE_PATH}/create`,
           isActive: true,
         },
@@ -62,7 +62,7 @@ export default [
     name: `${PREFIX_ROUTE_NAME}-edit`,
     component: () => import('@/modules/user/pages/edit.vue'),
     meta: {
-      title: 'Edit User',
+      title: 'User',
       layout: 'default',
       permission: PERMISSIONS,
       breadcrumbs: [
@@ -77,7 +77,7 @@ export default [
           isActive: false,
         },
         {
-          label: 'Edit User',
+          label: 'Edit',
           route: `${PREFIX_ROUTE_PATH}/:id/edit`,
           isActive: true,
         },
@@ -89,7 +89,7 @@ export default [
     name: `${PREFIX_ROUTE_NAME}-detail`,
     component: () => import('@/modules/user/pages/detail.vue'),
     meta: {
-      title: 'User Detail',
+      title: 'User',
       layout: 'default',
       permission: PERMISSIONS,
       breadcrumbs: [
@@ -104,7 +104,7 @@ export default [
           isActive: false,
         },
         {
-          label: 'User Detail',
+          label: 'Detail',
           route: `${PREFIX_ROUTE_PATH}/:id`,
           isActive: true,
         },
