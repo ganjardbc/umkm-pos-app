@@ -23,6 +23,11 @@
 
     <UiCard class="p-0! gap-0! overflow-hidden!">
       <DataTable :value="roles" tableStyle="min-width: 50rem">
+        <template #empty>
+          <span class="w-full text-center flex justify-center">
+            Roles are empty.
+          </span>
+        </template>
         <Column field="no" header="NO" class="w-18">
           <template #body="slotProps">
             {{ getNoTable(slotProps.index, pagination.page, pagination.rows) }}
@@ -48,22 +53,29 @@
             {{ formatDateTime(slotProps.data.created_at) }}
           </template>
         </Column>
-        <Column field="action" header="#" class="w-[128px]">
+        <Column field="action" header="#" class="w-[148px]">
           <template #body="slotProps">
             <div class="flex gap-2">
               <Button
                 severity="secondary" 
                 variant="outlined"
+                icon="pi pi-eye"
+                size="small"
+                @click="onDetailRole(slotProps.data)"
+              />
+              <Button
+                severity="secondary" 
+                variant="outlined"
                 icon="pi pi-pencil"
                 size="small"
-                @click="editRole(slotProps.data)"
+                @click="onEditRole(slotProps.data)"
               />
               <Button
                 severity="secondary" 
                 variant="outlined"
                 icon="pi pi-trash"
                 size="small"
-                @click="deleteRole(slotProps.data)"
+                @click="onDeleteRole(slotProps.data)"
               />
             </div>
           </template>
@@ -79,12 +91,17 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
+import { useRouter  } from 'vue-router';
 import { getNoTable, getErrorMessage, formatDateTime } from '@/helpers/utils.ts';
-import { getListRole } from '@/modules/role/services/api.ts';
-import { showToast } from '@/helpers/toast.ts';
+import { getListRole, deleteRole } from '@/modules/role/services/api.ts';
+import { showToast, showConfirm } from '@/helpers/toast.ts';
+import { showLoading, hideLoading } from '@/helpers/loading.ts';
+import { PREFIX_ROUTE_NAME } from '@/modules/role/services/constants.ts';
 import UiCard from '@/components/UiCard.vue';
 import UiSearch from '@/components/UiSearch.vue';
 import UiPagination from '@/components/UiPagination.vue';
+
+const router = useRouter();
 
 // Fetch Data
 const roles = ref([]);
@@ -124,15 +141,66 @@ const onPageChange = (event: any) => {
 
 // Actions
 const addRole = () => {
-  console.log('add role');
+  router.push({
+    name: `${PREFIX_ROUTE_NAME}-create`,
+  });
 };
 
-const editRole = (role: any) => {
-  console.log('edit role', role);
+const onDetailRole = (role: any) => {
+  router.push({
+    name: `${PREFIX_ROUTE_NAME}-detail`,
+    params: {
+      id: role?.id,
+    }
+  });
 };
 
-const deleteRole = (role: any) => {
-  console.log('delete role', role);
+const onEditRole = (role: any) => {
+  router.push({
+    name: `${PREFIX_ROUTE_NAME}-edit`,
+    params: {
+      id: role?.id,
+    }
+  });
+};
+
+// Delete Process
+const removeRole = async (id: string) => {
+  try {
+    showLoading();
+
+    const response = await deleteRole(id);
+    const { success } = response?.data || {};
+    if (success) {
+      showToast({
+        type: 'success',
+        title: 'Success',
+        message: 'Role has been deleted.'
+      });
+      fetchRole();
+    }
+  } catch (error) {
+    showToast({
+      type: 'error',
+      title: 'Error.',
+      message: getErrorMessage(error) || 'There was an error.',
+    });
+  } finally {
+    hideLoading();
+  }
+};
+
+const onDeleteRole = (role: any) => {
+  showConfirm({
+    header: 'Delete Role',
+    message: 'Are you sure you want to delete this role?',
+    rejectLabel: 'Cancel',
+    acceptLabel: 'Delete',
+    type: 'warn',
+    accept: () => {
+      removeRole(role?.id);
+    },
+  });
 };
 
 // Search
