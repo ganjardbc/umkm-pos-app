@@ -99,26 +99,6 @@
           </Message>
         </UiFormGroup>
 
-        <UiFormGroup label="Merchant" variant="vertical">
-          <Select
-            name="merchant_id"
-            :options="merchants"
-            optionLabel="label"
-            optionValue="value"
-            placeholder="Select a merchant"
-            dropdown
-            fluid
-          />
-          <Message
-            v-if="$form.merchant_id?.invalid"
-            severity="error"
-            size="small"
-            variant="simple"
-          >
-            {{ $form.merchant_id.error?.message }}
-          </Message>
-        </UiFormGroup>
-
         <UiFormGroup label="Active Status" variant="vertical">
           <div class="flex items-center gap-2">
             <Checkbox
@@ -150,7 +130,7 @@
 </template>
 <script setup lang="ts">
 import type { FormCreate } from '@/modules/user/services/types.ts';
-import { ref, onMounted } from 'vue';
+import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { z } from 'zod';
 import { zodResolver } from '@primevue/forms/resolvers/zod';
@@ -158,7 +138,6 @@ import { getErrorMessage } from '@/helpers/utils.ts';
 import { showToast } from '@/helpers/toast.ts';
 import { showLoading, hideLoading } from '@/helpers/loading.ts';
 import { postUser } from '@/modules/user/services/api.ts';
-import { getListMerchants } from '@/modules/merchants/services/api.ts';
 import UiCard from '@/components/UiCard.vue';
 import UiFormGroup from '@/components/UiFormGroup.vue';
 
@@ -171,7 +150,6 @@ const initialValues = ref<FormCreate>({
   email: '',
   password: '',
   avatar: '',
-  merchant_id: '',
   is_active: true,
 });
 
@@ -182,7 +160,6 @@ const resolver = ref(zodResolver(
     email: z.string().email({ message: 'Invalid email address.' }),
     password: z.string().min(6, { message: 'Password must be at least 6 characters.' }),
     avatar: z.string().optional(),
-    merchant_id: z.string().min(1, { message: 'Merchant is required.' }),
     is_active: z.boolean()
   })
 ));
@@ -199,7 +176,6 @@ const onFormSubmit = async ({ valid, values }: { valid: boolean; values: FormCre
         email: values?.email,
         password: values?.password,
         avatar: values?.avatar || undefined,
-        merchant_id: values?.merchant_id,
         is_active: values?.is_active,
       };
       const response = await postUser(payload);
@@ -224,47 +200,4 @@ const onFormSubmit = async ({ valid, values }: { valid: boolean; values: FormCre
 const onCancel = () => {
   router.back();
 }
-
-// Fetch Data
-const merchants = ref([]);
-const pagination = ref({
-  page: 1,
-  pageCount: 0,
-  rows: 10,
-  totalRecords: 0,
-});
-
-const fetchMerchants = async () => {
-  try {
-    const payload = {
-      page: pagination.value.page,
-      limit: pagination.value.rows,
-    }
-    const response = await getListMerchants(payload);
-    const { data, meta } = response?.data?.data || {};
-
-    merchants.value = (data || [])?.map((item) => ({
-      value: item?.id,
-      label: item?.name,
-    }));
-    pagination.value.totalRecords = meta?.total;
-    pagination.value.pageCount = meta?.totalPages;
-  } catch (error) {
-    console.log(error);
-    showToast({
-        type: 'error',
-        title: 'Error.',
-        message: getErrorMessage(error) || 'There was an error.',
-    });
-  }
-};
-
-const onPageChange = (event: any) => {
-  pagination.value.page = event.page + 1;
-  fetchMerchants();
-};
-
-onMounted(() => {
-  fetchMerchants();
-});
 </script>

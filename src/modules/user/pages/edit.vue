@@ -49,25 +49,6 @@
           </Message>
         </UiFormGroup>
 
-        <UiFormGroup label="Merchant" variant="vertical">
-          <Select
-            name="merchant_id"
-            :options="merchants"
-            optionLabel="label"
-            optionValue="value"
-            placeholder="Select a merchant"
-            fluid
-          />
-          <Message
-            v-if="$form.merchant_id?.invalid"
-            severity="error"
-            size="small"
-            variant="simple"
-          >
-            {{ $form.merchant_id.error?.message }}
-          </Message>
-        </UiFormGroup>
-
         <UiFormGroup label="Active Status" variant="vertical">
           <div class="flex items-center gap-2">
             <Checkbox
@@ -107,7 +88,6 @@ import { getErrorMessage } from '@/helpers/utils.ts';
 import { showToast } from '@/helpers/toast.ts';
 import { showLoading, hideLoading } from '@/helpers/loading.ts';
 import { putUser, getDetailUser } from '@/modules/user/services/api.ts';
-import { getListMerchants } from '@/modules/merchants/services/api.ts';
 import UiCard from '@/components/UiCard.vue';
 import UiFormGroup from '@/components/UiFormGroup.vue';
 
@@ -119,7 +99,6 @@ const isLoaded = ref(false);
 const initialValues = ref<FormEdit>({
   name: '',
   email: '',
-  merchant_id: '',
   is_active: true
 });
 
@@ -127,7 +106,6 @@ const resolver = ref(zodResolver(
   z.object({
     name: z.string().min(1, { message: 'Name is required.' }),
     email: z.string().email({ message: 'Invalid email address.' }),
-    merchant_id: z.string().min(1, { message: 'Merchant is required.' }),
     is_active: z.boolean()
   })
 ));
@@ -140,7 +118,6 @@ const onFormSubmit = async ({ valid, values }: { valid: boolean; values: FormEdi
       const payload = {
         name: values?.name,
         email: values?.email,
-        merchant_id: values?.merchant_id,
         is_active: values?.is_active,
       };
       const response = await putUser(userID.value, payload);
@@ -165,51 +142,16 @@ const onCancel = () => {
   router.back();
 };
 
-// Fetch Merchants
-const merchants = ref([]);
-const pagination = ref({
-  page: 1,
-  pageCount: 0,
-  rows: 10,
-  totalRecords: 0,
-});
-
-const fetchMerchants = async () => {
-  try {
-    const payload = {
-      page: pagination.value.page,
-      limit: pagination.value.rows,
-    }
-    const response = await getListMerchants(payload);
-    const { data, meta } = response?.data?.data || {};
-
-    merchants.value = (data || [])?.map((item) => ({
-      value: item?.id,
-      label: item?.name,
-    }));
-    pagination.value.totalRecords = meta?.total;
-    pagination.value.pageCount = meta?.totalPages;
-  } catch (error) {
-    console.log(error);
-    showToast({
-        type: 'error',
-        title: 'Error.',
-        message: getErrorMessage(error) || 'There was an error.',
-    });
-  }
-};
-
 // Fetch Detail
 const fetchDetail = async () => {
   try {
     const response = await getDetailUser(userID.value);
     const { data } = response?.data || {};
-    const { name, email, merchant_id, is_active } = data || {};
+    const { name, email, is_active } = data || {};
 
     initialValues.value = {
       name,
       email,
-      merchant_id,
       is_active
     };
     
@@ -224,7 +166,6 @@ const fetchDetail = async () => {
 };
 
 onMounted(() => {
-  fetchMerchants();
   fetchDetail();
 });
 </script>

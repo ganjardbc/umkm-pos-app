@@ -5,12 +5,10 @@ export interface FormCreate {
   password: string;
   avatar?: string;
   is_active: boolean;
-  merchant_id: string;
 }
 
 export interface FormEdit {
   name: string;
   email: string;
   is_active: boolean;
-  merchant_id: string;
 }
