@@ -3,7 +3,9 @@ import {
   PREFIX_ROUTE_NAME
 } from '@/modules/merchants/services/constants.ts';
 import {
-  PERMISSIONS,
+  READ,
+  CREATE,
+  UPDATE,
 } from '@/modules/merchants/services/rbac.ts';
 
 export default [
@@ -14,7 +16,7 @@ export default [
     meta: {
       title: 'Merchants',
       layout: 'default',
-      permission: PERMISSIONS,
+      permission: [READ],
       breadcrumbs: [
         {
           label: 'Home',
@@ -36,7 +38,7 @@ export default [
     meta: {
       title: 'Create Merchant',
       layout: 'default',
-      permission: PERMISSIONS,
+      permission: [CREATE],
       breadcrumbs: [
         {
           label: 'Home',
@@ -63,7 +65,7 @@ export default [
     meta: {
       title: 'Edit Merchant',
       layout: 'default',
-      permission: PERMISSIONS,
+      permission: [UPDATE],
       breadcrumbs: [
         {
           label: 'Home',
@@ -91,7 +93,7 @@ export default [
     meta: {
       title: 'View Merchant',
       layout: 'default',
-      permission: PERMISSIONS,
+      permission: [READ],
       breadcrumbs: [
         {
           label: 'Home',

@@ -15,6 +15,11 @@
 
     <UiCard class="p-0! gap-0! overflow-hidden!">
       <DataTable :value="shifts" tableStyle="min-width: 50rem">
+        <template #empty>
+          <span class="w-full text-center flex justify-center">
+            Shifts are empty.
+          </span>
+        </template>
         <Column field="no" header="NO" class="w-18">
           <template #body="slotProps">
             {{ getNoTable(slotProps.index, pagination.page, pagination.rows) }}

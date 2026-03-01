@@ -53,10 +53,18 @@
           </div>
         </div>
 
-        <div v-if="userDetail?.avatar">
-          <label class="text-sm font-medium text-gray-500">Avatar</label>
-          <div class="mt-2">
-            <img :src="userDetail?.avatar" alt="User Avatar" class="w-20 h-20 rounded-full object-cover" />
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="text-sm font-medium text-gray-500">Merchant</label>
+            <p class="text-base text-gray-900 mt-1">{{ userDetail?.merchants?.name }}</p>
+          </div>
+          <div>
+            <div v-if="userDetail?.avatar" class="flex gap-2 items-center">
+              <label class="text-sm font-medium text-gray-500">Avatar</label>
+              <div class="mt-2">
+                <img :src="userDetail?.avatar" alt="User Avatar" class="w-20 h-20 rounded-full object-cover" />
+              </div>
+            </div>
           </div>
         </div>
 
@@ -84,6 +92,7 @@
             icon="pi pi-plus"
             label="Assign Outlet"
             size="small"
+            :disabled="!userDetail?.is_active"
             @click="onAssignOutlet"
           />
         </div>
@@ -124,6 +133,7 @@
                 label="Revoke"
                 icon="pi pi-times"
                 size="small"
+                :disabled="!userDetail?.is_active"
                 @click="onCheckRole(slotProps.data)"
               />
             </div>

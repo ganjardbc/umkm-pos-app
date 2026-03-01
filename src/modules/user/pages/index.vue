@@ -84,6 +84,7 @@
                 variant="outlined"
                 icon="pi pi-trash"
                 size="small"
+                :disabled="!slotProps.data.is_active"
                 @click="onDeleteUser(slotProps.data)"
               />
             </div>
@@ -102,8 +103,9 @@
 import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { getNoTable, getErrorMessage, formatDateTime } from '@/helpers/utils.ts';
-import { getListUser } from '@/modules/user/services/api.ts';
-import { showToast } from '@/helpers/toast.ts';
+import { getListUser, deactivateUser } from '@/modules/user/services/api.ts';
+import { showToast, showConfirm } from '@/helpers/toast.ts';
+import { showLoading, hideLoading } from '@/helpers/loading.ts';
 import { PREFIX_ROUTE_NAME } from '@/modules/user/services/constants.ts';
 import UiCard from '@/components/UiCard.vue';
 import UiSearch from '@/components/UiSearch.vue';
@@ -172,8 +174,43 @@ const onEditUser = (user: any) => {
   });
 };
 
+// Delete Process
+const deleteUser = async (id: string) => {
+  try {
+    showLoading();
+
+    const response = await deactivateUser(id);
+    const { success } = response?.data || {};
+    if (success) {
+      showToast({
+        type: 'success',
+        title: 'Success',
+        message: 'User has been deactivated.'
+      });
+      fetchUser();
+    }
+  } catch (error) {
+    showToast({
+      type: 'error',
+      title: 'Error.',
+      message: getErrorMessage(error) || 'There was an error.',
+    });
+  } finally {
+    hideLoading();
+  }
+};
+
 const onDeleteUser = (user: any) => {
-  console.log('delete user', user);
+  showConfirm({
+    header: 'Deactivate User',
+    message: 'Are you sure you want to deactivate this user?',
+    rejectLabel: 'Cancel',
+    acceptLabel: 'Deactivate',
+    type: 'warn',
+    accept: () => {
+      deleteUser(user.id);
+    },
+  });
 };
 
 // Search

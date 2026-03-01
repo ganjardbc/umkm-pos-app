@@ -13,7 +13,18 @@
       />
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+    <div
+      v-if="products && products.length === 0"
+    >
+      <span class="w-full text-center flex justify-center">
+        Products are empty.
+      </span>
+    </div>
+
+    <div
+      v-if="products && products.length > 0"
+      class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4"
+    >
       <UiCard
         v-for="product in products"
         :key="product.id"

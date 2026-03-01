@@ -12,4 +12,12 @@ export default [
       layout: 'auth',
     }
   },
+  {
+    path: `${PREFIX_ROUTE_PATH}register`,
+    name: `${PREFIX_ROUTE_NAME}-register`,
+    component: () => import('@/modules/auth/pages/register.vue'),
+    meta: {
+      layout: 'auth',
+    }
+  },
 ];

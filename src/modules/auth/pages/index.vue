@@ -63,6 +63,14 @@
           :loading="loading"
         />
       </div>
+
+      <div class="text-base text-gray-900 text-center">
+        Don't have an account?
+        <router-link to="/register" class="text-base text-blue-500 hover:underline">
+          Register
+        </router-link>
+      </div>
+
       <div class="text-xs text-center text-gray-400">
         Version 1.0.0
       </div>
@@ -70,8 +78,10 @@
   </div>
 </template>
 
-<script setup>
-import { onMounted, ref } from 'vue';
+<script lang="ts" setup>
+import type { LoginPayload } from '@/modules/auth/services/types.ts';
+
+import { ref } from 'vue';
 import { zodResolver } from '@primevue/forms/resolvers/zod';
 import { useRouter } from 'vue-router';
 import { z } from 'zod';
@@ -102,12 +112,12 @@ const resolver = ref(zodResolver(
   })
 ));
 
-const onFormSubmit = async ({ valid, values }) => {
+const onFormSubmit = async ({ valid, values }: { valid: boolean; values: any }) => {
   if (valid) {
     loading.value = true;
 
     try {
-      const payload = {
+      const payload: LoginPayload = {
         email: values.email,
         password: values.password,
       };

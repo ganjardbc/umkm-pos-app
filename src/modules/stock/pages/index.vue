@@ -5,24 +5,21 @@
     </h1>
 
     <div class="flex flex-col md:flex-row gap-4">
-      <div class="flex-1">
-        <UiSearch
-          v-model="form.search"
-          type="search"
-          class="w-full"
-          @input="search"
-        />
-      </div>
-      <Button
-        icon="pi pi-plus"
-        label="Adjust Stock"
-        class="w-full md:w-[192px]"
-        @click="adjustStock"
+      <UiSearch
+        v-model="form.search"
+        type="search"
+        class="w-full"
+        @input="search"
       />
     </div>
 
     <UiCard class="p-0! gap-0! overflow-hidden!">
       <DataTable :value="stocks" tableStyle="min-width: 50rem">
+        <template #empty>
+          <span class="w-full text-center flex justify-center">
+            Stocks are empty.
+          </span>
+        </template>
         <Column field="no" header="NO" class="w-18">
           <template #body="slotProps">
             {{ getNoTable(slotProps.index, pagination.page, pagination.rows) }}
@@ -105,11 +102,6 @@ const fetchStock = async () => {
 const onPageChange = (event: any) => {
   pagination.value.page = event.page + 1;
   fetchStock();
-};
-
-// Actions
-const adjustStock = () => {
-  console.log('adjust stock');
 };
 
 // Search

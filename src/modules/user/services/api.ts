@@ -23,9 +23,17 @@ export const postUser = async (data: any, options: any = {}) => {
 };
 
 export const putUser = async (id: string | number, data: any, options: any = {}) => {
+  console.log('putUser', data);
   return await api.patch(
     `/api/v1/users/${id}`,
     data,
+    { ...(options || {}) },
+  );
+};
+
+export const deactivateUser = async (id: string | number, options: any = {}) => {
+  return await api.delete(
+    `/api/v1/users/${id}`,
     { ...(options || {}) },
   );
 };

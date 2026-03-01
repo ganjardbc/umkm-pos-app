@@ -20,6 +20,11 @@
         dataKey="id"
         tableStyle="min-width: 50rem;"
       >
+        <template #empty>
+          <span class="w-full text-center flex justify-center">
+            Transactions are empty.
+          </span>
+        </template>
         <Column expander style="width: 5rem" />
         <Column field="no" header="NO" class="w-18">
           <template #body="slotProps">
@@ -78,13 +83,6 @@
                 icon="pi pi-print"
                 size="small"
                 @click="printReceipt(slotProps.data)"
-              />
-              <Button
-                severity="secondary" 
-                variant="outlined"
-                icon="pi pi-pencil"
-                size="small"
-                @click="editTransaction(slotProps.data)"
               />
               <Button
                 severity="secondary" 
@@ -184,10 +182,6 @@ const onPageChange = (event: any) => {
 // Actions
 const printReceipt = (transaction: any) => {
   console.log('print receipt', transaction);
-};
-
-const editTransaction = (transaction: any) => {
-  console.log('edit transaction', transaction);
 };
 
 const deleteTransaction = (transaction: any) => {
