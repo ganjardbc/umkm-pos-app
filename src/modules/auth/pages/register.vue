@@ -1,5 +1,5 @@
 <template>
-  <div class="relative w-200 rounded-lg bg-white shadow-md px-2 py-6 flex flex-col items-center">
+  <UiCard class="relative w-200 flex flex-col items-center">
     <Image :src="defaultLogo" alt="Image" width="74" />
 
     <div class="w-full pt-6">
@@ -306,7 +306,7 @@
         Version 1.0.0
       </div>
     </div>
-  </div>
+  </UiCard>
 </template>
 
 <script setup lang="ts">
@@ -323,6 +323,7 @@ import { showToast } from '@/helpers/toast.ts';
 import { postRegister } from '@/modules/auth/services/api.ts';
 
 import UiFormGroup from '@/components/UiFormGroup.vue';
+import UiCard from '@/components/UiCard.vue';
 
 import { PREFIX_ROUTE_PATH as PRP_LANDING } from '@/modules/landing/services/constants';
 
@@ -473,3 +474,6 @@ const submitRegistration = async () => {
   }
 };
 </script>
+<style>
+
+</style>

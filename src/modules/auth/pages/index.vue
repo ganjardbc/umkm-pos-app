@@ -1,5 +1,5 @@
 <template>
-  <div class="relative w-100 rounded-lg bg-white shadow-md px-4 py-6 flex flex-col items-center">
+  <UiCard class="relative w-100 flex flex-col items-center">
     <Image :src="defaultLogo" alt="Image" width="74" />
 
     <Form
@@ -75,7 +75,7 @@
         Version 1.0.0
       </div>
     </Form>
-  </div>
+  </UiCard>
 </template>
 
 <script lang="ts" setup>
@@ -94,6 +94,7 @@ import { showToast } from '@/helpers/toast.ts';
 import { postLogin } from '@/modules/auth/services/api.ts';
 
 import UiFormGroup from '@/components/UiFormGroup.vue';
+import UiCard from '@/components/UiCard.vue';
 
 import { PREFIX_ROUTE_PATH as PRP_LANDING } from '@/modules/landing/services/constants';
 

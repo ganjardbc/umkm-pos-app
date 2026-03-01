@@ -82,22 +82,36 @@
             {{ formatDateTime(slotProps.data.created_at) }}
           </template>
         </Column>
-        <Column field="action" header="#" class="w-[128px]">
+        <Column field="action" header="#" class="w-[184px]">
           <template #body="slotProps">
             <div class="flex gap-2">
               <Button
                 severity="secondary" 
                 variant="outlined"
+                icon="pi pi-plus"
+                size="small"
+                @click="onAddjustProduct(slotProps.data)"
+              />
+              <Button
+                severity="secondary" 
+                variant="outlined"
+                icon="pi pi-eye"
+                size="small"
+                @click="onDetailProduct(slotProps.data)"
+              />
+              <Button
+                severity="secondary" 
+                variant="outlined"
                 icon="pi pi-pencil"
                 size="small"
-                @click="editProduct(slotProps.data)"
+                @click="onEditProduct(slotProps.data)"
               />
               <Button
                 severity="secondary" 
                 variant="outlined"
                 icon="pi pi-trash"
                 size="small"
-                @click="deleteProduct(slotProps.data)"
+                @click="onDeleteProduct(slotProps.data)"
               />
             </div>
           </template>
@@ -161,11 +175,19 @@ const addProduct = () => {
   console.log('add product');
 };
 
-const editProduct = (product: any) => {
+const onAddjustProduct = (product: any) => {
+  console.log('addjust product', product);
+};
+
+const onDetailProduct = (product: any) => {
+  console.log('detail product', product);
+};
+
+const onEditProduct = (product: any) => {
   console.log('edit product', product);
 };
 
-const deleteProduct = (product: any) => {
+const onDeleteProduct = (product: any) => {
   console.log('delete product', product);
 };
 
