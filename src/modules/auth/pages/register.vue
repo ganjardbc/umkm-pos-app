@@ -1,5 +1,5 @@
 <template>
-  <UiCard class="relative w-200 flex flex-col items-center">
+  <UiCard class="register-page">
     <Image :src="defaultLogo" alt="Image" width="74" />
 
     <div class="w-full pt-6">
@@ -295,7 +295,7 @@
         </StepPanels>
       </Stepper>
 
-      <div class="text-base text-gray-900 text-center">
+      <div class="text-base text-gray-500 text-center">
         Already have an account?
         <router-link to="/" class="text-base text-blue-500 hover:underline">
           Sign In
@@ -475,5 +475,13 @@ const submitRegistration = async () => {
 };
 </script>
 <style>
+@import 'tailwindcss';
 
+.register-page {
+  @apply relative w-150 flex flex-col items-center h-screen lg:h-auto overflow-y-auto px-2!;
+}
+
+.register-page .p-step-title {
+  @apply hidden! lg:block!;
+}
 </style>

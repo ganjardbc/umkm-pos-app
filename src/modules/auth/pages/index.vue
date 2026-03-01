@@ -1,5 +1,5 @@
 <template>
-  <UiCard class="relative w-100 flex flex-col items-center">
+  <UiCard class="loagin-page">
     <Image :src="defaultLogo" alt="Image" width="74" />
 
     <Form
@@ -64,7 +64,7 @@
         />
       </div>
 
-      <div class="text-base text-gray-900 text-center">
+      <div class="text-base text-gray-500 text-center">
         Don't have an account?
         <router-link to="/register" class="text-base text-blue-500 hover:underline">
           Register
@@ -147,3 +147,10 @@ const onFormSubmit = async ({ valid, values }: { valid: boolean; values: any }) 
   }
 };
 </script>
+<style>
+@import 'tailwindcss';
+
+.loagin-page {
+  @apply relative w-100 flex flex-col items-center justify-center h-screen lg:h-auto;
+}
+</style>
