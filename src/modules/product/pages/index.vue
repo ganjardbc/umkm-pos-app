@@ -123,16 +123,29 @@
       />
     </UiCard>
   </div>
+
+  <AdjustStockModal
+    v-model:visibility="showAdjustStockModal"
+    :product="selectedAdjustStock"
+    @cancel="cancelAdjustStockModal"
+    @submit="submitAdjustStockModal"
+  />
 </template>
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
+import { useRouter } from 'vue-router';
 import { getNoTable, getErrorMessage, getCurrency, formatDateTime } from '@/helpers/utils.ts';
-import { getListProduct } from '@/modules/product/services/api.ts';
-import { showToast } from '@/helpers/toast.ts';
+import { getListProduct, deleteProduct, postAdjustStock } from '@/modules/product/services/api.ts';
+import { showToast, showConfirm } from '@/helpers/toast.ts';
+import { showLoading, hideLoading } from '@/helpers/loading.ts';
 import UiCard from '@/components/UiCard.vue';
 import UiSearch from '@/components/UiSearch.vue';
 import UiPagination from '@/components/UiPagination.vue';
+import { PREFIX_ROUTE_NAME } from '@/modules/product/services/constants.ts';
+import AdjustStockModal from '@/modules/product/components/AdjustStockModal.vue';
+
+const router = useRouter();
 
 // Fetch Data
 const products = ref([]);
@@ -156,7 +169,6 @@ const fetchProduct = async () => {
     pagination.value.totalRecords = meta?.total;
     pagination.value.pageCount = meta?.totalPages;
   } catch (error) {
-    console.log(error);
     showToast({
       type: 'error',
       title: 'Error.',
@@ -172,23 +184,112 @@ const onPageChange = (event: any) => {
 
 // Actions
 const addProduct = () => {
-  console.log('add product');
+  router.push({ name: `${PREFIX_ROUTE_NAME}-create` });
 };
 
 const onAddjustProduct = (product: any) => {
-  console.log('addjust product', product);
+  openAdjustStockModal(product);
 };
 
 const onDetailProduct = (product: any) => {
-  console.log('detail product', product);
+  router.push({
+    name: `${PREFIX_ROUTE_NAME}-detail`,
+    params: {
+      id: product.id,
+    },
+  });
 };
 
 const onEditProduct = (product: any) => {
-  console.log('edit product', product);
+  router.push({
+    name: `${PREFIX_ROUTE_NAME}-edit`,
+    params: {
+      id: product.id,
+    },
+  });
 };
 
 const onDeleteProduct = (product: any) => {
-  console.log('delete product', product);
+  showConfirm({
+    header: 'Delete Product',
+    message: 'Are you sure you want to delete this product?',
+    rejectLabel: 'Cancel',
+    acceptLabel: 'Delete',
+    type: 'warn',
+    accept: () => {
+      removeProduct(product?.id);
+    },
+  });
+};
+
+// Delete Process
+const removeProduct = async (id: string) => {
+  try {
+    showLoading();
+
+    const response = await deleteProduct(id);
+    const { success } = response?.data || {};
+    if (success) {
+      showToast({
+        type: 'success',
+        title: 'Success',
+        message: 'Product has been deleted.'
+      });
+      fetchProduct();
+    }
+  } catch (error) {
+    showToast({
+      type: 'error',
+      title: 'Error.',
+      message: getErrorMessage(error) || 'There was an error.',
+    });
+  } finally {
+    hideLoading();
+  }
+};
+
+// Adjust Stock
+const showAdjustStockModal = ref(false);
+const selectedAdjustStock = ref(null);
+
+const cancelAdjustStockModal = () => {
+  showAdjustStockModal.value = false;
+};
+
+const openAdjustStockModal = (payload: any) => {
+  showAdjustStockModal.value = true;
+  selectedAdjustStock.value = {
+    ...payload,
+    stock_qty: Number(payload?.stock_qty),
+  };
+};
+
+const submitAdjustStockModal = async (payload: any) => {
+  try {
+    showLoading();
+
+    const response = await postAdjustStock(payload);
+    const { success } = response?.data || {};
+    
+    if (success) {
+      showToast({
+        type: 'success',
+        title: 'Success',
+        message: 'Stock has been adjusted successfully.'
+      });
+      showAdjustStockModal.value = false;
+      selectedAdjustStock.value = null;
+      fetchProduct();
+    }
+  } catch (error) {
+    showToast({
+      type: 'error',
+      title: 'Adjust Stock Failed.',
+      message: getErrorMessage(error) || 'There was an error.',
+    });
+  } finally {
+    hideLoading();
+  }
 };
 
 // Search

@@ -23,8 +23,23 @@ export const postProduct = async (data: any, options: any = {}) => {
 };
 
 export const putProduct = async (id: string | number, data: any, options: any = {}) => {
-  return await api.put(
+  return await api.patch(
     `/api/v1/products/${id}`,
+    data,
+    { ...(options || {}) },
+  );
+};
+
+export const deleteProduct = async (id: string | number, options: any = {}) => {
+  return await api.delete(
+    `/api/v1/products/${id}`,
+    { ...(options || {}) },
+  );
+};
+
+export const postAdjustStock = async (data: any, options: any = {}) => {
+  return await api.post(
+    `/api/v1/stock/adjust`,
     data,
     { ...(options || {}) },
   );
