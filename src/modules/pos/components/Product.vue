@@ -31,7 +31,10 @@
         class="overflow-hidden hover:shadow-lg"
       >
         <div class="relative space-y-4">
-          <div class="relative w-full h-40 bg-gray-100 rounded-xl flex items-center justify-center overflow-hidden">
+          <div
+            v-if="product.thumbnail"
+            class="relative w-full h-40 bg-gray-100 rounded-xl flex items-center justify-center overflow-hidden"
+          >
             <img
               v-if="product.thumbnail"
               :src="product.thumbnail"
