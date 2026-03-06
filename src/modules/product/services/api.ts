@@ -44,3 +44,10 @@ export const postAdjustStock = async (data: any, options: any = {}) => {
     { ...(options || {}) },
   );
 };
+
+export const getProductStock = async (data: any, options: any = {}) => {
+  return await api.get(
+    `/api/v1/stock/logs`,
+    { params: data, ...(options || {}) },
+  );
+};

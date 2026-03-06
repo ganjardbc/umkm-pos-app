@@ -66,22 +66,6 @@
               {{ $form.reason.error?.message }}
             </Message>
           </UiFormGroup>
-          <UiFormGroup label="Note" variant="vertical">
-            <Textarea
-              name="note"
-              placeholder="Additional notes (optional)"
-              fluid
-              rows="3"
-            />
-            <Message
-              v-if="$form.note?.invalid"
-              severity="error"
-              size="small"
-              variant="simple"
-            >
-              {{ $form.note.error?.message }}
-            </Message>
-          </UiFormGroup>
         </div>
 
         <div class="flex justify-end gap-4 py-4 border-t border-gray-200">
