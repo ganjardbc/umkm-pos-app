@@ -27,17 +27,19 @@
         </Column>
         <Column field="product" header="Product">
           <template #body="slotProps">
-            {{ slotProps.data.products?.name }}
+            {{ slotProps.data?.products?.name }}
           </template>
         </Column>
         <Column field="stock_qty" header="Stock Qty">
           <template #body="slotProps">
-            {{ slotProps.data.products?.stock_qty }}
+            {{ slotProps.data?.products?.stock_qty }}
           </template>
         </Column>
         <Column field="change_qty" header="Change Qty">
           <template #body="slotProps">
-            {{ slotProps.data.change_qty }}
+            <span :class="slotProps.data?.change_qty > 0 ? 'text-green-600' : 'text-red-600'">
+              {{ slotProps.data?.change_qty }}
+            </span>
           </template>
         </Column>
         <Column field="reason" header="Reason">
