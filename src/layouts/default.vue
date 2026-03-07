@@ -81,6 +81,16 @@
             icon="pi pi-cog"
           />
         </router-link>
+        <router-link
+          to="/profile"
+        >
+          <Button
+            severity="secondary" 
+            variant="outlined"
+            size="medium"
+            icon="pi pi-user"
+          />
+        </router-link>
       </div>
     </div>
 
