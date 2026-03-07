@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full space-y-4">
+  <div class="pos-product">
     <h1 class="text-xl font-semibold text-gray-900">
       Product
     </h1>
@@ -23,7 +23,11 @@
 
     <div
       v-if="products && products.length > 0"
-      class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4"
+      class="pos-product__content"
+      :class="{
+        'pos-product__content-cols-2': isMobile,
+        'pos-product__content-cols-3': isWeb,
+      }"
     >
       <UiCard
         v-for="product in products"
@@ -58,18 +62,18 @@
             <div class="text-base font-semibold text-gray-900 truncate">
               {{ product.name }}
             </div>
-            <div class="text-sm text-gray-500">
-              {{ product.category }}
+            <div class="flex justify-between items-center">
+              <div class="text-sm text-gray-500">
+                {{ product.category }}
+              </div>
+              <div class="text-sm text-gray-500">
+                {{ product.stock_qty }}x
+              </div>
             </div>
           </div>
 
-          <div class="flex items-center justify-between">
-            <div class="text-lg font-bold text-primary">
-              {{ getCurrency(product.price) }}
-            </div>
-            <div class="text-sm text-gray-500">
-              Stock: {{ product.stock_qty }}
-            </div>
+          <div class="text-lg font-bold text-primary">
+            {{ getCurrency(product.price) }}
           </div>
 
           <Divider />
@@ -97,8 +101,9 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
-import Tag from 'primevue/tag';
+import { onMounted, ref, computed } from 'vue';
+import { storeToRefs } from 'pinia';
+import { useAuthStore } from '@/modules/auth/stores/index.ts';
 import { getErrorMessage, getCurrency } from '@/helpers/utils.ts';
 import { getListProduct } from '@/modules/product/services/api.ts';
 import { showToast } from '@/helpers/toast.ts';
@@ -179,7 +184,34 @@ const addProductToCart = (product: any) => {
   }
 };
 
+// Device type
+const authStore = useAuthStore();
+const { deviceType } = storeToRefs(authStore);
+
+const isMobile = computed(() => deviceType.value === 'mobile');
+const isWeb = computed(() => deviceType.value === 'web');
+
 onMounted(() => {
   fetchProduct();
 });
 </script>
+<style>
+@import "tailwindcss";
+
+.pos-product {
+  @apply w-full space-y-4;
+}
+
+.pos-product__content {
+  @apply grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4;
+  /* @apply grid grid-cols-1 gap-4; */
+}
+
+/* .pos-product__content-cols-2 {
+  @apply grid-cols-2;
+} */
+
+/* .pos-product__content-cols-3 {
+  @apply grid-cols-3;
+} */
+</style>

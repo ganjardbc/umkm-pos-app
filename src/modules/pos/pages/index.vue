@@ -1,5 +1,12 @@
 <template>
-  <div class="pos-page">
+  <div
+    class="pos-page"
+    :class="{
+      'pos-page--mobile': !isWeb,
+      'pos-page--desktop': isWeb,
+    }"
+  >
+    <!-- POS Product -->
     <div class="pos-page__product space-y-4">
       <div
         class="w-full p-2 rounded-lg border border-gray-200 bg-white"
@@ -54,6 +61,8 @@
 
       <PosProduct :is-user-in-shift="isUserInShift" />
     </div>
+
+    <!-- POS Cart -->
     <PosCart
       :is-user-in-shift="isUserInShift"
       :shift-id="currentShift?.id"
@@ -65,6 +74,8 @@
 
 <script setup lang="ts">
 import { onMounted, ref, computed } from 'vue';
+import { storeToRefs } from 'pinia';
+import { useAuthStore } from '@/modules/auth/stores/index.ts';
 import { getErrorMessage } from '@/helpers/utils.ts';
 import { showConfirm, showToast } from '@/helpers/toast.ts';
 import { getOutlet, getUser } from '@/helpers/auth.ts';
@@ -193,6 +204,12 @@ const handleShift = () => {
   }
 };
 
+// Device type
+const authStore = useAuthStore();
+const { deviceType } = storeToRefs(authStore);
+
+const isWeb = computed(() => deviceType.value === 'web');
+
 onMounted(() => {
   fetchOutletShift();
 });
@@ -202,10 +219,15 @@ onMounted(() => {
 @import "tailwindcss";
 
 .pos-page {
-  @apply w-full h-full;
-  display: grid;
-  grid-template-columns: 1fr 420px;
-  gap: 1rem;
+  @apply w-full h-full grid gap-4;
+}
+
+.pos-page--mobile {
+  @apply grid-cols-1 pb-20;
+}
+
+.pos-page--desktop {
+  @apply grid-cols-[1fr_420px];
 }
 
 .pos-page__product {

@@ -1,10 +1,22 @@
 <template>
-  <div class="w-full h-full flex flex-col justify-between gap-4">
-    <div class="w-full space-y-4">
-      <div class="flex items-center justify-between">
-        <h1 class="text-lg font-semibold text-gray-900">
-          Cart ({{ posStore.cartItemCount }})
-        </h1>
+  <div
+    class="pos-cart pos-cart--animation"
+    :class="{
+      'pos-cart--mobile': !isWeb,
+      'pos-cart--desktop': isWeb,
+      'pos-cart--open': showCartMobile
+    }"
+  >
+    <div
+      class="pos-cart__header"
+      :class="{
+        'pos-cart__header--mobile': !isWeb,
+      }"
+    >
+      <h1 class="text-lg font-semibold text-gray-900">
+        Cart ({{ posStore.cartItemCount }})
+      </h1>
+      <div class="flex gap-4">
         <Button
           severity="danger"
           variant="outlined"
@@ -14,15 +26,23 @@
           :disabled="posStore.cartItems.length === 0"
           @click="onClearCart"
         />
+        <Button
+          v-if="!isWeb"
+          severity="secondary"
+          variant="outlined"
+          size="medium"
+          icon="pi pi-times"
+          @click="openCloseCart"
+        />
       </div>
     </div>
     
-    <div class="flex-1 p-4 rounded-xl bg-gray-50 overflow-y-auto">
+    <div class="pos-cart__section pos-cart__section-item">
       <div
         v-if="posStore.cartItems.length === 0"
         class="h-full flex flex-col items-center justify-center"
       >
-        <i class="pi pi-shopping-cart text-[32px] mb-4" />
+        <i class="pi pi-shopping-cart mb-4" style="font-size: 24px;" />
         <p class="text-base text-gray-500">Cart is empty</p>
       </div>
       
@@ -111,7 +131,7 @@
       v-if="isUserInShift"
       class="w-full space-y-4"
     >
-      <div class="p-4 rounded-xl bg-gray-50 space-y-4">
+      <div class="pos-cart__section space-y-2">
         <div class="space-y-2">
           <div class="text-sm font-medium text-gray-700">Payment Method</div>
           <Select
@@ -134,7 +154,7 @@
         </div>
       </div>
       
-      <div class="p-4 rounded-xl bg-gray-50 space-y-4">
+      <div class="pos-cart__section space-y-2">
         <div class="flex items-center justify-between">
           <span class="text-sm text-gray-900">
             Total ({{ posStore.cartItemCount }})
@@ -154,10 +174,46 @@
       </div>
     </div>
   </div>
+
+  <!-- Mobile Cart Trigger -->
+  <div
+    class="pos-cart__trigger"
+    :class="{
+      'pl-4 pr-4': isMobile,
+      'pl-20 pr-4': !isMobile,
+      'pos-cart__trigger--open': !isWeb,
+    }"
+  >
+    <div class="pos-cart__trigger-content">
+      <div class="flex items-center gap-3">
+        <div class="w-12 h-12 bg-primary-50 flex flex-col justify-center items-center rounded-full">
+          <i class="pi pi-shopping-cart text-primary-500" />
+        </div>
+        <div class="flex-1 space-y-0.5">
+          <div class="text-xs text-gray-500">
+            Outlet Cart
+          </div>
+          <div class="text-sm text-gray-900 font-semibold">
+            {{ posStore.cartItemCount || 0 }} Items | {{ getCurrency(posStore.cartTotal) }}
+          </div>
+        </div>
+      </div>
+
+      <Button
+        severity="secondary"
+        variant="outlined"
+        size="medium"
+        icon="pi pi-arrow-right"
+        @click="openCloseCart"
+      />
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue';
+import { storeToRefs } from 'pinia';
+import { useAuthStore } from '@/modules/auth/stores/index.ts';
 import { usePosStore } from '@/modules/pos/stores';
 import { getCurrency } from '@/helpers/utils.ts';
 import { showConfirm, showToast } from '@/helpers/toast.ts';
@@ -305,6 +361,7 @@ const onCheckout = async () => {
       });
       
       posStore.clearCart();
+      openCloseCart();
     }
   } catch (error: any) {
     console.error('Checkout error:', error);
@@ -317,4 +374,71 @@ const onCheckout = async () => {
     isCheckingOut.value = false;
   }
 };
+
+// Device type
+const authStore = useAuthStore();
+const { deviceType } = storeToRefs(authStore);
+
+const isMobile = computed(() => deviceType.value === 'mobile');
+const isWeb = computed(() => deviceType.value === 'web');
+
+// Open/Close Cart in Responsive
+const showCartMobile = ref(false);
+
+const openCloseCart = () => {
+  showCartMobile.value = !showCartMobile.value;
+};
 </script>
+<style>
+@import "tailwindcss";
+
+.pos-cart {
+  @apply bg-white w-full flex flex-col justify-between;
+}
+
+.pos-cart--desktop {
+  @apply sticky top-[72px] h-[calc(100vh-90px)] space-y-4;
+}
+
+.pos-cart--mobile {
+  @apply fixed top-0 h-full -right-[100%] xl:right-0 xl:z-0;
+  z-index: 100;
+}
+
+.pos-cart--animation {
+  @apply transition-all duration-300;
+}
+
+.pos-cart--open {
+  @apply right-0;
+}
+
+.pos-cart__header {
+  @apply w-full flex items-center justify-between;
+}
+
+.pos-cart__header--mobile {
+  @apply py-3 px-4;
+}
+
+.pos-cart__section {
+  @apply p-4 rounded-none xl:rounded-xl bg-gray-50;
+}
+
+.pos-cart__section-item {
+  @apply flex-1 overflow-y-auto;
+}
+
+.pos-cart__trigger {
+  @apply fixed bottom-0 left-0 w-full py-4 hidden;
+  z-index: 10;
+}
+
+.pos-cart__trigger--open {
+  @apply block;
+}
+
+.pos-cart__trigger-content {
+  @apply w-full py-2 px-3 shadow-md rounded-lg border border-gray-200 bg-white flex justify-between items-center;
+}
+</style>
