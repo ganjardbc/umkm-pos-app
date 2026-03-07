@@ -25,6 +25,7 @@
         <router-link
           to="/landing"
           class="flex items-center"
+          @click="isMobile ? handleOpenSidebar() : null"
         >
           <Image
             :src="defaultLogo"
@@ -61,16 +62,6 @@
           'flex-row': !isSmallSidebar,
         }"
       >
-        <router-link
-          to="/notification"
-        >
-          <Button
-            severity="secondary" 
-            variant="outlined"
-            size="medium"
-            icon="pi pi-bell"
-          />
-        </router-link>
         <router-link
           to="/settings"
         >
@@ -161,6 +152,17 @@
             />
 
             <Divider layout="vertical" />
+
+            <router-link
+              to="/notification"
+            >
+              <Button
+                severity="secondary" 
+                variant="text"
+                size="small"
+                icon="pi pi-bell"
+              />
+            </router-link>
 
             <UiSidebarProfile
               :is-collapsed="isSmallSidebar"

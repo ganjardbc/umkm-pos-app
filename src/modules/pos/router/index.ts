@@ -23,7 +23,7 @@ export default [
           isActive: false,
         },
         {
-          label: 'Pos',
+          label: 'POS',
           route: PREFIX_ROUTE_PATH,
           isActive: true,
         },
