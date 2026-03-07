@@ -1,7 +1,7 @@
 <template>
   <div class="w-full flex flex-col justify-center items-center" style="height: calc(100vh - 90px);">
     <h1 class="text-4xl font-bold text-gray-800 mb-4">404</h1>
-    <p class="text-md text-gray-600 mb-8">Not Found: Halaman tidak ditemukan.</p>
+    <p class="text-md text-gray-600 text-center mb-8">Not Found: Halaman tidak ditemukan.</p>
     <Button
       severity="primary"
       size="small"
