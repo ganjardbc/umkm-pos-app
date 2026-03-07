@@ -1,17 +1,130 @@
 <template>
-  <div>
-    <h2>profile Page</h2>
-    <HelloWorld />
+  <div class="max-w-2xl mx-auto space-y-4">
+    <h1 class="text-2xl font-semibold">
+      My Profile
+    </h1>
+
+    <!-- Profile Information -->
+    <UiCard v-if="profile">
+      <div class="space-y-4">
+        <div class="flex justify-between items-center">
+          <div class="space-y-2">
+            <h1 class="text-xl font-semibold text-gray-900">{{ profile?.name }}</h1>
+            <Tag 
+              :severity="profile?.is_active ? 'success' : 'danger'" 
+              :value="profile?.is_active ? 'Active' : 'Inactive'" 
+            />
+          </div>
+          <Avatar
+            :label="profile?.name?.charAt(0)"
+            size="xlarge"
+            shape="circle"
+          />
+        </div>
+
+        <Divider />
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="text-sm font-medium text-gray-500">Username</label>
+            <p class="text-base text-gray-900 mt-1">{{ profile?.username }}</p>
+          </div>
+          <div>
+            <label class="text-sm font-medium text-gray-500">Name</label>
+            <p class="text-base text-gray-900 mt-1">{{ profile?.name }}</p>
+          </div>
+          <div>
+            <label class="text-sm font-medium text-gray-500">Email</label>
+            <p class="text-base text-gray-900 mt-1">{{ profile?.email }}</p>
+          </div>
+          <div>
+            <label class="text-sm font-medium text-gray-500">Merchant</label>
+            <p class="text-base text-gray-900 mt-1">{{ profile?.merchants?.name }}</p>
+          </div>
+          <div>
+            <label class="text-sm font-medium text-gray-500">Created At</label>
+            <p class="text-base text-gray-900 mt-1">{{ formatDateTime(profile?.created_at) }}</p>
+          </div>
+          <div>
+            <label class="text-sm font-medium text-gray-500">Updated At</label>
+            <p class="text-base text-gray-900 mt-1">{{ formatDateTime(profile?.updated_at) }}</p>
+          </div>
+        </div>
+
+        <Divider />
+
+        <Button
+          severity="secondary"
+          variant="outlined"
+          icon="pi pi-power-off"
+          size="small"
+          label="Logout"
+          fluid
+          @click="handleLogout"
+        />
+      </div>
+    </UiCard>
+
+    <!-- Loading State -->
+    <UiCard v-else>
+      <div class="flex justify-center items-center py-8">
+        <i class="pi pi-spin pi-spinner text-2xl text-gray-400"></i>
+      </div>
+    </UiCard>
   </div>
 </template>
 
 <script setup lang="ts">
-// ...existing code...
-import HelloWorld from '@/modules/profile/components/HelloWorld.vue';
+import { ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+import { removeAuth } from '@/helpers/auth.ts';
+import { PREFIX_ROUTE_PATH as PRP_AUTH } from '@/modules/auth/services/constants.ts';
+import { getDetailprofile } from '@/modules/profile/services/api.ts';
+import { getErrorMessage, formatDateTime } from '@/helpers/utils.ts';
+import { showConfirm, showToast } from "@/helpers/toast.ts";
+import UiCard from '@/components/UiCard.vue';
+
+const router = useRouter();
+
+const profile = ref<any>(null);
+
+const fetchProfile = async () => {
+  try {
+    const response = await getDetailprofile();
+    const { data } = response?.data || {};
+    
+    profile.value = data || null;
+  } catch (error) {
+    showToast({
+      type: 'error',
+      title: 'Failed to fetch profile.',
+      message: getErrorMessage(error) || 'There was an error.',
+    });
+  }
+};
+
+const handleLogout = () => {
+  showConfirm({
+    header: 'Logout dari Akun ini?',
+    rejectLabel: 'Batal',
+    acceptLabel: 'Ok, Lanjutkan',
+    type: 'warn',
+    accept: () => {
+      removeAuth();
+
+      showToast({
+        type: 'success',
+        title: 'Logout Succesfully',
+      });
+      router.push(PRP_AUTH);
+    }
+  });
+}
+
+onMounted(() => {
+  fetchProfile();
+});
 </script>
 
 <style scoped>
-h1 {
-  color: blue;
-}
 </style>
