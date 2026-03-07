@@ -157,13 +157,13 @@
               to="/notification"
             >
               <Button
-                severity="secondary" 
-                variant="text"
-                size="small"
-                icon="pi pi-bell"
+              severity="secondary" 
+              variant="text"
+              size="small"
+              icon="pi pi-bell"
               />
             </router-link>
-
+            
             <UiSidebarProfile
               :is-collapsed="isSmallSidebar"
               @navigate="isMobile ? handleOpenSidebar() : null"

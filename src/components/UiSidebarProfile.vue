@@ -10,8 +10,12 @@
         shape="circle"
       />
     </div>
-    <Popover ref="opProfileMenu" position="right" class="ui-sidebar-profile__popper">
-      <div class="space-y-4 w-55">
+    <Popover
+      ref="opProfileMenu"
+      position="right"
+      class="ui-sidebar-profile__popper"
+    >
+      <div class="space-y-4 w-60">
         <router-link :to="PRP_PROFILE" class="flex items-center gap-2">
           <Avatar
             :label="personalInfo?.user?.name?.charAt(0)"
