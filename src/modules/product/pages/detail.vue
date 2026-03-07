@@ -102,7 +102,7 @@
       <template #header>
         <div class="w-full flex gap-4 items-center justify-between">
           <h1 class="text-2xl font-semibold">
-            Stock Log History
+            Stock History
           </h1>
           <Button
             icon="pi pi-plus"
@@ -125,7 +125,7 @@
           <DataTable :value="stockLogs" tableStyle="min-width: 50rem">
             <template #empty>
               <span class="w-full text-center flex justify-center">
-                Stock logs are empty.
+                Stock histories are empty.
               </span>
             </template>
             <Column field="no" header="NO" class="w-18">
