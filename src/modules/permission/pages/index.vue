@@ -14,6 +14,7 @@
         />
       </div>
       <Button
+        v-if="isCanCreate"
         icon="pi pi-plus"
         label="Add Permission"
         class="w-full md:w-[192px]"
@@ -48,7 +49,7 @@
             {{ formatDateTime(slotProps.data.created_at) }}
           </template>
         </Column>
-        <Column field="action" header="#" class="w-[92px]">
+        <Column v-if="isCanDelete" field="action" header="#" class="w-[92px]">
           <template #body="slotProps">
             <div class="flex gap-2">
               <Button
@@ -56,6 +57,7 @@
                 variant="outlined"
                 icon="pi pi-trash"
                 size="small"
+                :disabled="!isCanDelete"
                 @click="onDeletePermission(slotProps.data)"
               />
             </div>
@@ -71,18 +73,25 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { getNoTable, getErrorMessage, formatDateTime } from '@/helpers/utils.ts';
 import { getListPermission, deletePermission } from '@/modules/permission/services/api.ts';
 import { showToast, showConfirm } from '@/helpers/toast.ts';
 import { showLoading, hideLoading } from '@/helpers/loading.ts';
+import { isHasPermission } from '@/helpers/auth.ts';
 import { PREFIX_ROUTE_NAME } from '@/modules/permission/services/constants.ts';
+import { CREATE, UPDATE, DELETE } from '@/modules/permission/services/rbac.ts';
 import UiCard from '@/components/UiCard.vue';
 import UiSearch from '@/components/UiSearch.vue';
 import UiPagination from '@/components/UiPagination.vue';
 
 const router = useRouter();
+
+// RBAC
+const isCanCreate = computed(() => isHasPermission(CREATE));
+const isCanUpdate = computed(() => isHasPermission(UPDATE));
+const isCanDelete = computed(() => isHasPermission(DELETE));
 
 // Fetch Data
 const permissions = ref([]);

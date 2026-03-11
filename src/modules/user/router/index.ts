@@ -4,7 +4,9 @@ import {
 } from '@/modules/user/services/constants.ts';
 
 import {
-  PERMISSIONS,
+  READ,
+  CREATE,
+  UPDATE,
 } from '@/modules/user/services/rbac.ts';
 
 export default [
@@ -15,7 +17,7 @@ export default [
     meta: {
       title: 'User',
       layout: 'default',
-      permission: PERMISSIONS,
+      permission: [READ],
       breadcrumbs: [
         {
           label: 'Home',
@@ -37,7 +39,7 @@ export default [
     meta: {
       title: 'User',
       layout: 'default',
-      permission: PERMISSIONS,
+      permission: [CREATE],
       breadcrumbs: [
         {
           label: 'Home',
@@ -64,7 +66,7 @@ export default [
     meta: {
       title: 'User',
       layout: 'default',
-      permission: PERMISSIONS,
+      permission: [UPDATE],
       breadcrumbs: [
         {
           label: 'Home',
@@ -91,7 +93,7 @@ export default [
     meta: {
       title: 'User',
       layout: 'default',
-      permission: PERMISSIONS,
+      permission: [READ],
       breadcrumbs: [
         {
           label: 'Home',

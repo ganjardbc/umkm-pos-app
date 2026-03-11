@@ -20,6 +20,7 @@
             User Information
           </h2>
           <Button
+            v-if="isCanUpdate"
             icon="pi pi-pencil"
             label="Edit User"
             size="small"
@@ -89,6 +90,7 @@
             Your Works
           </h2>
           <Button
+            v-if="isCanUpdate"
             icon="pi pi-plus"
             label="Assign Outlet"
             size="small"
@@ -124,7 +126,7 @@
             {{ slotProps.data.roles.role_permissions.length || '0' }}
           </template>
         </Column>
-        <Column field="action" header="#" class="w-20">
+        <Column v-if="isCanUpdate" field="action" header="#" class="w-20">
           <template #body="slotProps">
             <div class="flex gap-2">
               <Button
@@ -154,14 +156,19 @@ import { useRoute, useRouter } from 'vue-router';
 import { getErrorMessage, formatDateTime } from '@/helpers/utils.ts';
 import { showToast, showConfirm } from '@/helpers/toast.ts';
 import { showLoading, hideLoading } from '@/helpers/loading.ts';
+import { isHasPermission } from '@/helpers/auth.ts';
 import { getDetailUser, getUserRole, assignRoleToUser, revokeRoleFromUser } from '@/modules/user/services/api.ts';
 import { PREFIX_ROUTE_NAME } from '@/modules/user/services/constants.ts';
+import { UPDATE } from '@/modules/user/services/rbac.ts';
 import UiCard from '@/components/UiCard.vue';
 import AssignOutletModal from '@/modules/user/components/AssignOutletModal.vue';
 
 const route = useRoute();
 const router = useRouter();
 const userID = computed(() => route.params.id as string);
+
+// RBAC
+const isCanUpdate = computed(() => isHasPermission(UPDATE));
 
 // Fetch Detail
 const userDetail = ref<any>(null);

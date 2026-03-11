@@ -19,6 +19,7 @@
           Role Information
         </h1>
         <Button
+          v-if="isCanUpdate"
           icon="pi pi-pencil"
           label="Edit Role"
           size="small"
@@ -75,7 +76,7 @@
             {{ getNoTable(slotProps.index, pagination.page, pagination.rows) }}
           </template>
         </Column>
-        <Column field="code" header="Code" class="w-60">
+        <Column field="code" header="Code">
           <template #body="slotProps">
             {{ slotProps.data.code }}
           </template>
@@ -85,7 +86,10 @@
             {{ slotProps.data.description }}
           </template>
         </Column>
-        <Column field="action" header="#" class="w-20">
+        <Column
+          v-if="isCanUpdate"
+          field="action" header="#" class="w-20"
+        >
           <template #body="slotProps">
             <div class="flex gap-2">
               <Button
@@ -93,6 +97,7 @@
                 :variant="isPermissionChecked(slotProps.data.id) ? 'soft' : 'outlined'"
                 icon="pi pi-check"
                 size="small"
+                :disabled="!isCanUpdate"
                 @click="onCheckPermission(slotProps.data)"
               />
             </div>
@@ -113,15 +118,20 @@ import { ref, onMounted, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { getNoTable, getErrorMessage, formatDateTime } from '@/helpers/utils.ts';
 import { showToast } from '@/helpers/toast.ts';
+import { isHasPermission } from '@/helpers/auth.ts';
 import { getDetailRole, assignPermission, deletePermission } from '@/modules/role/services/api.ts';
 import { getListPermission } from '@/modules/permission/services/api.ts';
 import { PREFIX_ROUTE_NAME } from '@/modules/role/services/constants.ts';
+import { UPDATE } from '@/modules/role/services/rbac.ts';
 import UiCard from '@/components/UiCard.vue';
 import UiPagination from '@/components/UiPagination.vue';
 
 const route = useRoute();
 const router = useRouter();
 const roleID = computed(() => route.params.id as string);
+
+// RBAC
+const isCanUpdate = computed(() => isHasPermission(UPDATE));
 
 // Fetch Detail
 const roleDetail = ref<RoleDetail | null>(null);

@@ -14,6 +14,7 @@
         />
       </div>
       <Button
+        v-if="isCanCreate"
         icon="pi pi-plus"
         label="Add Role"
         class="w-full md:w-[192px]"
@@ -64,6 +65,7 @@
                 @click="onDetailRole(slotProps.data)"
               />
               <Button
+                v-if="isCanUpdate"
                 severity="secondary" 
                 variant="outlined"
                 icon="pi pi-pencil"
@@ -71,6 +73,7 @@
                 @click="onEditRole(slotProps.data)"
               />
               <Button
+                v-if="isCanDelete"
                 severity="secondary" 
                 variant="outlined"
                 icon="pi pi-trash"
@@ -90,18 +93,25 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, computed } from 'vue';
 import { useRouter  } from 'vue-router';
 import { getNoTable, getErrorMessage, formatDateTime } from '@/helpers/utils.ts';
 import { getListRole, deleteRole } from '@/modules/role/services/api.ts';
 import { showToast, showConfirm } from '@/helpers/toast.ts';
+import { isHasPermission } from '@/helpers/auth.ts';
 import { showLoading, hideLoading } from '@/helpers/loading.ts';
 import { PREFIX_ROUTE_NAME } from '@/modules/role/services/constants.ts';
+import { CREATE, UPDATE, DELETE } from '@/modules/role/services/rbac.ts';
 import UiCard from '@/components/UiCard.vue';
 import UiSearch from '@/components/UiSearch.vue';
 import UiPagination from '@/components/UiPagination.vue';
 
 const router = useRouter();
+
+// RBAC
+const isCanCreate = computed(() => isHasPermission(CREATE));
+const isCanUpdate = computed(() => isHasPermission(UPDATE));
+const isCanDelete = computed(() => isHasPermission(DELETE));
 
 // Fetch Data
 const roles = ref([]);
