@@ -21,3 +21,10 @@ export const postTransaction = async (data: any, options: any = {}) => {
     { ...(options || {}) },
   );
 };
+
+export const postCancelTransaction = async (id: string | number, options: any = {}) => {
+  return await api.post(
+    `/api/v1/transactions/${id}/cancel`,
+    { ...(options || {}) },
+  );
+};

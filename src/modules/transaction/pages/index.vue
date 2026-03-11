@@ -69,6 +69,15 @@
             />
           </template>
         </Column>
+        <Column field="is_cancelled" header="Status">
+          <template #body="slotProps">
+            <Tag
+              :value="slotProps.data.is_cancelled ? 'Cancelled' : 'Active'"
+              :severity="slotProps.data.is_cancelled ? 'danger' : 'info'"
+              class="capitalize"
+            />
+          </template>
+        </Column>
         <Column field="created_at" header="Created At">
           <template #body="slotProps">
             {{ formatDateTime(slotProps.data.created_at) }}
@@ -82,14 +91,15 @@
                 variant="outlined"
                 icon="pi pi-print"
                 size="small"
-                @click="printReceipt(slotProps.data)"
+                @click="openPrintReceipt(slotProps.data)"
               />
               <Button
-                severity="secondary" 
+                v-if="!slotProps.data.is_cancelled"
+                severity="danger" 
                 variant="outlined"
-                icon="pi pi-trash"
+                icon="pi pi-times"
                 size="small"
-                @click="deleteTransaction(slotProps.data)"
+                @click="onCancelTransaction(slotProps.data)"
               />
             </div>
           </template>
@@ -127,17 +137,25 @@
       />
     </UiCard>
   </div>
+  <ReceiptModal
+    v-model:visibility="showReceiptModal"
+    :selected="selectedTransaction"
+    @cancel="cancelReceiptModal"
+  />
 </template>
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import { getNoTable, getErrorMessage, getCurrency, formatDateTime } from '@/helpers/utils.ts';
-import { getListTransaction } from '@/modules/transaction/services/api.ts';
-import { showToast } from '@/helpers/toast.ts';
+import { getListTransaction, postCancelTransaction } from '@/modules/transaction/services/api.ts';
+import { showToast, showConfirm } from '@/helpers/toast.ts';
+import { showLoading, hideLoading } from '@/helpers/loading.ts';
 import { getOutlet } from '@/helpers/auth.ts';
 import UiCard from '@/components/UiCard.vue';
 import UiSearch from '@/components/UiSearch.vue';
 import UiPagination from '@/components/UiPagination.vue';
+import ReceiptModal from '@/modules/transaction/components/ReceiptModal.vue';
+import { type ReceiptData } from '../utils/receiptGenerator';
 
 const outlet = getOutlet();
 const expandedRows = ref({});
@@ -179,13 +197,56 @@ const onPageChange = (event: any) => {
   fetchTransaction();
 };
 
-// Actions
-const printReceipt = (transaction: any) => {
-  console.log('print receipt', transaction);
+// Receipt Modal
+const showReceiptModal = ref(false);
+const selectedTransaction = ref({} as ReceiptData);
+
+const cancelReceiptModal = () => {
+  showReceiptModal.value = false;
 };
 
-const deleteTransaction = (transaction: any) => {
-  console.log('delete transaction', transaction);
+const openPrintReceipt = (transaction: any) => {
+  selectedTransaction.value = transaction;
+  showReceiptModal.value = true;
+};
+
+// Actions
+const cancelTransaction = async (id: string) => {
+  try {
+    showLoading();
+
+    const response = await postCancelTransaction(id);
+    const { success } = response?.data || {};
+    if (success) {
+      showToast({
+        type: 'success',
+        title: 'Success',
+        message: 'Transaction has been cancelled and stock has been restored.'
+      });
+      fetchTransaction();
+    }
+  } catch (error) {
+    showToast({
+      type: 'error',
+      title: 'Error.',
+      message: getErrorMessage(error) || 'There was an error.',
+    });
+  } finally {
+    hideLoading();
+  }
+};
+
+const onCancelTransaction = (transaction: any) => {
+  showConfirm({
+    header: 'Cancel Transaction',
+    message: 'Are you sure you want to cancel this transaction? Stock will be restored.',
+    rejectLabel: 'No',
+    acceptLabel: 'Yes, Cancel',
+    type: 'warn',
+    accept: () => {
+      cancelTransaction(transaction?.id);
+    },
+  });
 };
 
 // Search
