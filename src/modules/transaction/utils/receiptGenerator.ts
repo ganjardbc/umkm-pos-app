@@ -54,7 +54,7 @@ export const generateReceiptHTML = (transaction: ReceiptData): string => {
   return `
     <div style="
       font-family: 'Courier New', monospace;
-      width: 400px;
+      width: 480px;
       padding: 24px;
       background-color: #ffffff;
       color: #000;
@@ -62,8 +62,8 @@ export const generateReceiptHTML = (transaction: ReceiptData): string => {
       <!-- Header -->
       <div style="
         text-align: center;
-        margin-bottom: 24px;
-        padding-bottom: 16px;
+        margin-bottom: 8px;
+        padding-bottom: 24px;
         border-bottom: 2px dashed #ccc;
       ">
         <h2 style="
@@ -114,9 +114,7 @@ export const generateReceiptHTML = (transaction: ReceiptData): string => {
         font-size: 12px;
         font-weight: bold;
         color: #111;
-        margin-bottom: 8px;
         padding-bottom: 16px;
-        border-bottom: 2px dashed #ccc;
         display: grid;
         grid-template-columns: 1fr 0.5fr 0.5fr 0.5fr;
         gap: 4px;
@@ -131,7 +129,9 @@ export const generateReceiptHTML = (transaction: ReceiptData): string => {
       <div style="
         font-size: 12px;
         color: #555;
-        margin-bottom: 16px;
+        margin-bottom: 8px;
+        padding-bottom: 16px;
+        border-bottom: 2px dashed #ccc;
       ">
         ${(transaction?.transaction_items || [])
           .map(
@@ -154,8 +154,8 @@ export const generateReceiptHTML = (transaction: ReceiptData): string => {
 
       <!-- Total -->
       <div style="
-        margin-bottom: 16px;
-        padding-bottom: 16px;
+        margin-bottom: 8px;
+        padding-bottom: 24px;
         border-bottom: 2px dashed #ccc;
       ">
         <div style="
@@ -207,8 +207,7 @@ export const generateReceiptHTML = (transaction: ReceiptData): string => {
       <!-- Footer -->
       <div style="
         text-align: center;
-        padding-top: 16px;
-        border-top: 2px dashed #ccc;
+        padding-bottom: 24px;
       ">
         <p style="
           font-size: 12px;

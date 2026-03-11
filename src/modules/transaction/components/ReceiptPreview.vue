@@ -117,7 +117,7 @@ const formatCurrency = (amount: string | number) => {
 .receipt-container {
   font-family: 'Courier New', monospace;
   width: 100%;
-  max-width: 400px;
+  max-width: 480px;
   margin: 0 auto;
 }
 </style>
