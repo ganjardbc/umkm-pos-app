@@ -29,3 +29,36 @@ export const putreports = async (id: string|number, data: any, options:any = {})
     { ...(options || {}) },
   );
 };
+
+// Export API endpoints - returns blob data
+export const exportSummary = async (params: any, options: any = {}): Promise<Blob> => {
+  const response = await api.get(
+    '/api/v1/reports/export/summary',
+    { params, responseType: 'blob', ...(options || {}) },
+  );
+  return response.data;
+};
+
+export const exportDailyReports = async (params: any, options: any = {}): Promise<Blob> => {
+  const response = await api.get(
+    '/api/v1/reports/export/daily',
+    { params, responseType: 'blob', ...(options || {}) },
+  );
+  return response.data;
+};
+
+export const exportTopProducts = async (params: any, options: any = {}): Promise<Blob> => {
+  const response = await api.get(
+    '/api/v1/reports/export/top-products',
+    { params, responseType: 'blob', ...(options || {}) },
+  );
+  return response.data;
+};
+
+export const exportOutletComparison = async (params: any, options: any = {}): Promise<Blob> => {
+  const response = await api.get(
+    '/api/v1/reports/export/outlet-comparison',
+    { params, responseType: 'blob', ...(options || {}) },
+  );
+  return response.data;
+};

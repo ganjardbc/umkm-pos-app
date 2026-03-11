@@ -6,7 +6,10 @@
         <Button
           severity="secondary"
           variant="outlined"
-          icon="pi pi-file-export"
+          icon="pi pi-download"
+          :loading="isExporting"
+          :disabled="isExporting"
+          @click="handleExport"
         />
       </div>
     </template>
@@ -69,6 +72,9 @@ import UiCard from '@/components/UiCard.vue';
 import ChartLoadingState from './ChartLoadingState.vue';
 import ChartErrorState from './ChartErrorState.vue';
 import ChartEmptyState from './ChartEmptyState.vue';
+import { exportSummary } from '@/modules/reports/services/api.ts';
+import { downloadFile } from '@/helpers/download.ts';
+import { getOutlet } from '@/helpers/auth.ts';
 
 // Register Chart.js components
 Chart.register(...registerables);
@@ -87,6 +93,10 @@ const emit = defineEmits<{
 
 const chartCanvas = ref<HTMLCanvasElement | null>(null);
 let chartInstance: Chart | null = null;
+const isExporting = ref(false);
+const exportError = ref<string | null>(null);
+
+const outlet = getOutlet();
 
 const formatCurrency = (value: number): string => {
   return new Intl.NumberFormat('id-ID', {
@@ -99,6 +109,34 @@ const formatCurrency = (value: number): string => {
 
 const formatNumber = (value: number): string => {
   return new Intl.NumberFormat('id-ID').format(value);
+};
+
+const handleExport = async () => {
+  if (!props.data) return;
+  
+  try {
+    isExporting.value = true;
+    exportError.value = null;
+    
+    // Get date range from parent or use default
+    const end = new Date();
+    const start = new Date();
+    start.setDate(start.getDate() - 30);
+    
+    const params = {
+      date_from: start.toISOString().split('T')[0],
+      date_to: end.toISOString().split('T')[0],
+      outlet_id: outlet?.id,
+    };
+    
+    const blob = await exportSummary(params);
+    const timestamp = new Date().toISOString().split('T')[0];
+    downloadFile(blob, `Sales_Summary_${timestamp}.xlsx`);
+  } catch (error) {
+    exportError.value = error instanceof Error ? error.message : 'Export failed';
+  } finally {
+    isExporting.value = false;
+  }
 };
 
 const initializeChart = () => {

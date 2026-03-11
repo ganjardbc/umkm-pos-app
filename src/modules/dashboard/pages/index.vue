@@ -16,10 +16,6 @@
           showIcon
           class="w-full lg:w-80"
         />
-        <Button
-          label="Download Report"
-          icon="pi pi-file-export"
-        />
       </div>
     </div>
 
@@ -42,6 +38,15 @@
       @retry="retrySalesSummary"
     />
 
+    <!-- Daily Reports Chart - Wider -->
+    <DailyReportsChart
+      :data="dailyReportsData"
+      :loading="dailyReportsLoading"
+      :error="dailyReportsError"
+      title="Daily Sales Trends"
+      @retry="retryDailyReports"
+    />
+
     <div class="grid grid-cols-1 xl:grid-cols-2 gap-4">
       <!-- Top Products Chart -->
       <TopProductsChart
@@ -61,15 +66,6 @@
         @retry="retryOutletComparison"
       />
     </div>
-
-    <!-- Daily Reports Chart - Wider -->
-    <DailyReportsChart
-      :data="dailyReportsData"
-      :loading="dailyReportsLoading"
-      :error="dailyReportsError"
-      title="Daily Sales Trends"
-      @retry="retryDailyReports"
-    />
   </div>
 </template>
 
@@ -172,20 +168,26 @@ const validateDateRange = (): boolean => {
   return true;
 };
 
+const params = computed(() => {
+  if (!formattedDateRange.value) {
+    return null;
+  }
+
+  return {
+    ...formattedDateRange.value,
+    outlet_id: outlet?.id,
+  };
+});
+
 /**
  * Fetch all reports data from API endpoints
  * Each endpoint is called independently with individual error handling
  * All requests are made in parallel for better performance
  */
 const fetchAllReports = async () => {
-  if (!formattedDateRange.value) {
+  if (!params.value) {
     return;
   }
-
-  const params = {
-    ...formattedDateRange.value,
-    outlet_id: outlet?.id,
-  };
 
   // Set all loading states to true
   salesSummaryLoading.value = true;
@@ -203,10 +205,10 @@ const fetchAllReports = async () => {
 
   // Fetch all endpoints in parallel
   const results = await Promise.allSettled([
-    getSalesSummary(params),
-    getDailyReports(params),
-    getTopProducts({ ...params, limit: 10 }),
-    getOutletComparison(params),
+    getSalesSummary(params.value),
+    getDailyReports(params.value),
+    getTopProducts({ ...params.value, limit: 10 }),
+    getOutletComparison(params.value),
   ]);
 
   // Handle sales summary result
@@ -275,17 +277,16 @@ const formattedDateRange = computed(() => {
 });
 
 /**
- * Retry functions for individual chart components
- * These allow users to retry failed API calls without refreshing the entire page
+ * Retry functions for each chart
  */
 const retrySalesSummary = async () => {
-  if (!formattedDateRange.value) return;
+  if (!params.value) return;
   
   salesSummaryLoading.value = true;
   salesSummaryError.value = null;
   
   try {
-    salesSummaryData.value = await getSalesSummary(formattedDateRange.value);
+    salesSummaryData.value = await getSalesSummary(params.value);
   } catch (error) {
     salesSummaryError.value = error instanceof Error 
       ? error.message 
@@ -297,13 +298,13 @@ const retrySalesSummary = async () => {
 };
 
 const retryDailyReports = async () => {
-  if (!formattedDateRange.value) return;
+  if (!params.value) return;
   
   dailyReportsLoading.value = true;
   dailyReportsError.value = null;
   
   try {
-    dailyReportsData.value = await getDailyReports(formattedDateRange.value);
+    dailyReportsData.value = await getDailyReports(params.value);
   } catch (error) {
     dailyReportsError.value = error instanceof Error 
       ? error.message 
@@ -315,14 +316,14 @@ const retryDailyReports = async () => {
 };
 
 const retryTopProducts = async () => {
-  if (!formattedDateRange.value) return;
+  if (!params.value) return;
   
   topProductsLoading.value = true;
   topProductsError.value = null;
   
   try {
     topProductsData.value = await getTopProducts({ 
-      ...formattedDateRange.value, 
+      ...params.value, 
       limit: 10 
     });
   } catch (error) {
@@ -336,13 +337,13 @@ const retryTopProducts = async () => {
 };
 
 const retryOutletComparison = async () => {
-  if (!formattedDateRange.value) return;
+  if (!params.value) return;
   
   outletComparisonLoading.value = true;
   outletComparisonError.value = null;
   
   try {
-    outletComparisonData.value = await getOutletComparison(formattedDateRange.value);
+    outletComparisonData.value = await getOutletComparison(params.value);
   } catch (error) {
     outletComparisonError.value = error instanceof Error 
       ? error.message 

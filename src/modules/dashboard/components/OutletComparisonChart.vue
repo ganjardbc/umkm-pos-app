@@ -6,7 +6,10 @@
         <Button
           severity="secondary"
           variant="outlined"
-          icon="pi pi-file-export"
+          icon="pi pi-download"
+          :loading="isExporting"
+          :disabled="isExporting"
+          @click="handleExport"
         />
       </div>
     </template>
@@ -35,6 +38,9 @@ import UiCard from '@/components/UiCard.vue';
 import ChartLoadingState from './ChartLoadingState.vue';
 import ChartErrorState from './ChartErrorState.vue';
 import ChartEmptyState from './ChartEmptyState.vue';
+import { exportOutletComparison } from '@/modules/reports/services/api.ts';
+import { downloadFile } from '@/helpers/download.ts';
+import { getOutlet } from '@/helpers/auth.ts';
 
 // Register Chart.js components
 Chart.register(...registerables);
@@ -57,12 +63,42 @@ defineEmits<{
 // Refs
 const chartCanvas = ref<HTMLCanvasElement | null>(null);
 let chartInstance: Chart | null = null;
+const isExporting = ref(false);
+
+const outlet = getOutlet();
 
 // Chart colors for different metrics
 const CHART_COLORS = {
   revenue: '#3B82F6',      // Blue
   transactions: '#10B981', // Green
   items: '#F59E0B',        // Amber
+};
+
+const handleExport = async () => {
+  if (!props.data || props.data.length === 0) return;
+  
+  try {
+    isExporting.value = true;
+    
+    // Use default date range (last 30 days)
+    const end = new Date();
+    const start = new Date();
+    start.setDate(start.getDate() - 30);
+    
+    const params = {
+      date_from: start.toISOString().split('T')[0],
+      date_to: end.toISOString().split('T')[0],
+      outlet_id: outlet?.id,
+    };
+    
+    const blob = await exportOutletComparison(params);
+    const timestamp = new Date().toISOString().split('T')[0];
+    downloadFile(blob, `Outlet_Comparison_${timestamp}.xlsx`);
+  } catch (error) {
+    console.error('Export failed:', error);
+  } finally {
+    isExporting.value = false;
+  }
 };
 
 // Chart initialization
@@ -146,7 +182,7 @@ const initializeChart = () => {
             callbacks: {
               label: function(context) {
                 const label = context.dataset.label || '';
-                const value = context.parsed.y;
+                const value = context.parsed.y ?? 0;
                 
                 if (label.includes('Revenue')) {
                   return `${label}: ${new Intl.NumberFormat('id-ID', {

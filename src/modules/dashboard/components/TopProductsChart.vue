@@ -6,7 +6,10 @@
         <Button
           severity="secondary"
           variant="outlined"
-          icon="pi pi-file-export"
+          icon="pi pi-download"
+          :loading="isExporting"
+          :disabled="isExporting"
+          @click="handleExport"
         />
       </div>
     </template>
@@ -35,6 +38,9 @@ import UiCard from '@/components/UiCard.vue';
 import ChartLoadingState from './ChartLoadingState.vue';
 import ChartErrorState from './ChartErrorState.vue';
 import ChartEmptyState from './ChartEmptyState.vue';
+import { exportTopProducts } from '@/modules/reports/services/api.ts';
+import { downloadFile } from '@/helpers/download.ts';
+import { getOutlet } from '@/helpers/auth.ts';
 
 // Register Chart.js components
 Chart.register(...registerables);
@@ -57,6 +63,37 @@ defineEmits<{
 // Refs
 const chartCanvas = ref<HTMLCanvasElement | null>(null);
 let chartInstance: Chart | null = null;
+const isExporting = ref(false);
+
+const outlet = getOutlet();
+
+const handleExport = async () => {
+  if (!props.data || props.data.length === 0) return;
+  
+  try {
+    isExporting.value = true;
+    
+    // Use default date range (last 30 days)
+    const end = new Date();
+    const start = new Date();
+    start.setDate(start.getDate() - 30);
+    
+    const params = {
+      date_from: start.toISOString().split('T')[0],
+      date_to: end.toISOString().split('T')[0],
+      outlet_id: outlet?.id,
+      limit: 10,
+    };
+    
+    const blob = await exportTopProducts(params);
+    const timestamp = new Date().toISOString().split('T')[0];
+    downloadFile(blob, `Top_Products_${timestamp}.xlsx`);
+  } catch (error) {
+    console.error('Export failed:', error);
+  } finally {
+    isExporting.value = false;
+  }
+};
 
 // Chart initialization
 const initializeChart = () => {
