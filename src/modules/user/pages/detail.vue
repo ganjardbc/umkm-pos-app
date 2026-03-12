@@ -129,8 +129,8 @@
         <Column v-if="isCanUpdate" field="action" header="#" class="w-[128px]">
           <template #body="slotProps">
             <Button
-              severity="danger"
-              variant="soft"
+              severity="secondary"
+              variant="outlined"
               label="Revoke"
               icon="pi pi-times"
               size="small"

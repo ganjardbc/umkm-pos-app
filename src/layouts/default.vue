@@ -1,5 +1,5 @@
 <template>
-  <div class="relative w-full h-screen bg-gray-50 flex">
+  <div class="relative w-full h-screen bg-white flex">
     <!-- Sidebar -->
     <!-- transition-all duration-300 -->
     <div
@@ -86,7 +86,7 @@
     </div>
 
     <!-- Body -->
-    <div class="relative flex-1 w-full h-full bg-gray-50 overflow-y-auto">
+    <div class="relative flex-1 w-full h-full bg-tertiary-25 overflow-y-auto">
       <!-- Header -->
       <div class="sticky top-0 z-10 w-full h-14 px-4 border-b border-gray-200 bg-white">
         <div class="mx-auto h-full flex justify-between items-center">
