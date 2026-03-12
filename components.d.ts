@@ -46,6 +46,7 @@ declare module 'vue' {
     TemplateCreate: typeof import('./src/components/TemplateCreate.vue')['default']
     Textarea: typeof import('primevue/textarea')['default']
     Toast: typeof import('primevue/toast')['default']
+    ToggleButton: typeof import('primevue/togglebutton')['default']
     UiAdvanceFilter: typeof import('./src/components/UiAdvanceFilter.vue')['default']
     UiCard: typeof import('./src/components/UiCard.vue')['default']
     UiCardHeader: typeof import('./src/components/UiCardHeader.vue')['default']

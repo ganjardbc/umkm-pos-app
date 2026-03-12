@@ -16,7 +16,7 @@
       class="ui-sidebar-profile__popper"
     >
       <div class="space-y-4 w-60">
-        <router-link :to="PRP_PROFILE" class="flex items-center gap-2">
+        <div class="flex items-center gap-2">
           <Avatar
             :label="personalInfo?.user?.name?.charAt(0)"
             size="small"
@@ -32,7 +32,32 @@
               {{ personalInfo?.user?.email || '-' }}
             </div>
           </div>
-        </router-link>
+        </div>
+        <Divider />
+        <div class="space-y-2">
+          <router-link :to="PRP_PROFILE" class="block">
+            <Button
+              severity="secondary"
+              variant="text"
+              icon="pi pi-user"
+              size="small"
+              label="Profile"
+              fluid
+              class="justify-start! items-center!"
+            />
+          </router-link>
+          <router-link :to="PRP_SETTINGS" class="block">
+            <Button
+              severity="secondary"
+              variant="text"
+              icon="pi pi-cog"
+              size="small"
+              label="Settings"
+              fluid
+              class="justify-start! items-center!"
+            />
+          </router-link>
+        </div>
         <Divider />
         <Button
           severity="secondary"
@@ -55,6 +80,7 @@ import { showConfirm, showToast } from "@/helpers/toast.ts";
 import { getPersonalInformation } from '@/helpers/auth.ts';
 import { PREFIX_ROUTE_PATH as PRP_AUTH } from '@/modules/auth/services/constants.ts';
 import { PREFIX_ROUTE_PATH as PRP_PROFILE } from '@/modules/profile/services/constants.ts';
+import { PREFIX_ROUTE_PATH as PRP_SETTINGS } from '@/modules/settings/services/constants.ts';
 
 defineProps({
   isCollapsed: {

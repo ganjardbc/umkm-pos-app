@@ -4,6 +4,13 @@
       My Profile
     </h1>
 
+    <!-- Loading State -->
+    <UiCard v-if="!profile">
+      <div class="flex justify-center items-center py-8">
+        <i class="pi pi-spin pi-spinner text-2xl text-gray-400"></i>
+      </div>
+    </UiCard>
+
     <!-- Profile Information -->
     <UiCard v-if="profile">
       <div class="space-y-4">
@@ -50,42 +57,81 @@
             <p class="text-base text-gray-900 mt-1">{{ formatDateTime(profile?.updated_at) }}</p>
           </div>
         </div>
-
-        <Divider />
-
-        <Button
-          severity="secondary"
-          variant="outlined"
-          icon="pi pi-power-off"
-          size="small"
-          label="Logout"
-          fluid
-          @click="handleLogout"
-        />
       </div>
     </UiCard>
 
-    <!-- Loading State -->
-    <UiCard v-else>
-      <div class="flex justify-center items-center py-8">
-        <i class="pi pi-spin pi-spinner text-2xl text-gray-400"></i>
+    <Divider />
+
+    <UiCard>
+      <div class="space-y-4">
+        <h1 class="text-xl font-semibold text-gray-900">Settings</h1>
+        <UiCard
+          v-for="(menu, i) in listOfSettingMenus"
+          :key="i"
+          class="cursor-pointer hover:shadow-lg transition-shadow"
+          @click="navigateTo(menu?.route)"
+        >
+          <div class="flex items-center gap-3">
+            <div class="w-[42px] text-center">
+              <i
+                class="text-xl!"
+                :class="[
+                  menu?.icon,
+                  menu?.color,
+                ]"
+              />
+            </div>
+            <div class="flex-1">
+              <h3 class="text-sm font-semibold">
+                {{ menu?.label }}
+              </h3>
+              <p class="text-xs text-gray-500">
+                {{ menu?.description }}
+              </p>
+            </div>
+          </div>
+        </UiCard>
       </div>
     </UiCard>
+
+    <Divider />
+
+    <Button
+      severity="secondary"
+      variant="outlined"
+      icon="pi pi-power-off"
+      size="small"
+      label="Logout"
+      fluid
+      @click="handleLogout"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { removeAuth } from '@/helpers/auth.ts';
 import { PREFIX_ROUTE_PATH as PRP_AUTH } from '@/modules/auth/services/constants.ts';
 import { getDetailprofile } from '@/modules/profile/services/api.ts';
 import { getErrorMessage, formatDateTime } from '@/helpers/utils.ts';
-import { showConfirm, showToast } from "@/helpers/toast.ts";
+import { showConfirm, showToast } from '@/helpers/toast.ts';
+import { isHasPermission } from '@/helpers/auth.ts';
 import UiCard from '@/components/UiCard.vue';
+import { LIST_MENU } from '@/modules/settings/services/constants.ts';
 
 const router = useRouter();
 
+// Settings Menut
+const listOfSettingMenus = computed(() => {
+  return LIST_MENU.filter((item) => isHasPermission(item.permission));
+});
+
+const navigateTo = (routeName: string) => {
+  router.push({ name: routeName });
+};
+
+// Profile
 const profile = ref<any>(null);
 
 const fetchProfile = async () => {
