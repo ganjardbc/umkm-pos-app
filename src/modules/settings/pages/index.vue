@@ -1,17 +1,15 @@
 <template>
-  <div>
-    <h2>settings Page</h2>
-    <HelloWorld />
+  <div class="w-full flex flex-col justify-center items-center" style="height: calc(100vh - 90px);">
+    <UiEmptyState
+      icon="pi pi-cog"
+      title="No Settings for Now"
+      description="We still build this features."
+    />
   </div>
 </template>
 
 <script setup lang="ts">
-// ...existing code...
-import HelloWorld from '@/modules/settings/components/HelloWorld.vue';
+import UiEmptyState from '@/components/UiEmptyState.vue';
 </script>
 
-<style scoped>
-h1 {
-  color: blue;
-}
-</style>
+<style scoped></style>
