@@ -50,6 +50,7 @@ declare module 'vue' {
     UiCard: typeof import('./src/components/UiCard.vue')['default']
     UiCardHeader: typeof import('./src/components/UiCardHeader.vue')['default']
     UiConfirmDialog: typeof import('./src/components/UiConfirmDialog.vue')['default']
+    UiEmptyState: typeof import('./src/components/UiEmptyState.vue')['default']
     UiFormGroup: typeof import('./src/components/UiFormGroup.vue')['default']
     UiGlobalLoading: typeof import('./src/components/UiGlobalLoading.vue')['default']
     UiPagination: typeof import('./src/components/UiPagination.vue')['default']
