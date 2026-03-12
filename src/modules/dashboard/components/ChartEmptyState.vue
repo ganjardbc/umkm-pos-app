@@ -1,7 +1,7 @@
 <template>
-  <div class="flex items-center justify-center" style="min-height: 300px">
+  <div class="flex items-center justify-center py-4">
     <div class="flex flex-col items-center gap-3 text-gray-500">
-      <i :class="`pi ${icon} text-5xl`"></i>
+      <i :class="`pi ${icon} text-4xl!`"></i>
       <p>{{ message }}</p>
     </div>
   </div>

@@ -27,47 +27,44 @@
         <div class="bg-blue-50 rounded-lg p-4">
           <p class="text-sm text-gray-600 mb-1">Total Sales</p>
           <p class="text-xl md:text-2xl font-bold text-blue-600">
-            {{ formatCurrency(data.total_sales) }}
+            {{ formatCurrency(data?.total_sales) }}
           </p>
         </div>
 
         <div class="bg-green-50 rounded-lg p-4">
           <p class="text-sm text-gray-600 mb-1">Total Transactions</p>
           <p class="text-xl md:text-2xl font-bold text-green-600">
-            {{ formatNumber(data.total_transactions) }}
+            {{ formatNumber(data?.total_transactions) }}
           </p>
         </div>
 
         <div class="bg-amber-50 rounded-lg p-4">
           <p class="text-sm text-gray-600 mb-1">Avg Daily Sales</p>
           <p class="text-xl md:text-2xl font-bold text-amber-600">
-            {{ formatCurrency(data.avg_daily_sales) }}
+            {{ formatCurrency(data?.avg_daily_sales) }}
           </p>
         </div>
 
         <div class="bg-purple-50 rounded-lg p-4">
           <p class="text-sm text-gray-600 mb-1">Avg Daily Transactions</p>
           <p class="text-xl md:text-2xl font-bold text-purple-600">
-            {{ formatNumber(data.avg_daily_transactions) }}
+            {{ formatNumber(data?.avg_daily_transactions) }}
           </p>
         </div>
       </div>
 
       <!-- Chart -->
-      <!-- max-w-[220px] md:max-w-[380px] -->
       <div class="relative col-span-2 flex justify-center mx-auto">
-        <canvas ref="chartCanvas"></canvas>
+        <canvas v-if="isCanViewChart" ref="chartCanvas"></canvas>
+        <ChartEmptyState v-else icon="pi-chart-pie" />
       </div>
     </div>
-
-    <!-- No Data State -->
-    <ChartEmptyState v-else icon="pi-chart-pie" />
   </UiCard>
 </template>
 <script setup lang="ts">
-import { ref, watch, onMounted, onBeforeUnmount } from 'vue';
-import { Chart, registerables } from 'chart.js';
 import type { SalesSummaryResponse } from '../types/reports';
+import { ref, watch, onMounted, onBeforeUnmount, computed } from 'vue';
+import { Chart, registerables } from 'chart.js';
 import UiCard from '@/components/UiCard.vue';
 import ChartLoadingState from './ChartLoadingState.vue';
 import ChartErrorState from './ChartErrorState.vue';
@@ -138,6 +135,16 @@ const handleExport = async () => {
     isExporting.value = false;
   }
 };
+
+const isCanViewChart = computed(() => {
+  if (!props.data) return false;
+
+  return (
+    props.data?.total_sales ||
+    props.data?.avg_daily_sales ||
+    props.data?.total_transactions
+  ) ? true : false;
+});
 
 const initializeChart = () => {
   if (!chartCanvas.value || !props.data) return;

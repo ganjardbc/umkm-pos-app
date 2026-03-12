@@ -26,7 +26,7 @@
     </div>
 
     <!-- No Data State -->
-    <ChartEmptyState v-else icon="pi-chart-bar" />
+    <ChartEmptyState v-else icon="pi-chart-bar" class="py-28" />
   </UiCard>
 </template>
 
