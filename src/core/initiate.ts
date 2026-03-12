@@ -1,5 +1,9 @@
 import { createApp } from 'vue';
 
+// // Initialize theme service before app creation
+// import { themeService } from '../services/themeService';
+// themeService.initialize();
+
 // Main application component
 import App from '../App.vue';
 const vueInit = createApp(App);

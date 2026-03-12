@@ -5,10 +5,10 @@
     class="relative"
   >
     <div
-      class="group flex items-center gap-2 rounded-md px-4 py-3 cursor-pointer hover:bg-gray-100 hover:text-gray-900"
+      class="group flex items-center gap-2 rounded-md px-4 py-3 cursor-pointer"
       :class="{
-        'bg-gray-100 text-gray-900': isActive,
-        'bg-transparent text-gray-500': !isActive,
+        'bg-primary-50 text-primary-500 hover:bg-primary-50 hover:text-primary-500': isActive,
+        'bg-transparent text-gray-500 hover:bg-gray-100 hover:text-gray-900': !isActive,
         'justify-center py-2! h-12!': isCollapsed,
       }"
       @click="item?.menus ? submenuCollapsed = !submenuCollapsed : emit('navigate')"
