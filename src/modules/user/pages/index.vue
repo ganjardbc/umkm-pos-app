@@ -14,10 +14,10 @@
         />
       </div>
       <Button
-        v-if="isCanCreate"
         icon="pi pi-plus"
         label="Add User"
         class="w-full md:w-[192px]"
+        :disabled="!isCanCreate"
         @click="onAddUser"
       />
     </div>
@@ -74,20 +74,19 @@
                 @click="onDetailUser(slotProps.data)"
               />
               <Button
-                v-if="isCanUpdate"
                 severity="secondary" 
                 variant="outlined"
                 icon="pi pi-pencil"
                 size="small"
+                :disabled="!isCanUpdate"
                 @click="onEditUser(slotProps.data)"
               />
               <Button
-                v-if="isCanDelete"
                 severity="secondary" 
                 variant="outlined"
                 icon="pi pi-trash"
                 size="small"
-                :disabled="!slotProps.data.is_active"
+                :disabled="!isCanDelete || !slotProps.data.is_active"
                 @click="onDeleteUser(slotProps.data)"
               />
             </div>

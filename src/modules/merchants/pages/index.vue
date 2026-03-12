@@ -14,10 +14,10 @@
         />
       </div>
       <Button
-        v-if="isCanCreate"
         icon="pi pi-plus"
         label="Add Merchant"
         class="w-full md:w-[192px]"
+        :disabled="!isCanCreate"
         @click="addMerchant"
       />
     </div>
@@ -51,19 +51,19 @@
                 @click="onDetailMerchant(slotProps.data)"
               />
               <Button
-                v-if="isCanUpdate"
                 severity="secondary" 
                 variant="outlined"
                 icon="pi pi-pencil"
                 size="small"
+                :disabled="!isCanUpdate"
                 @click="onEditMerchant(slotProps.data)"
               />
               <Button
-                v-if="isCanDelete"
                 severity="secondary" 
                 variant="outlined"
                 icon="pi pi-trash"
                 size="small"
+                :disabled="!isCanDelete"
                 @click="onDeleteMerchant(slotProps.data)"
               />
             </div>

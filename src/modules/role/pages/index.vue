@@ -14,10 +14,10 @@
         />
       </div>
       <Button
-        v-if="isCanCreate"
         icon="pi pi-plus"
         label="Add Role"
         class="w-full md:w-[192px]"
+        :disabled="!isCanCreate"
         @click="addRole"
       />
     </div>
@@ -65,19 +65,19 @@
                 @click="onDetailRole(slotProps.data)"
               />
               <Button
-                v-if="isCanUpdate"
                 severity="secondary" 
                 variant="outlined"
                 icon="pi pi-pencil"
                 size="small"
+                :disabled="!isCanUpdate"
                 @click="onEditRole(slotProps.data)"
               />
               <Button
-                v-if="isCanDelete"
                 severity="secondary" 
                 variant="outlined"
                 icon="pi pi-trash"
                 size="small"
+                :disabled="!isCanDelete"
                 @click="onDeleteRole(slotProps.data)"
               />
             </div>

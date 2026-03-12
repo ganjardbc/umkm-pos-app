@@ -14,10 +14,10 @@
         />
       </div>
       <Button
-        v-if="isCanCreate"
         icon="pi pi-plus"
         label="Add Product"
         class="w-full md:w-[192px]"
+        :disabled="!isCanCreate"
         @click="addProduct"
       />
     </div>
@@ -87,14 +87,6 @@
           <template #body="slotProps">
             <div class="flex gap-2">
               <Button
-                v-if="isCanAdjust"
-                severity="secondary" 
-                variant="outlined"
-                icon="pi pi-plus"
-                size="small"
-                @click="onAddjustProduct(slotProps.data)"
-              />
-              <Button
                 severity="secondary" 
                 variant="outlined"
                 icon="pi pi-eye"
@@ -102,19 +94,27 @@
                 @click="onDetailProduct(slotProps.data)"
               />
               <Button
-                v-if="isCanUpdate"
+                severity="secondary" 
+                variant="outlined"
+                icon="pi pi-plus"
+                size="small"
+                :disabled="!isCanAdjust"
+                @click="onAddjustProduct(slotProps.data)"
+              />
+              <Button
                 severity="secondary" 
                 variant="outlined"
                 icon="pi pi-pencil"
                 size="small"
+                :disabled="!isCanUpdate"
                 @click="onEditProduct(slotProps.data)"
               />
               <Button
-                v-if="isCanDelete"
                 severity="secondary" 
                 variant="outlined"
                 icon="pi pi-trash"
                 size="small"
+                :disabled="!isCanDelete"
                 @click="onDeleteProduct(slotProps.data)"
               />
             </div>

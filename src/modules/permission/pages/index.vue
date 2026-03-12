@@ -14,10 +14,10 @@
         />
       </div>
       <Button
-        v-if="isCanCreate"
         icon="pi pi-plus"
         label="Add Permission"
         class="w-full md:w-[192px]"
+        :disabled="!isCanCreate"
         @click="addPermission"
       />
     </div>
@@ -49,18 +49,16 @@
             {{ formatDateTime(slotProps.data.created_at) }}
           </template>
         </Column>
-        <Column v-if="isCanDelete" field="action" header="#" class="w-[92px]">
+        <Column field="action" header="#" class="w-[92px]">
           <template #body="slotProps">
-            <div class="flex gap-2">
-              <Button
-                severity="secondary" 
-                variant="outlined"
-                icon="pi pi-trash"
-                size="small"
-                :disabled="!isCanDelete"
-                @click="onDeletePermission(slotProps.data)"
-              />
-            </div>
+            <Button
+              severity="secondary" 
+              variant="outlined"
+              icon="pi pi-trash"
+              size="small"
+              :disabled="!isCanDelete"
+              @click="onDeletePermission(slotProps.data)"
+            />
           </template>
         </Column>
       </DataTable>

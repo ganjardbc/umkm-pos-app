@@ -19,10 +19,10 @@
           Role Information
         </h1>
         <Button
-          v-if="isCanUpdate"
           icon="pi pi-pencil"
           label="Edit Role"
           size="small"
+          :disabled="!isCanUpdate"
           @click="onEdit"
         />
       </div>
@@ -86,21 +86,16 @@
             {{ slotProps.data.description }}
           </template>
         </Column>
-        <Column
-          v-if="isCanUpdate"
-          field="action" header="#" class="w-20"
-        >
+        <Column field="action" header="#" class="w-20">
           <template #body="slotProps">
-            <div class="flex gap-2">
-              <Button
-                :severity="isPermissionChecked(slotProps.data.id) ? 'default' : 'secondary'"
-                :variant="isPermissionChecked(slotProps.data.id) ? 'soft' : 'outlined'"
-                icon="pi pi-check"
-                size="small"
-                :disabled="!isCanUpdate"
-                @click="onCheckPermission(slotProps.data)"
-              />
-            </div>
+            <Button
+              :severity="isPermissionChecked(slotProps.data.id) ? 'default' : 'secondary'"
+              :variant="isPermissionChecked(slotProps.data.id) ? 'soft' : 'outlined'"
+              icon="pi pi-check"
+              size="small"
+              :disabled="!isCanUpdate"
+              @click="onCheckPermission(slotProps.data)"
+            />
           </template>
         </Column>
       </DataTable>

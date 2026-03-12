@@ -14,10 +14,10 @@
         />
       </div>
       <Button
-        v-if="isCanCreate"
         icon="pi pi-plus"
         label="Add Outlet"
         class="w-full md:w-[192px]"
+        :disabled="!isCanCreate"
         @click="addOutlet"
       />
     </div>
@@ -66,19 +66,19 @@
                 @click="onDetailOutlet(slotProps.data)"
               />
               <Button
-                v-if="isCanUpdate"
                 severity="secondary" 
                 variant="outlined"
                 icon="pi pi-pencil"
                 size="small"
+                :disabled="!isCanUpdate"
                 @click="onEditOutlet(slotProps.data)"
               />
               <Button
-                v-if="isCanDelete"
                 severity="secondary" 
                 variant="outlined"
                 icon="pi pi-trash"
                 size="small"
+                :disabled="!isCanDelete"
                 @click="onDeleteOutlet(slotProps.data)"
               />
             </div>

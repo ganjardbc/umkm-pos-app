@@ -19,10 +19,10 @@
             Merchant Information
           </h1>
           <Button
-            v-if="isCanUpdate"
             icon="pi pi-pencil"
             label="Edit Merchant"
             size="small"
+            :disabled="!isCanUpdate"
             @click="onEdit"
           />
         </div>

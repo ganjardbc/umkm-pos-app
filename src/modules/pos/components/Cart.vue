@@ -36,6 +36,8 @@
         />
       </div>
     </div>
+
+    <Divider class="m-0!" />
     
     <div class="pos-cart__section pos-cart__section-item">
       <div
@@ -43,7 +45,7 @@
         class="h-full flex flex-col items-center justify-center"
       >
         <i class="pi pi-shopping-cart mb-4" style="font-size: 24px;" />
-        <p class="text-base text-gray-500">Cart is empty</p>
+        <p class="text-sm text-gray-500">Cart is empty</p>
       </div>
       
       <div
@@ -56,7 +58,7 @@
         >
           <div class="space-y-4">
             <div class="flex gap-3">
-              <div class="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center flex-shrink-0">
+              <div class="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center shrink-0">
                 <img
                   v-if="item.thumbnail"
                   :src="item.thumbnail"
@@ -114,7 +116,7 @@
               </div>
             </div>
             
-            <Divider class="my-2" />
+            <Divider />
             
             <div class="flex items-center justify-between text-sm">
               <span class="text-gray-600">Subtotal</span>
@@ -127,9 +129,14 @@
       </div>
     </div>
 
+    <Divider class="m-0!" />
+
     <div
       v-if="isUserInShift"
-      class="w-full space-y-4"
+      class="post-cart__footer"
+      :class="{
+        'post-cart__footer--mobile': isMobile,
+      }"
     >
       <div class="pos-cart__section space-y-2">
         <div class="space-y-2">
@@ -153,6 +160,8 @@
           />
         </div>
       </div>
+
+      <Divider class="m-0!" />
       
       <div class="pos-cart__section space-y-2">
         <div class="flex items-center justify-between">
@@ -393,15 +402,15 @@ const openCloseCart = () => {
 @import "tailwindcss";
 
 .pos-cart {
-  @apply bg-white w-full flex flex-col justify-between;
+  @apply w-full flex flex-col justify-between bg-white;
 }
 
 .pos-cart--desktop {
-  @apply sticky top-[72px] h-[calc(100vh-90px)] space-y-4;
+  @apply sticky top-[72px] h-[calc(100vh-90px)] border border-gray-200 rounded-lg overflow-hidden;
 }
 
 .pos-cart--mobile {
-  @apply fixed top-0 h-full -right-[100%] xl:right-0 xl:z-0;
+  @apply fixed top-0 h-full -right-full xl:right-0 xl:z-0 bg-white;
   z-index: 100;
 }
 
@@ -414,7 +423,7 @@ const openCloseCart = () => {
 }
 
 .pos-cart__header {
-  @apply w-full flex items-center justify-between;
+  @apply w-full py-3 px-4 flex items-center justify-between;
 }
 
 .pos-cart__header--mobile {
@@ -422,11 +431,15 @@ const openCloseCart = () => {
 }
 
 .pos-cart__section {
-  @apply p-4 rounded-none xl:rounded-xl bg-gray-50;
+  @apply p-4 rounded-none;
 }
 
 .pos-cart__section-item {
   @apply flex-1 overflow-y-auto;
+}
+
+.post-cart__footer {
+  @apply w-full;
 }
 
 .pos-cart__trigger {

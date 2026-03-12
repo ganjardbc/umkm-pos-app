@@ -19,10 +19,10 @@
             Outlet Information
           </h1>
           <Button
-            v-if="isCanUpdate"
             icon="pi pi-pencil"
             label="Edit Outlet"
             size="small"
+            :disabled="!isCanUpdate"
             @click="onEdit"
           />
         </div>

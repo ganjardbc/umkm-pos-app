@@ -87,7 +87,7 @@
       <template #header>
         <div class="flex justify-between items-center pt-4 px-4">
           <h2 class="text-lg font-semibold text-gray-900">
-            Your Works
+            Outlet Informations
           </h2>
           <Button
             v-if="isCanUpdate"
@@ -100,7 +100,7 @@
         </div>
       </template>
 
-      <DataTable :value="userRoles" tableStyle="min-width: 50rem;">
+      <DataTable :value="userRoles">
         <template #empty>
           <span class="w-full text-center flex justify-center">
             Your works are empty.
@@ -126,19 +126,18 @@
             {{ slotProps.data.roles.role_permissions.length || '0' }}
           </template>
         </Column>
-        <Column v-if="isCanUpdate" field="action" header="#" class="w-20">
+        <Column v-if="isCanUpdate" field="action" header="#" class="w-[128px]">
           <template #body="slotProps">
-            <div class="flex gap-2">
-              <Button
-                severity="danger"
-                variant="soft"
-                label="Revoke"
-                icon="pi pi-times"
-                size="small"
-                :disabled="!userDetail?.is_active"
-                @click="onCheckRole(slotProps.data)"
-              />
-            </div>
+            <Button
+              severity="danger"
+              variant="soft"
+              label="Revoke"
+              icon="pi pi-times"
+              size="small"
+              fluid
+              :disabled="!userDetail?.is_active"
+              @click="onCheckRole(slotProps.data)"
+            />
           </template>
         </Column>
       </DataTable>

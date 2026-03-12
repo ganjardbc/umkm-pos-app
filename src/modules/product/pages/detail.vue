@@ -19,10 +19,10 @@
             Product Information
           </h1>
           <Button
-            v-if="isCanUpdate"
             icon="pi pi-pencil"
             label="Edit Product"
             size="small"
+            :disabled="!isCanUpdate"
             @click="onEdit"
           />
         </div>
@@ -106,10 +106,10 @@
             Stock History
           </h1>
           <Button
-            v-if="isCanAdjust"
             icon="pi pi-plus"
             label="Adjust Stock"
             size="small"
+            :disabled="!isCanAdjust"
             @click="openAdjustStockModal"
           />
         </div>

@@ -87,20 +87,19 @@
           <template #body="slotProps">
             <div class="flex gap-2">
               <Button
-                v-if="isCanPrint"
                 severity="secondary" 
                 variant="outlined"
                 icon="pi pi-print"
                 size="small"
+                :disabled="!isCanPrint"
                 @click="openPrintReceipt(slotProps.data)"
               />
               <Button
-                v-if="isCanCancel"
                 severity="danger" 
                 variant="outlined"
                 icon="pi pi-times"
                 size="small"
-                :disabled="slotProps.data.is_cancelled"
+                :disabled="!isCanCancel || slotProps.data.is_cancelled"
                 @click="onCancelTransaction(slotProps.data)"
               />
             </div>
