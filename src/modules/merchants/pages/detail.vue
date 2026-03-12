@@ -19,6 +19,7 @@
             Merchant Information
           </h1>
           <Button
+            v-if="isCanUpdate"
             icon="pi pi-pencil"
             label="Edit Merchant"
             size="small"
@@ -70,13 +71,18 @@ import { ref, onMounted, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { getErrorMessage, formatDateTime } from '@/helpers/utils.ts';
 import { showToast } from '@/helpers/toast.ts';
+import { isHasPermission } from '@/helpers/auth.ts';
 import { getDetailMerchants } from '@/modules/merchants/services/api.ts';
 import { PREFIX_ROUTE_NAME } from '@/modules/merchants/services/constants.ts';
+import { UPDATE } from '@/modules/merchants/services/rbac.ts';
 import UiCard from '@/components/UiCard.vue';
 
 const route = useRoute();
 const router = useRouter();
 const merchantID = computed(() => route.params.id as string);
+
+// RBAC
+const isCanUpdate = computed(() => isHasPermission(UPDATE));
 
 // Fetch Detail
 const merchantDetail = ref<any>(null);

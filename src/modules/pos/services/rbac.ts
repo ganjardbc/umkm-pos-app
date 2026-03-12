@@ -1,2 +1,4 @@
 export const CREATE = 'transaction.create';
-export const PERMISSIONS = [CREATE];
+export const PERMISSIONS = [
+  CREATE,
+];

@@ -14,6 +14,7 @@
         />
       </div>
       <Button
+        v-if="isCanCreate"
         icon="pi pi-plus"
         label="Add Product"
         class="w-full md:w-[192px]"
@@ -86,6 +87,7 @@
           <template #body="slotProps">
             <div class="flex gap-2">
               <Button
+                v-if="isCanAdjust"
                 severity="secondary" 
                 variant="outlined"
                 icon="pi pi-plus"
@@ -100,6 +102,7 @@
                 @click="onDetailProduct(slotProps.data)"
               />
               <Button
+                v-if="isCanUpdate"
                 severity="secondary" 
                 variant="outlined"
                 icon="pi pi-pencil"
@@ -107,6 +110,7 @@
                 @click="onEditProduct(slotProps.data)"
               />
               <Button
+                v-if="isCanDelete"
                 severity="secondary" 
                 variant="outlined"
                 icon="pi pi-trash"
@@ -125,6 +129,7 @@
   </div>
 
   <AdjustStockModal
+    v-if="isCanAdjust"
     v-model:visibility="showAdjustStockModal"
     :product="selectedAdjustStock"
     @cancel="cancelAdjustStockModal"
@@ -133,19 +138,27 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { getNoTable, getErrorMessage, getCurrency, formatDateTime } from '@/helpers/utils.ts';
 import { getListProduct, deleteProduct, postAdjustStock } from '@/modules/product/services/api.ts';
 import { showToast, showConfirm } from '@/helpers/toast.ts';
 import { showLoading, hideLoading } from '@/helpers/loading.ts';
+import { isHasPermission } from '@/helpers/auth.ts';
 import UiCard from '@/components/UiCard.vue';
 import UiSearch from '@/components/UiSearch.vue';
 import UiPagination from '@/components/UiPagination.vue';
 import { PREFIX_ROUTE_NAME } from '@/modules/product/services/constants.ts';
+import { CREATE, UPDATE, DELETE, ADJUST } from '@/modules/product/services/rbac.ts';
 import AdjustStockModal from '@/modules/product/components/AdjustStockModal.vue';
 
 const router = useRouter();
+
+// RBAC
+const isCanCreate = computed(() => isHasPermission(CREATE));
+const isCanUpdate = computed(() => isHasPermission(UPDATE));
+const isCanDelete = computed(() => isHasPermission(DELETE));
+const isCanAdjust = computed(() => isHasPermission(ADJUST));
 
 // Fetch Data
 const products = ref([]);

@@ -101,7 +101,7 @@ export default [
   {
     icon: 'pi pi-table',
     label: 'Stocks',
-    featureFlag: DEFAULT_FEATURE_FLAG,
+    featureFlag: false,
     permissions: STOCK_PERMISSIONS,
     route: PRP_STOCK,
   },

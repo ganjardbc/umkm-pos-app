@@ -19,6 +19,7 @@
             Outlet Information
           </h1>
           <Button
+            v-if="isCanUpdate"
             icon="pi pi-pencil"
             label="Edit Outlet"
             size="small"
@@ -80,13 +81,18 @@ import { ref, onMounted, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { getErrorMessage, formatDateTime } from '@/helpers/utils.ts';
 import { showToast } from '@/helpers/toast.ts';
+import { isHasPermission } from '@/helpers/auth.ts';
 import { getDetailOutlet } from '@/modules/outlet/services/api.ts';
 import { PREFIX_ROUTE_NAME } from '@/modules/outlet/services/constants.ts';
+import { UPDATE } from '@/modules/outlet/services/rbac.ts';
 import UiCard from '@/components/UiCard.vue';
 
 const route = useRoute();
 const router = useRouter();
 const outletID = computed(() => route.params.id as string);
+
+// RBAC
+const isCanUpdate = computed(() => isHasPermission(UPDATE));
 
 // Fetch Detail
 const outletDetail = ref<any>(null);

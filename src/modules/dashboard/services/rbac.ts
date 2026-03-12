@@ -1,1 +1,4 @@
-export const PERMISSIONS = ['dashboard.view'];
+export const READ = 'report.read'
+export const PERMISSIONS = [
+  READ,
+];

@@ -3,7 +3,7 @@ import {
   PREFIX_ROUTE_NAME,
 } from '@/modules/dashboard/services/constants.ts';
 import {
-  PERMISSIONS,
+  READ,
 } from '@/modules/dashboard/services/rbac.ts';
 
 export default [
@@ -14,7 +14,7 @@ export default [
     meta: {
       title: 'Dashboard',
       layout: 'default',
-      permission: PERMISSIONS,
+      permission: [READ],
       breadcrumbs: [
         {
           label: 'Home',

@@ -4,7 +4,7 @@ import {
 } from '@/modules/reports/services/constants.ts';
 
 import {
-  PERMISSIONS,
+  READ,
 } from '@/modules/reports/services/rbac.ts';
 
 export default [
@@ -15,7 +15,7 @@ export default [
     meta: {
       title: 'Reports',
       layout: 'default',
-      permission: PERMISSIONS,
+      permission: [READ],
       breadcrumbs: [
         {
           label: 'Home',

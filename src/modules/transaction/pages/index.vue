@@ -87,6 +87,7 @@
           <template #body="slotProps">
             <div class="flex gap-2">
               <Button
+                v-if="isCanPrint"
                 severity="secondary" 
                 variant="outlined"
                 icon="pi pi-print"
@@ -94,11 +95,12 @@
                 @click="openPrintReceipt(slotProps.data)"
               />
               <Button
-                v-if="!slotProps.data.is_cancelled"
+                v-if="isCanCancel"
                 severity="danger" 
                 variant="outlined"
                 icon="pi pi-times"
                 size="small"
+                :disabled="slotProps.data.is_cancelled"
                 @click="onCancelTransaction(slotProps.data)"
               />
             </div>
@@ -137,7 +139,9 @@
       />
     </UiCard>
   </div>
+
   <ReceiptModal
+    v-if="isCanPrint"
     v-model:visibility="showReceiptModal"
     :selected="selectedTransaction"
     @cancel="cancelReceiptModal"
@@ -145,20 +149,26 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { type ReceiptData } from '../utils/receiptGenerator';
+import { onMounted, ref, computed } from 'vue';
 import { getNoTable, getErrorMessage, getCurrency, formatDateTime } from '@/helpers/utils.ts';
 import { getListTransaction, postCancelTransaction } from '@/modules/transaction/services/api.ts';
 import { showToast, showConfirm } from '@/helpers/toast.ts';
 import { showLoading, hideLoading } from '@/helpers/loading.ts';
 import { getOutlet } from '@/helpers/auth.ts';
+import { isHasPermission } from '@/helpers/auth.ts';
 import UiCard from '@/components/UiCard.vue';
 import UiSearch from '@/components/UiSearch.vue';
 import UiPagination from '@/components/UiPagination.vue';
 import ReceiptModal from '@/modules/transaction/components/ReceiptModal.vue';
-import { type ReceiptData } from '../utils/receiptGenerator';
+import { PRINT, CANCEL } from '@/modules/transaction/services/rbac.ts';
 
 const outlet = getOutlet();
 const expandedRows = ref({});
+
+// RBAC
+const isCanPrint = computed(() => isHasPermission(PRINT));
+const isCanCancel = computed(() => isHasPermission(CANCEL));
 
 // Fetch Data
 const transactions = ref([]);

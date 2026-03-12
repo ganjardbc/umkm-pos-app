@@ -4,7 +4,7 @@ import {
 } from '@/modules/pos/services/constants.ts';
 
 import {
-  PERMISSIONS,
+  CREATE,
 } from '@/modules/pos/services/rbac.ts';
 
 export default [
@@ -15,7 +15,7 @@ export default [
     meta: {
       title: 'Point of Sale',
       layout: 'default',
-      permission: PERMISSIONS,
+      permission: [CREATE],
       breadcrumbs: [
         {
           label: 'Home',

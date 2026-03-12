@@ -19,6 +19,7 @@
             Product Information
           </h1>
           <Button
+            v-if="isCanUpdate"
             icon="pi pi-pencil"
             label="Edit Product"
             size="small"
@@ -105,6 +106,7 @@
             Stock History
           </h1>
           <Button
+            v-if="isCanAdjust"
             icon="pi pi-plus"
             label="Adjust Stock"
             size="small"
@@ -178,8 +180,10 @@ import { useRoute, useRouter } from 'vue-router';
 import { getErrorMessage, getCurrency, formatDateTime, getNoTable } from '@/helpers/utils.ts';
 import { showToast } from '@/helpers/toast.ts';
 import { showLoading, hideLoading } from '@/helpers/loading.ts';
+import { isHasPermission } from '@/helpers/auth.ts';
 import { getDetailProduct, getProductStock, postAdjustStock } from '@/modules/product/services/api.ts';
 import { PREFIX_ROUTE_NAME } from '@/modules/product/services/constants.ts';
+import { UPDATE, ADJUST } from '@/modules/product/services/rbac.ts';
 import UiCard from '@/components/UiCard.vue';
 import UiSearch from '@/components/UiSearch.vue';
 import UiPagination from '@/components/UiPagination.vue';
@@ -188,6 +192,10 @@ import AdjustStockModal from '@/modules/product/components/AdjustStockModal.vue'
 const route = useRoute();
 const router = useRouter();
 const productID = computed(() => route.params.id as string);
+
+// RBAC
+const isCanUpdate = computed(() => isHasPermission(UPDATE));
+const isCanAdjust = computed(() => isHasPermission(ADJUST));
 
 // Fetch Detail
 const productDetail = ref<any>(null);
