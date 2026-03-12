@@ -1,9 +1,9 @@
 <template>
-  <div class="relative w-full h-screen bg-white flex">
+  <div class="relative w-full h-screen bg-gray-50 flex">
     <!-- Sidebar -->
     <!-- transition-all duration-300 -->
     <div
-      class="top-0 h-screen border-r border-gray-200 flex flex-col justify-between transition-all duration-100"
+      class="top-0 h-screen bg-white border-r border-gray-200 flex flex-col justify-between transition-all duration-100"
       :class="{
         'w-16': isSmallSidebar,
         'w-70': !isSmallSidebar && !isMobile,
@@ -86,7 +86,7 @@
     </div>
 
     <!-- Body -->
-    <div class="relative flex-1 w-full h-full bg-white overflow-y-auto">
+    <div class="relative flex-1 w-full h-full bg-gray-50 overflow-y-auto">
       <!-- Header -->
       <div class="sticky top-0 z-10 w-full h-14 px-4 border-b border-gray-200 bg-white">
         <div class="mx-auto h-full flex justify-between items-center">
@@ -174,7 +174,7 @@
 
       <!-- Content -->
       <div class="w-full p-4">
-        <div class="mx-auto min-h-[calc(100vh-88px)]">
+        <div class="container mx-auto min-h-[calc(100vh-88px)]">
           <slot />
         </div>
       </div>
