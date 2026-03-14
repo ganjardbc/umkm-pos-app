@@ -7,53 +7,50 @@
     }"
   >
     <!-- POS Product -->
-    <div class="pos-page__product space-y-4">
+    <div lass="pos-page__product">
       <div
-        class="w-full p-2 rounded-lg border border-gray-200 bg-white"
+        class="pos-shift-status pos-shift-status--dark"
         :class="{
-          'border-red-200 bg-red-50!': currentShift.status !== ShiftStatus.OPEN,
-          'border-yellow-200 bg-yellow-50!': currentShift.status === ShiftStatus.OPEN,
+          'pos-shift-status--open': currentShift.status === ShiftStatus.OPEN,
+          'pos-shift-status--closed': currentShift.status !== ShiftStatus.OPEN,
         }"
       >
-        <div class="flex items-center justify-between gap-4">
-          <div class="flex-1 flex gap-2 items-center pl-2">
+        <div class="pos-shift-status__content">
+          <div class="pos-shift-status__left">
             <i
-              class="pi pi-circle-fill"
-              style="font-size: 10px;"
+              class="pi pi-circle-fill pos-shift-status__indicator"
               :class="{
-                'text-red-400': currentShift.status !== ShiftStatus.OPEN,
-                'text-yellow-400': currentShift.status === ShiftStatus.OPEN,
+                'pos-shift-status__indicator--closed': currentShift.status !== ShiftStatus.OPEN,
+                'pos-shift-status__indicator--open': currentShift.status === ShiftStatus.OPEN,
               }"
             />
             <span
               v-if="currentShift.status === ShiftStatus.OPEN"
-              class="flex-1 text-sm text-gray-900 font-semibold"
+              class="pos-shift-status__label"
             >
               {{ currentShift?.users?.name?.split(' ')[0] }}'s in Shift
             </span>
             <span
               v-else
-              class="flex-1 text-sm text-gray-900 font-semibold"
+              class="pos-shift-status__label pos-shift-status__label--empty"
             >
               No One's in Shift
             </span>
           </div>
           <Button
             v-if="!loadingShift && isUserInShift && currentShift.status === ShiftStatus.OPEN"
-            severity="secondary"
-            variant="outlined"
+            severity="success"
+            variant="soft"
             label="Close Shift"
             size="small"
-            class="bg-white!"
             @click="handleShift"
           />
           <Button
             v-if="!loadingShift && currentShift.status === ShiftStatus.CLOSE"
-            severity="secondary"
-            variant="outlined"
+            severity="danger"
+            variant="soft"
             label="Open Shift"
             size="small"
-            class="bg-white!"
             @click="handleShift"
           />
         </div>
@@ -217,6 +214,7 @@ onMounted(() => {
 
 <style scoped>
 @import "tailwindcss";
+@import "@/assets/styles/themes.css";
 
 .pos-page {
   @apply w-full h-full grid gap-4;
@@ -238,5 +236,54 @@ onMounted(() => {
   @apply sticky right-0 flex-1;
   top: 72px;
   height: max(100vh - 90px);
+}
+
+/* Shift Status Component */
+.pos-shift-status {
+  @apply w-full p-2 rounded-lg border transition-colors duration-200 mb-4;
+}
+
+.pos-shift-status--open {
+  @apply border-green-200 bg-green-50;
+}
+
+.pos-shift-status--closed {
+  @apply border-red-200 bg-red-50;
+}
+
+.pos-shift-status--dark {
+  @apply dark:border-dark! dark:bg-dark-secondary!;
+}
+
+.pos-shift-status__content {
+  @apply flex items-center justify-between gap-4;
+}
+
+.pos-shift-status__left {
+  @apply flex-1 flex gap-2 items-center pl-2;
+}
+
+.pos-shift-status__indicator {
+  font-size: 10px;
+}
+
+.pos-shift-status__indicator--open {
+  @apply text-green-400;
+}
+
+.pos-shift-status__indicator--closed {
+  @apply text-red-400;
+}
+
+.pos-shift-status__label {
+  @apply flex-1 text-sm font-semibold;
+}
+
+.pos-shift-status__label--empty {
+  @apply text-gray-900;
+}
+
+.pos-shift-status__label--empty.dark {
+  @apply dark:text-white;
 }
 </style>
