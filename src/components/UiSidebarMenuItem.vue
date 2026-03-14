@@ -91,7 +91,7 @@ const emit = defineEmits(['navigate']);
 }
 
 .sidebar-menu-item--active.sidebar-menu-item--dark {
-  @apply dark:bg-primary-400 dark:text-primary-900 dark:hover:bg-primary-300 dark:hover:text-primary-900;
+  @apply dark:bg-dark dark:text-primary-400 dark:hover:bg-dark dark:hover:text-primary-300;
 }
 
 .sidebar-menu-item--inactive {

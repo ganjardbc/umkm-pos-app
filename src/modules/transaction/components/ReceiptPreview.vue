@@ -6,7 +6,7 @@
     <!-- Header -->
     <div class="text-center mb-6 pb-4 border-b-2 border-dashed border-gray-300">
       <h2 class="text-lg font-bold text-gray-900">{{ transaction?.outlets?.name }}</h2>
-      <p class="text-xs text-gray-600 mt-1">{{ transaction?.outlets?.location }}</p>
+      <p class="text-xs text-gray-400 mt-1">{{ transaction?.outlets?.location }}</p>
       <p class="text-xs text-gray-500 mt-2">Receipt #{{ transaction?.id?.slice(0, 8).toUpperCase() }}</p>
     </div>
 
@@ -68,7 +68,7 @@
 
     <!-- Footer -->
     <div class="text-center pt-4 border-t-2 border-dashed border-gray-300">
-      <p class="text-xs text-gray-600">Thank you for your purchase!</p>
+      <p class="text-xs text-gray-400">Thank you for your purchase!</p>
       <p class="text-xs text-gray-500 mt-2">{{ transaction?.outlets?.name }}</p>
     </div>
   </div>

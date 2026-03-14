@@ -1,10 +1,10 @@
 <template>
-  <div class="bg-white dark:bg-dark-secondary rounded-lg shadow p-6">
+  <div class="bg-white dark:bg-dark-secondary! rounded-lg shadow p-6">
     <!-- Header -->
     <div class="flex flex-col lg:flex-row lg:justify-between lg:items-start gap-4">
       <div class="flex-1">
         <h3 class="text-lg font-semibold">{{ title }}</h3>
-        <p class="text-sm text-gray-600 mt-1">{{ description }}</p>
+        <p class="text-sm text-gray-400 mt-1">{{ description }}</p>
       </div>
       <Button
         :label="isLoading ? 'Downloading...' : 'Download'"
@@ -28,7 +28,7 @@
     </Message>
 
     <!-- Content Slot -->
-    <div v-if="!error" class="text-gray-600 text-sm">
+    <div v-if="!error" class="text-gray-400 text-sm">
       <slot />
     </div>
   </div>

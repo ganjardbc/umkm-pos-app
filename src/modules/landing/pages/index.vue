@@ -9,7 +9,7 @@
     <div class="w-full text-3xl font-bold mb-4 text-center">
       Selamat Datang di UMKM POS APP
     </div>
-    <div class="w-full text-lg text-gray-600 mb-8 text-center">
+    <div class="w-full text-lg text-gray-400 mb-8 text-center">
       Sistem Informasi Manajemen Transaksi
     </div>
   </div>
