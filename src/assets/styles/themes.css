@@ -502,3 +502,33 @@
 @utility bg-gradient-tertiary-reverse {
   background-image: linear-gradient(to right, var(--tertiary-500), var(--tertiary-900));
 }
+
+/* ============================================
+   DARK MODE COLOR UTILITIES
+   ============================================ */
+
+/* Dark Default */
+@utility bg-dark {
+  background-color: var(--dark-default);
+}
+
+@utility text-dark {
+  color: var(--dark-default);
+}
+
+@utility border-dark {
+  border: var(--dark-default);
+}
+
+/* Dark Default */
+@utility bg-dark-secondary {
+  background-color: var(--dark-secondary);
+}
+
+@utility text-dark-secondary {
+  color: var(--dark-secondary);
+}
+
+@utility border-dark-secondary {
+  border: var(--dark-secondary);
+}

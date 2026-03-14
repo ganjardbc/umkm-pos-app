@@ -1,6 +1,6 @@
 <template>
   <div class="pos-product">
-    <h1 class="text-xl font-semibold text-gray-900">
+    <h1 class="text-xl font-semibold">
       Product
     </h1>
 
@@ -59,20 +59,20 @@
           />
 
           <div class="space-y-1">
-            <div class="text-base font-semibold text-gray-900 truncate">
+            <div class="text-base font-semibold truncate">
               {{ product.name }}
             </div>
             <div class="flex justify-between items-center">
-              <div class="text-sm text-gray-500">
+              <div class="text-sm text-gray-400">
                 {{ product.category }}
               </div>
-              <div class="text-sm text-gray-500">
+              <div class="text-sm text-gray-400">
                 {{ product.stock_qty }}x
               </div>
             </div>
           </div>
 
-          <div class="text-lg font-bold text-primary">
+          <div class="text-lg font-bold text-primary dark:text-primary-400">
             {{ getCurrency(product.price) }}
           </div>
 

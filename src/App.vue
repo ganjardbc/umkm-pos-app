@@ -22,6 +22,15 @@ import UiGlobalLoading from '@/components/UiGlobalLoading.vue';
 
 import { useAuthStore } from '@/modules/auth/stores/index.ts';
 
+import { useDarkMode } from '@/composables/useDarkMode.ts';
+
+// Dark mode - initialize on app load
+const { initializeTheme } = useDarkMode();
+
+onMounted(() => {
+  initializeTheme();
+});
+
 const router = useRouter();
 const authStore = useAuthStore();
 const { deviceType } = storeToRefs(authStore);

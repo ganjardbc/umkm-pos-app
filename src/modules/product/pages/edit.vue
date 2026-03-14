@@ -1,7 +1,7 @@
 <template>
   <UiCard class="max-w-2xl mx-auto">
     <template #header>
-      <h1 class="text-xl font-semibold text-gray-900">
+      <h1 class="text-xl font-semibold">
         Edit Product
       </h1>
     </template>
@@ -117,7 +117,7 @@
         </UiFormGroup>
       </div>
 
-      <div class="w-full flex justify-end gap-4 border-t border-gray-200 pt-4">
+      <div class="w-full flex justify-end gap-4">
         <Button
           severity="secondary"
           label="Cancel"

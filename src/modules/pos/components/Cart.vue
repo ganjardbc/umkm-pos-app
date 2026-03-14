@@ -13,7 +13,7 @@
         'pos-cart__header--mobile': !isWeb,
       }"
     >
-      <h1 class="text-lg font-semibold text-gray-900">
+      <h1 class="text-lg font-semibold">
         Cart ({{ posStore.cartItemCount }})
       </h1>
       <div class="flex gap-4">
@@ -55,10 +55,14 @@
         <UiCard
           v-for="item in posStore.cartItems"
           :key="item.id"
+          class="dark:bg-dark!"
         >
           <div class="space-y-4">
             <div class="flex gap-3">
-              <div class="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center shrink-0">
+              <div
+                v-if="item.thumbnail"
+                class="w-16 h-16 bg-dark rounded-lg flex items-center justify-center shrink-0"
+              >
                 <img
                   v-if="item.thumbnail"
                   :src="item.thumbnail"
@@ -72,13 +76,13 @@
               </div>
               
               <div class="flex-1 min-w-0">
-                <div class="font-semibold text-gray-900 truncate">
+                <div class="font-semibold truncate">
                   {{ item.name }}
                 </div>
-                <div class="text-sm text-gray-500">
+                <div class="text-sm text-gray-400">
                   {{ item.category }}
                 </div>
-                <div class="text-sm font-semibold text-primary mt-1">
+                <div class="text-sm font-semibold text-primary dark:text-primary-400 mt-1">
                   {{ getCurrency(item.price) }}
                 </div>
               </div>
@@ -119,8 +123,8 @@
             <Divider />
             
             <div class="flex items-center justify-between text-sm">
-              <span class="text-gray-600">Subtotal</span>
-              <span class="font-semibold text-gray-900">
+              <span class="text-gray-800 dark:text-gray-400">Subtotal</span>
+              <span class="font-semibold">
                 {{ getCurrency(Number(item.price) * item.quantity) }}
               </span>
             </div>
@@ -140,7 +144,7 @@
     >
       <div class="pos-cart__section space-y-2">
         <div class="space-y-2">
-          <div class="text-sm font-medium text-gray-700">Payment Method</div>
+          <div class="text-sm font-medium text-gray-800 dark:text-gray-400">Payment Method</div>
           <Select
             v-model="transactionForm.payment_method"
             :options="paymentMethods"
@@ -153,7 +157,7 @@
         </div>
 
         <div class="flex items-center justify-between">
-          <label class="text-sm font-medium text-gray-700">Is Offline Order?</label>
+          <label class="text-sm font-medium text-gray-800 dark:text-gray-400">Is Offline Order?</label>
           <InputSwitch
             v-model="transactionForm.is_offline"
             :binary="true"
@@ -165,10 +169,10 @@
       
       <div class="pos-cart__section space-y-2">
         <div class="flex items-center justify-between">
-          <span class="text-sm text-gray-900">
+          <span class="text-sm">
             Total ({{ posStore.cartItemCount }})
           </span>
-          <span class="text-sm text-primary font-semibold">
+          <span class="text-sm text-primary dark:text-primary-400 font-semibold">
             {{ getCurrency(posStore.cartTotal) }}
           </span>
         </div>
@@ -193,16 +197,16 @@
       'pos-cart__trigger--open': !isWeb,
     }"
   >
-    <div class="pos-cart__trigger-content">
+    <div class="pos-cart__trigger-content pos-cart__trigger-content--dark">
       <div class="flex items-center gap-3">
-        <div class="w-12 h-12 bg-primary-50 flex flex-col justify-center items-center rounded-full">
-          <i class="pi pi-shopping-cart text-primary-500" />
+        <div class="w-12 h-12 bg-primary-50 dark:bg-primary-900 flex flex-col justify-center items-center rounded-full">
+          <i class="pi pi-shopping-cart text-primary-500 dark:text-primary-400" />
         </div>
         <div class="flex-1 space-y-0.5">
-          <div class="text-xs text-gray-500">
+          <div class="text-xs text-gray-400">
             Outlet Cart
           </div>
-          <div class="text-sm text-gray-900 font-semibold">
+          <div class="text-sm font-semibold">
             {{ posStore.cartItemCount || 0 }} Items | {{ getCurrency(posStore.cartTotal) }}
           </div>
         </div>
@@ -399,18 +403,19 @@ const openCloseCart = () => {
 };
 </script>
 <style>
-@import "tailwindcss";
+@import 'tailwindcss';
+@import '@/assets/styles/themes.css';
 
 .pos-cart {
-  @apply w-full flex flex-col justify-between bg-white;
+  @apply w-full flex flex-col justify-between bg-white dark:bg-dark-secondary;
 }
 
 .pos-cart--desktop {
-  @apply sticky top-[72px] h-[calc(100vh-90px)] border border-gray-200 rounded-lg overflow-hidden;
+  @apply sticky top-[72px] h-[calc(100vh-90px)] border border-gray-200 dark:border-dark-secondary rounded-lg overflow-hidden;
 }
 
 .pos-cart--mobile {
-  @apply fixed top-0 h-full -right-full xl:right-0 xl:z-0 bg-white;
+  @apply fixed top-0 h-full -right-full xl:right-0 xl:z-0 bg-white dark:bg-dark-secondary;
   z-index: 100;
 }
 
@@ -453,5 +458,9 @@ const openCloseCart = () => {
 
 .pos-cart__trigger-content {
   @apply w-full py-2 px-3 shadow-md rounded-lg border border-gray-200 bg-white flex justify-between items-center;
+}
+
+.pos-cart__trigger-content--dark {
+  @apply dark:bg-dark-secondary dark:border-[var(--p-button-outlined-secondary-border-color)];
 }
 </style>

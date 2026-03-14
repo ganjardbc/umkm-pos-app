@@ -32,23 +32,23 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label class="text-sm font-medium text-gray-500">Name</label>
-            <p class="text-base text-gray-900 mt-1">{{ outletDetail.name }}</p>
+            <p class="text-base mt-1">{{ outletDetail.name }}</p>
           </div>
           <div>
             <label class="text-sm font-medium text-gray-500">Slug</label>
-            <p class="text-base text-gray-900 mt-1">{{ outletDetail.slug }}</p>
+            <p class="text-base mt-1">{{ outletDetail.slug }}</p>
           </div>
         </div>
 
         <div>
           <label class="text-sm font-medium text-gray-500">Location</label>
-          <p class="text-base text-gray-900 mt-1">{{ outletDetail.location }}</p>
+          <p class="text-base mt-1">{{ outletDetail.location }}</p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label class="text-sm font-medium text-gray-500">Merchant</label>
-            <p class="text-base text-gray-900 mt-1">{{ outletDetail.merchants?.name || '-' }}</p>
+            <p class="text-base mt-1">{{ outletDetail.merchants?.name || '-' }}</p>
           </div>
           <div>
             <label class="text-sm font-medium text-gray-500">Status</label>
@@ -65,11 +65,11 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label class="text-sm font-medium text-gray-500">Created At</label>
-            <p class="text-base text-gray-900 mt-1">{{ formatDateTime(outletDetail.created_at) }}</p>
+            <p class="text-base mt-1">{{ formatDateTime(outletDetail.created_at) }}</p>
           </div>
           <div>
             <label class="text-sm font-medium text-gray-500">Updated At</label>
-            <p class="text-base text-gray-900 mt-1">{{ formatDateTime(outletDetail.updated_at) }}</p>
+            <p class="text-base mt-1">{{ formatDateTime(outletDetail.updated_at) }}</p>
           </div>
         </div>
       </div>

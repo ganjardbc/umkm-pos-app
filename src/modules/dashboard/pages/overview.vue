@@ -2,7 +2,7 @@
   <div class="w-full space-y-4">
     <!-- Page Header -->
     <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
-      <h1 class="flex-1 text-2xl font-bold text-gray-900">Overview</h1>
+      <h1 class="flex-1 text-2xl font-bold">Overview</h1>
 
       <DatePicker
         v-model="dateRange"

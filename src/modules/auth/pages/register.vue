@@ -295,14 +295,14 @@
         </StepPanels>
       </Stepper>
 
-      <div class="text-base text-gray-500 text-center">
+      <div class="text-base text-gray-500 dark:text-gray-400 text-center">
         Already have an account?
-        <router-link to="/" class="text-base text-blue-500 hover:underline">
+        <router-link to="/" class="text-base text-blue-500 dark:text-blue-400 hover:underline">
           Sign In
         </router-link>
       </div>
 
-      <div class="text-xs text-center text-gray-400 pt-4">
+      <div class="text-xs text-center text-gray-400 dark:text-gray-500 pt-4">
         Version 1.0.0
       </div>
     </div>
@@ -454,7 +454,7 @@ const submitRegistration = async () => {
     const { success, data } = response?.data;
 
     if (success) {
-      await setAuth(data);
+      setAuth(data);
 
       router.push(PRP_LANDING);
       showToast({
@@ -483,5 +483,16 @@ const submitRegistration = async () => {
 
 .register-page .p-step-title {
   @apply hidden! lg:block!;
+}
+
+/* Dark mode styling for StepPanel */
+:global(.dark) .p-steppanel {
+  background-color: var(--dark-bg);
+  color: var(--dark-text);
+}
+
+:global(.dark) .p-steppanel-content {
+  background-color: var(--dark-bg);
+  color: var(--dark-text);
 }
 </style>

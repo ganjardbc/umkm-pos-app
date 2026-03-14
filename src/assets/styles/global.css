@@ -1,10 +1,9 @@
 @import "tailwindcss";
 @import "tailwindcss-primeui";
 @import "primeicons/primeicons.css";
-@import './variables-green.css';
+@import './variables.css';
+@import './variables-dark.css';
 @import './themes.css';
-
-@custom-variant dark (&:where(.my-app-dark, .my-app-dark *));
 
 html {
   box-sizing: border-box;

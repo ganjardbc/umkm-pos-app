@@ -1,9 +1,5 @@
 import { createApp } from 'vue';
 
-// // Initialize theme service before app creation
-// import { themeService } from '../services/themeService';
-// themeService.initialize();
-
 // Main application component
 import App from '../App.vue';
 const vueInit = createApp(App);
@@ -38,13 +34,23 @@ const customPreset = definePreset(Aura, {
       900: 'var(--primary-900)',
     },
   },
+  components: {
+    stepper: {
+      steppanel: {
+        background: '{surface.ground}',
+        color: '{text.color}',
+      }
+    }
+  }
 });
 
 vueInit.use(PrimeVue, {
   theme: {
     preset: customPreset,
     options: {
-      darkModeSelector: '.my-app-dark',
+      prefix: 'p',
+      darkModeSelector: 'system',
+      cssLayer: false
     }
   }
 });

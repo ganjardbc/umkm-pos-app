@@ -6,7 +6,7 @@
     class="receipt-modal"
   >
     <template #header>
-      <h1 class="text-xl text-gray-900 font-semibold">
+      <h1 class="text-xl font-semibold">
         Print Receipt
       </h1>
     </template>
@@ -17,7 +17,7 @@
 
     <template #footer>
       <!-- Footer -->
-      <div class="w-full flex flex-col gap-4 pt-4">
+      <div class="w-full flex flex-col gap-4">
         <Button
           label="Download Receipt"
           icon="pi pi-download"

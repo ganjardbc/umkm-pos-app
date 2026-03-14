@@ -32,44 +32,44 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label class="text-sm font-medium text-gray-500">Name</label>
-            <p class="text-base text-gray-900 mt-1">{{ productDetail.name }}</p>
+            <p class="text-base mt-1">{{ productDetail.name }}</p>
           </div>
           <div>
             <label class="text-sm font-medium text-gray-500">Slug</label>
-            <p class="text-base text-gray-900 mt-1">{{ productDetail.slug }}</p>
+            <p class="text-base mt-1">{{ productDetail.slug }}</p>
           </div>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label class="text-sm font-medium text-gray-500">Category</label>
-            <p class="text-base text-gray-900 mt-1">{{ productDetail.category || '-' }}</p>
+            <p class="text-base mt-1">{{ productDetail.category || '-' }}</p>
           </div>
           <div>
             <label class="text-sm font-medium text-gray-500">Merchant</label>
-            <p class="text-base text-gray-900 mt-1">{{ productDetail.merchants?.name || '-' }}</p>
+            <p class="text-base mt-1">{{ productDetail.merchants?.name || '-' }}</p>
           </div>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label class="text-sm font-medium text-gray-500">Price</label>
-            <p class="text-base text-gray-900 mt-1">{{ getCurrency(productDetail.price) }}</p>
+            <p class="text-base mt-1">{{ getCurrency(productDetail.price) }}</p>
           </div>
           <div>
             <label class="text-sm font-medium text-gray-500">Cost</label>
-            <p class="text-base text-gray-900 mt-1">{{ getCurrency(productDetail.cost) }}</p>
+            <p class="text-base mt-1">{{ getCurrency(productDetail.cost) }}</p>
           </div>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label class="text-sm font-medium text-gray-500">Stock Quantity</label>
-            <p class="text-base text-gray-900 mt-1">{{ productDetail.stock_qty }}</p>
+            <p class="text-base mt-1">{{ productDetail.stock_qty }}</p>
           </div>
           <div>
             <label class="text-sm font-medium text-gray-500">Minimum Stock</label>
-            <p class="text-base text-gray-900 mt-1">{{ productDetail.min_stock }}</p>
+            <p class="text-base mt-1">{{ productDetail.min_stock }}</p>
           </div>
         </div>
 
@@ -89,11 +89,11 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label class="text-sm font-medium text-gray-500">Created At</label>
-            <p class="text-base text-gray-900 mt-1">{{ formatDateTime(productDetail.created_at) }}</p>
+            <p class="text-base mt-1">{{ formatDateTime(productDetail.created_at) }}</p>
           </div>
           <div>
             <label class="text-sm font-medium text-gray-500">Updated At</label>
-            <p class="text-base text-gray-900 mt-1">{{ formatDateTime(productDetail.updated_at) }}</p>
+            <p class="text-base mt-1">{{ formatDateTime(productDetail.updated_at) }}</p>
           </div>
         </div>
       </div>

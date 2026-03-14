@@ -2,7 +2,7 @@
   <UiCard>
     <template #header>
       <div class="flex justify-between items-center">
-        <h3 class="text-lg font-semibold text-gray-900">{{ title }}</h3>
+        <h3 class="text-lg font-semibold">{{ title }}</h3>
         <Button
           severity="secondary"
           variant="outlined"

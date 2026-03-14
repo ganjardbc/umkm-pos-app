@@ -1,7 +1,7 @@
 <template>
   <div class="ui-sidebar-outlet">
     <div
-      class="ui-sidebar-outlet__toggle"
+      class="ui-sidebar-outlet__toggle ui-sidebar-outlet__toggle--dark"
       @click="openOutletMenu"
     >
       <div class="min-w-6 text-center">
@@ -12,7 +12,7 @@
         v-if="!isMobile"
         class="flex-1 overflow-hidden flex flex-col"
       >
-        <div class="text-xs text-gray-900 text-right truncate">
+        <div class="text-xs text-right truncate">
           {{ merchant?.name || '-' }}
         </div>
         <div class="text-[10px] text-gray-400 text-right truncate">
@@ -32,7 +32,7 @@
       class="ui-sidebar-outlet__popper"
     >
       <div class="space-y-4 w-75">
-        <div class="text-xs text-gray-900 font-semibold">
+        <div class="text-xs font-semibold">
           Outlet Lists
         </div>
         <div
@@ -51,7 +51,7 @@
           <div
             class="flex-1 overflow-hidden flex flex-col"
           >
-            <div class="text-xs text-gray-900 text-left truncate">
+            <div class="text-xs text-left truncate">
               {{ outlet?.outlet?.name || '-' }}
             </div>
             <div class="text-[10px] text-gray-400 text-left truncate">
@@ -127,13 +127,18 @@ const onVisitOutlet = async (outlet) => {
 </script>
 <style>
 @import 'tailwindcss';
+@import '@/assets/styles/themes.css';
 
 .ui-sidebar-outlet {
   @apply relative;
 }
 
 .ui-sidebar-outlet__toggle {
-  @apply flex items-center gap-2 p-2 rounded-lg  cursor-pointer hover:bg-gray-50;
+  @apply flex items-center gap-2 p-2 rounded-lg cursor-pointer;
+}
+
+.ui-sidebar-outlet__toggle--dark {
+  @apply hover:bg-gray-50 dark:hover:bg-dark;
 }
 
 .ui-sidebar-outlet__popper.p-popover {

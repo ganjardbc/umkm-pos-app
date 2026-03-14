@@ -1,7 +1,7 @@
 <template>
   <div class="ui-sidebar-profile">
     <div
-      class="ui-sidebar-profile__toggle"
+      class="ui-sidebar-profile__toggle ui-sidebar-profile__toggle--dark"
       @click="openProfileMenu"
     >
       <Avatar
@@ -25,7 +25,7 @@
           <div
             class="flex-1 overflow-hidden flex flex-col"
           >
-            <div class="text-xs text-gray-900 text-left truncate">
+            <div class="text-xs text-left truncate">
               {{ personalInfo?.user?.name || '-' }}
             </div>
             <div class="text-[10px] text-gray-400 text-left truncate">
@@ -118,13 +118,18 @@ const openProfileMenu = (event) => {
 </script>
 <style>
 @import 'tailwindcss';
+@import '@/assets/styles/themes.css';
 
 .ui-sidebar-profile {
   @apply relative;
 }
 
 .ui-sidebar-profile__toggle {
-  @apply p-2 rounded-lg  cursor-pointer hover:bg-gray-50;
+  @apply p-2 rounded-lg cursor-pointer;
+}
+
+.ui-sidebar-profile__toggle--dark {
+  @apply hover:bg-gray-50 dark:hover:bg-dark;
 }
 
 .ui-sidebar-profile__popper.p-popover {

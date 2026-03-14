@@ -108,7 +108,7 @@
 
         <template #expansion="slotProps">
           <div class="py-2 space-y-4">
-            <div class="text-base text-gray-900 font-semibold">
+            <div class="text-base font-semibold">
               List Items
             </div>
             <DataTable :value="slotProps?.data?.transaction_items" showGridlines>

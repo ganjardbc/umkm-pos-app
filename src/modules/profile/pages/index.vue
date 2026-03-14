@@ -16,7 +16,7 @@
       <div class="space-y-4">
         <div class="flex justify-between items-center">
           <div class="space-y-2">
-            <h1 class="text-xl font-semibold text-gray-900">{{ profile?.name }}</h1>
+            <h1 class="text-xl font-semibold">{{ profile?.name }}</h1>
             <Tag 
               :severity="profile?.is_active ? 'success' : 'danger'" 
               :value="profile?.is_active ? 'Active' : 'Inactive'" 
@@ -34,27 +34,27 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label class="text-sm font-medium text-gray-500">Username</label>
-            <p class="text-base text-gray-900 mt-1">{{ profile?.username }}</p>
+            <p class="text-base mt-1">{{ profile?.username }}</p>
           </div>
           <div>
             <label class="text-sm font-medium text-gray-500">Name</label>
-            <p class="text-base text-gray-900 mt-1">{{ profile?.name }}</p>
+            <p class="text-base mt-1">{{ profile?.name }}</p>
           </div>
           <div>
             <label class="text-sm font-medium text-gray-500">Email</label>
-            <p class="text-base text-gray-900 mt-1">{{ profile?.email }}</p>
+            <p class="text-base mt-1">{{ profile?.email }}</p>
           </div>
           <div>
             <label class="text-sm font-medium text-gray-500">Merchant</label>
-            <p class="text-base text-gray-900 mt-1">{{ profile?.merchants?.name }}</p>
+            <p class="text-base mt-1">{{ profile?.merchants?.name }}</p>
           </div>
           <div>
             <label class="text-sm font-medium text-gray-500">Created At</label>
-            <p class="text-base text-gray-900 mt-1">{{ formatDateTime(profile?.created_at) }}</p>
+            <p class="text-base mt-1">{{ formatDateTime(profile?.created_at) }}</p>
           </div>
           <div>
             <label class="text-sm font-medium text-gray-500">Updated At</label>
-            <p class="text-base text-gray-900 mt-1">{{ formatDateTime(profile?.updated_at) }}</p>
+            <p class="text-base mt-1">{{ formatDateTime(profile?.updated_at) }}</p>
           </div>
         </div>
       </div>
@@ -62,37 +62,35 @@
 
     <Divider />
 
-    <UiCard>
-      <div class="space-y-4">
-        <h1 class="text-xl font-semibold text-gray-900">Settings</h1>
-        <UiCard
-          v-for="(menu, i) in listOfSettingMenus"
-          :key="i"
-          class="cursor-pointer hover:shadow-lg transition-shadow"
-          @click="navigateTo(menu?.route)"
-        >
-          <div class="flex items-center gap-3">
-            <div class="w-[42px] text-center">
-              <i
-                class="text-xl!"
-                :class="[
-                  menu?.icon,
-                  menu?.color,
-                ]"
-              />
-            </div>
-            <div class="flex-1">
-              <h3 class="text-sm font-semibold">
-                {{ menu?.label }}
-              </h3>
-              <p class="text-xs text-gray-500">
-                {{ menu?.description }}
-              </p>
-            </div>
+    <div class="space-y-4">
+      <h1 class="text-xl font-semibold">Settings</h1>
+      <UiCard
+        v-for="(menu, i) in listOfSettingMenus"
+        :key="i"
+        class="cursor-pointer shadow-md hover:shadow-lg transition-shadow"
+        @click="navigateTo(menu?.route)"
+      >
+        <div class="flex items-center gap-3">
+          <div class="w-[42px] text-center">
+            <i
+              class="text-xl!"
+              :class="[
+                menu?.icon,
+                menu?.color,
+              ]"
+            />
           </div>
-        </UiCard>
-      </div>
-    </UiCard>
+          <div class="flex-1">
+            <h3 class="text-sm font-semibold">
+              {{ menu?.label }}
+            </h3>
+            <p class="text-xs text-gray-500">
+              {{ menu?.description }}
+            </p>
+          </div>
+        </div>
+      </UiCard>
+    </div>
 
     <Divider />
 

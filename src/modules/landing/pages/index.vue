@@ -6,7 +6,7 @@
     <router-link to="/" class="flex items-center mb-8">
       <Image :src="defaultLogo" alt="Image" width="60" />
     </router-link>
-    <div class="w-full text-3xl font-bold text-gray-900 mb-4 text-center">
+    <div class="w-full text-3xl font-bold mb-4 text-center">
       Selamat Datang di UMKM POS APP
     </div>
     <div class="w-full text-lg text-gray-600 mb-8 text-center">

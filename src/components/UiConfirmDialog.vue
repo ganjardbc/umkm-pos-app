@@ -12,23 +12,23 @@
             getHeaderColorIcon(message?.type),
           ]"
         >
-          <i class="pi pi-question-circle !text-4xl"></i>
+          <i class="pi pi-question-circle text-4xl!"></i>
         </div>
-        <div class="text-gray-900 font-bold text-xl text-center block mb-2 mt-6">{{ message?.header }}</div>
-        <div class="text-gray-500 text-md text-center mb-0">{{ message?.message }}</div>
+        <div class="font-bold text-xl text-center block mb-2 mt-6">{{ message?.header }}</div>
+        <div class="text-gray-400 text-md text-center mb-0">{{ message?.message }}</div>
         <div class="flex items-center gap-4 mt-6">
           <Button
             :label="message?.rejectProps?.label || 'Cancel'"
             :variant="message?.rejectProps?.outlined || 'outlined'"
             :severity="message?.rejectProps?.severity || 'secondary'"
-            class="w-[10rem]"
+            class="w-40"
             @click="rejectCallback"
           />
           <Button
             :label="message?.acceptProps?.label || 'Save'"
             :variant="message?.acceptProps?.outlined || 'outlined'"
             :severity="getAcceptButtonSeverity(message?.type)"
-            class="w-[10rem]"
+            class="w-40"
             @click="acceptCallback"
           />
         </div>

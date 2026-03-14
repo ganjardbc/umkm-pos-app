@@ -9,7 +9,7 @@
       </slot>
       
       <slot name="title">
-        <h2 class="text-xl font-bold text-gray-800 mb-2">{{ title }}</h2>
+        <h2 class="text-xl font-bold mb-2">{{ title }}</h2>
       </slot>
       
       <slot name="description">

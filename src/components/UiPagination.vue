@@ -1,11 +1,11 @@
 <template>
   <div
-    class="w-full flex flex-col md:flex-row items-center justify-between"
+    class="w-full flex flex-col md:flex-row items-center justify-between gap-4"
     :class="{
       'px-4 py-2': !noPadding,
     }"
   >
-    <div class="text-sm text-gray-900 font-semibold">
+    <div class="text-sm font-semibold">
       {{ getSummaryPage(pagination) }}
     </div>
     <Paginator

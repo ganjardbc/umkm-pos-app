@@ -64,14 +64,14 @@
         />
       </div>
 
-      <div class="text-base text-gray-500 text-center">
+      <div class="text-base text-gray-500 dark:text-gray-400 text-center">
         Don't have an account?
-        <router-link to="/register" class="text-base text-blue-500 hover:underline">
+        <router-link to="/register" class="text-base text-blue-500 dark:text-blue-400 hover:underline">
           Register
         </router-link>
       </div>
 
-      <div class="text-xs text-center text-gray-400">
+      <div class="text-xs text-center text-gray-400 dark:text-gray-500">
         Version 1.0.0
       </div>
     </Form>
@@ -127,7 +127,7 @@ const onFormSubmit = async ({ valid, values }: { valid: boolean; values: any }) 
 
       
       if (success) {
-        await setAuth(data);
+        setAuth(data);
 
         router.push(PRP_LANDING);
         showToast({

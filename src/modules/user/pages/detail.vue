@@ -33,22 +33,22 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label class="text-sm font-medium text-gray-500">Username</label>
-            <p class="text-base text-gray-900 mt-1">{{ userDetail?.username }}</p>
+            <p class="text-base mt-1">{{ userDetail?.username }}</p>
           </div>
           <div>
             <label class="text-sm font-medium text-gray-500">Name</label>
-            <p class="text-base text-gray-900 mt-1">{{ userDetail?.name }}</p>
+            <p class="text-base mt-1">{{ userDetail?.name }}</p>
           </div>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label class="text-sm font-medium text-gray-500">Email</label>
-            <p class="text-base text-gray-900 mt-1">{{ userDetail?.email }}</p>
+            <p class="text-base mt-1">{{ userDetail?.email }}</p>
           </div>
           <div>
             <label class="text-sm font-medium text-gray-500">Status</label>
-            <p class="text-base text-gray-900 mt-1">
+            <p class="text-base mt-1">
               <Tag :severity="userDetail?.is_active ? 'success' : 'danger'" :value="userDetail?.is_active ? 'Active' : 'Inactive'" />
             </p>
           </div>
@@ -57,7 +57,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label class="text-sm font-medium text-gray-500">Merchant</label>
-            <p class="text-base text-gray-900 mt-1">{{ userDetail?.merchants?.name }}</p>
+            <p class="text-base mt-1">{{ userDetail?.merchants?.name }}</p>
           </div>
           <div>
             <div v-if="userDetail?.avatar" class="flex gap-2 items-center">
@@ -72,11 +72,11 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label class="text-sm font-medium text-gray-500">Created At</label>
-            <p class="text-base text-gray-900 mt-1">{{ formatDateTime(userDetail?.created_at) }}</p>
+            <p class="text-base mt-1">{{ formatDateTime(userDetail?.created_at) }}</p>
           </div>
           <div>
             <label class="text-sm font-medium text-gray-500">Updated At</label>
-            <p class="text-base text-gray-900 mt-1">{{ formatDateTime(userDetail?.updated_at) }}</p>
+            <p class="text-base mt-1">{{ formatDateTime(userDetail?.updated_at) }}</p>
           </div>
         </div>
       </div>

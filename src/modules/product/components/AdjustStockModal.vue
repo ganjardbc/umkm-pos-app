@@ -6,7 +6,7 @@
     class="adjust-stock-modal"
   >
     <template #header>
-      <h1 class="text-xl text-gray-900 font-semibold">
+      <h1 class="text-xl font-semibold">
         Adjust Stock
       </h1>
     </template>
@@ -16,22 +16,23 @@
         v-slot="$form"
         :resolver="resolver"
         :initialValues="initialValues"
-        @submit="onFormSubmit"
         class="flex flex-col gap-4 w-full"
+        @submit="onFormSubmit"
       >
         <div class="w-full space-y-4">
-          <div class="grid grid-cols-2 gap-4 border-b border-gray-200 pb-4">
+          <div class="grid grid-cols-2 gap-4">
             <UiFormGroup label="Product Name" variant="vertical">
-              <div class="text-base text-gray-900 font-semibold">
+              <div class="text-base font-semibold">
                 {{ product?.name || '' }}
               </div>
             </UiFormGroup>
             <UiFormGroup label="Current Stock" variant="vertical">
-              <div class="text-base text-gray-900 font-semibold">
+              <div class="text-base font-semibold">
                 {{ product?.stock_qty || 0 }}
               </div>
             </UiFormGroup>
           </div>
+          <Divider />
           <UiFormGroup label="Change Quantity" variant="vertical">
             <InputNumber
               name="change_qty"
@@ -68,7 +69,9 @@
           </UiFormGroup>
         </div>
 
-        <div class="flex justify-end gap-4 py-4 border-t border-gray-200">
+        <Divider class="my-0!" />
+
+        <div class="flex justify-end gap-4 pb-4">
           <Button
             severity="secondary"
             label="Cancel"

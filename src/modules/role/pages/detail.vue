@@ -32,27 +32,27 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label class="text-sm font-medium text-gray-500">Name</label>
-            <p class="text-base text-gray-900 mt-1">{{ roleDetail.name }}</p>
+            <p class="text-base mt-1">{{ roleDetail.name }}</p>
           </div>
           <div>
             <label class="text-sm font-medium text-gray-500">Total Permissions</label>
-            <p class="text-base text-gray-900 mt-1">{{ roleDetail.role_permissions?.length || 0 }}</p>
+            <p class="text-base mt-1">{{ roleDetail.role_permissions?.length || 0 }}</p>
           </div>
         </div>
 
         <div>
           <label class="text-sm font-medium text-gray-500">Description</label>
-          <p class="text-base text-gray-900 mt-1">{{ roleDetail.description }}</p>
+          <p class="text-base mt-1">{{ roleDetail.description }}</p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label class="text-sm font-medium text-gray-500">Created At</label>
-            <p class="text-base text-gray-900 mt-1">{{ formatDateTime(roleDetail.created_at) }}</p>
+            <p class="text-base mt-1">{{ formatDateTime(roleDetail.created_at) }}</p>
           </div>
           <div>
             <label class="text-sm font-medium text-gray-500">Updated At</label>
-            <p class="text-base text-gray-900 mt-1">{{ formatDateTime(roleDetail.updated_at) }}</p>
+            <p class="text-base mt-1">{{ formatDateTime(roleDetail.updated_at) }}</p>
           </div>
         </div>
       </div>

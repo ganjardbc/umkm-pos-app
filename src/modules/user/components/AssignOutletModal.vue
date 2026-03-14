@@ -6,7 +6,7 @@
     class="assign-outlet-modal"
   >
     <template #header>
-      <h1 class="text-xl text-gray-900 font-semibold">
+      <h1 class="text-xl font-semibold">
         Assign Outlet
       </h1>
     </template>
@@ -145,27 +145,27 @@
                   <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                       <label class="text-sm font-medium text-gray-500">Outlet Name</label>
-                      <p class="text-base text-gray-900 mt-1">{{ outletSelected.name }}</p>
+                      <p class="text-base mt-1">{{ outletSelected.name }}</p>
                     </div>
                     <div>
                       <label class="text-sm font-medium text-gray-500">Merchant</label>
-                      <p class="text-base text-gray-900 mt-1">{{ outletSelected.merchants.name }}</p>
+                      <p class="text-base mt-1">{{ outletSelected.merchants.name }}</p>
                     </div>
                   </div>
 
                   <div>
                     <label class="text-sm font-medium text-gray-500">Location</label>
-                    <p class="text-base text-gray-900 mt-1">{{ outletSelected.location }}</p>
+                    <p class="text-base mt-1">{{ outletSelected.location }}</p>
                   </div>
 
                   <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                       <label class="text-sm font-medium text-gray-500">Slug</label>
-                      <p class="text-base text-gray-900 mt-1">{{ outletSelected.slug }}</p>
+                      <p class="text-base mt-1">{{ outletSelected.slug }}</p>
                     </div>
                     <div>
                       <label class="text-sm font-medium text-gray-500">Status</label>
-                      <p class="text-base text-gray-900 mt-1">
+                      <p class="text-base mt-1">
                         <Tag :severity="outletSelected.is_active ? 'success' : 'danger'" :value="outletSelected.is_active ? 'Active' : 'Inactive'" />
                       </p>
                     </div>
@@ -185,17 +185,17 @@
                   <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                       <label class="text-sm font-medium text-gray-500">Role Name</label>
-                      <p class="text-base text-gray-900 mt-1">{{ roleSelected.name }}</p>
+                      <p class="text-base mt-1">{{ roleSelected.name }}</p>
                     </div>
                     <div>
                       <label class="text-sm font-medium text-gray-500">Total Permissions</label>
-                      <p class="text-base text-gray-900 mt-1">{{ roleSelected.role_permissions?.length || 0 }}</p>
+                      <p class="text-base mt-1">{{ roleSelected.role_permissions?.length || 0 }}</p>
                     </div>
                   </div>
 
                   <div>
                     <label class="text-sm font-medium text-gray-500">Description</label>
-                    <p class="text-base text-gray-900 mt-1">{{ roleSelected.description }}</p>
+                    <p class="text-base mt-1">{{ roleSelected.description }}</p>
                   </div>
 
                   <div v-if="roleSelected.role_permissions && roleSelected.role_permissions.length > 0">

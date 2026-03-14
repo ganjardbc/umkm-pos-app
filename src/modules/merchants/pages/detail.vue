@@ -32,34 +32,34 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label class="text-sm font-medium text-gray-500">Name</label>
-            <p class="text-base text-gray-900 mt-1">{{ merchantDetail.name }}</p>
+            <p class="text-base mt-1">{{ merchantDetail.name }}</p>
           </div>
           <div>
             <label class="text-sm font-medium text-gray-500">Slug</label>
-            <p class="text-base text-gray-900 mt-1">{{ merchantDetail.slug }}</p>
+            <p class="text-base mt-1">{{ merchantDetail.slug }}</p>
           </div>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label class="text-sm font-medium text-gray-500">Phone</label>
-            <p class="text-base text-gray-900 mt-1">{{ merchantDetail.phone }}</p>
+            <p class="text-base mt-1">{{ merchantDetail.phone }}</p>
           </div>
         </div>
 
         <div>
           <label class="text-sm font-medium text-gray-500">Address</label>
-          <p class="text-base text-gray-900 mt-1">{{ merchantDetail.address }}</p>
+          <p class="text-base mt-1">{{ merchantDetail.address }}</p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label class="text-sm font-medium text-gray-500">Created At</label>
-            <p class="text-base text-gray-900 mt-1">{{ formatDateTime(merchantDetail.created_at) }}</p>
+            <p class="text-base mt-1">{{ formatDateTime(merchantDetail.created_at) }}</p>
           </div>
           <div>
             <label class="text-sm font-medium text-gray-500">Updated At</label>
-            <p class="text-base text-gray-900 mt-1">{{ formatDateTime(merchantDetail.updated_at) }}</p>
+            <p class="text-base mt-1">{{ formatDateTime(merchantDetail.updated_at) }}</p>
           </div>
         </div>
       </div>

@@ -1,7 +1,7 @@
 <template>
   <UiCard class="max-w-2xl mx-auto">
     <template #header>
-      <h1 class="text-xl font-semibold text-gray-900">
+      <h1 class="text-xl font-semibold">
         Add Merchant
       </h1>
     </template>
@@ -10,8 +10,8 @@
       v-slot="$form"
       :resolver="resolver"
       :initialValues="initialValues"
-      @submit="onFormSubmit"
       class="flex flex-col gap-4 w-full"
+      @submit="onFormSubmit"
     >
       <div class="w-full space-y-4">
         <UiFormGroup label="Name" variant="vertical">
@@ -82,7 +82,7 @@
         </UiFormGroup>
       </div>
 
-      <div class="w-full flex justify-end gap-4 border-t border-gray-200 pt-4">
+      <div class="w-full flex justify-end gap-4">
         <Button
           severity="secondary"
           label="Cancel"
