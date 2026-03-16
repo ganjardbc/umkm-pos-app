@@ -38,35 +38,34 @@
         <div
           v-for="(outlet, i) in listOutlet"
           :key="i"
-          class="flex items-center gap-2"
-          :class="{
-            'pb-4 border-b border-gray-200': i !== listOutlet.length - 1,
-          }"
         >
-          <Avatar
-            :label="outlet?.outlet?.name?.charAt(0)"
-            size="small"
-            shape="square"
-          />
-          <div
-            class="flex-1 overflow-hidden flex flex-col"
-          >
-            <div class="text-xs text-left truncate">
-              {{ outlet?.outlet?.name || '-' }}
+          <div class="flex items-center gap-2">
+            <Avatar
+              :label="outlet?.outlet?.name?.charAt(0)"
+              size="small"
+              shape="square"
+            />
+            <div
+              class="flex-1 overflow-hidden flex flex-col"
+            >
+              <div class="text-xs text-left truncate">
+                {{ outlet?.outlet?.name || '-' }}
+              </div>
+              <div class="text-[10px] text-gray-400 text-left truncate">
+                {{ outlet?.role?.name || '-' }}
+              </div>
             </div>
-            <div class="text-[10px] text-gray-400 text-left truncate">
-              {{ outlet?.role?.name || '-' }}
-            </div>
+            <Button
+              severity="secondary" 
+              variant="outlined"
+              size="small"
+              :label="activeOutlet.id === outlet?.outlet?.id ? 'Current' : 'Visit'"
+              :disabled="activeOutlet.id === outlet?.outlet?.id"
+              class="h-[32px] text-xs!"
+              @click="onVisitOutlet(outlet)"
+            />
           </div>
-          <Button
-            severity="secondary" 
-            variant="outlined"
-            size="small"
-            :label="activeOutlet.id === outlet?.outlet?.id ? 'Current' : 'Visit'"
-            :disabled="activeOutlet.id === outlet?.outlet?.id"
-            class="h-[32px] text-xs!"
-            @click="onVisitOutlet(outlet)"
-          />
+          <Divider v-if="i !== listOutlet.length - 1" />
         </div>
       </div>
     </Popover>
