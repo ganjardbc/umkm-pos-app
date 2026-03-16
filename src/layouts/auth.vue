@@ -48,7 +48,7 @@ onMounted(() => {
 }
 
 .auth-layout--dark {
-  @apply dark:bg-dark-900;
+  @apply dark:bg-dark;
 }
 
 .auth-layout__dark-mode {
