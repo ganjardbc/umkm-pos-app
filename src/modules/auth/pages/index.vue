@@ -151,6 +151,6 @@ const onFormSubmit = async ({ valid, values }: { valid: boolean; values: any }) 
 @import 'tailwindcss';
 
 .loagin-page {
-  @apply relative w-100 flex flex-col items-center justify-center h-screen lg:h-auto;
+  @apply relative w-100 flex flex-col items-center justify-center h-screen md:h-auto;
 }
 </style>
