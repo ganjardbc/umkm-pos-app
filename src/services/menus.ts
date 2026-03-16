@@ -127,7 +127,7 @@ export default [
     route: PRP_PERMISSION,
   },
   {
-    icon: 'pi pi-file-export',
+    icon: 'pi pi-download',
     label: 'Reports',
     featureFlag: DEFAULT_FEATURE_FLAG,
     permissions: REPORTS_PERMISSIONS,
