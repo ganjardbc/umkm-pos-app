@@ -129,7 +129,7 @@ const openProfileMenu = (event) => {
 }
 
 .ui-sidebar-profile__toggle--dark {
-  @apply hover:bg-gray-50 dark:hover:bg-dark;
+  @apply hover:bg-gray-50 dark:hover:bg-[#27272a];
 }
 
 .ui-sidebar-profile__popper.p-popover {

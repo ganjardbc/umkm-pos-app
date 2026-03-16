@@ -138,7 +138,7 @@ const onVisitOutlet = async (outlet) => {
 }
 
 .ui-sidebar-outlet__toggle--dark {
-  @apply hover:bg-gray-50 dark:hover:bg-dark;
+  @apply hover:bg-gray-50 dark:hover:bg-[#27272a];
 }
 
 .ui-sidebar-outlet__popper.p-popover {
