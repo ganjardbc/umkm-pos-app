@@ -32,7 +32,7 @@
             </span>
             <span
               v-else
-              class="pos-shift-status__label pos-shift-status__label--empty"
+              class="pos-shift-status__label pos-shift-status__label--empty pos-shift-status__label--empty-dark"
             >
               No One's in Shift
             </span>
@@ -268,11 +268,11 @@ onMounted(() => {
 }
 
 .pos-shift-status__indicator--open {
-  @apply text-green-400;
+  @apply text-green-400 dark:text-green-400;
 }
 
 .pos-shift-status__indicator--closed {
-  @apply text-red-400;
+  @apply text-red-400 dark:text-red-400;
 }
 
 .pos-shift-status__label {
@@ -283,7 +283,7 @@ onMounted(() => {
   @apply text-gray-900;
 }
 
-.pos-shift-status__label--empty.dark {
+.pos-shift-status__label--empty-dark {
   @apply dark:text-white;
 }
 </style>

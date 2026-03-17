@@ -202,12 +202,23 @@
         <div class="w-12 h-12 bg-primary-50 dark:bg-primary-900 flex flex-col justify-center items-center rounded-full">
           <i class="pi pi-shopping-cart text-primary-500 dark:text-primary-400" />
         </div>
-        <div class="flex-1 space-y-0.5">
-          <div class="text-xs text-gray-400">
+        <div class="flex-1 space-y-1">
+          <div class="text-sm text-gray-400">
             Outlet Cart
           </div>
-          <div class="text-sm font-semibold">
-            {{ posStore.cartItemCount || 0 }} Items | {{ getCurrency(posStore.cartTotal) }}
+          <div class="flex items-center">
+            <span class="text-base font-bold">
+              {{ posStore.cartItemCount || 0 }} Items
+            </span>
+            <Divider layout="vertical" />
+            <span
+              class="text-base font-bold"
+              :class="{
+                'text-primary dark:text-primary-400': posStore.cartTotal,
+              }"
+            >
+              {{ getCurrency(posStore.cartTotal) }}
+            </span>
           </div>
         </div>
       </div>
