@@ -9,6 +9,7 @@
     <!-- POS Product -->
     <div lass="pos-page__product">
       <div
+        v-if="currentShift && currentShift?.id"
         class="pos-shift-status pos-shift-status--dark"
         :class="{
           'pos-shift-status--open': currentShift.status === ShiftStatus.OPEN,
@@ -244,11 +245,11 @@ onMounted(() => {
 }
 
 .pos-shift-status--open {
-  @apply border-green-200 bg-green-50;
+  @apply border-green-500 bg-green-50;
 }
 
 .pos-shift-status--closed {
-  @apply border-red-200 bg-red-50;
+  @apply border-red-500 bg-red-50;
 }
 
 .pos-shift-status--dark {
