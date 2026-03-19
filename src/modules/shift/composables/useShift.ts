@@ -1,0 +1,280 @@
+import { ref, reactive } from 'vue';
+import * as shiftApi from '../services/api';
+
+export interface Participant {
+  user_id: string;
+  user_name: string;
+  participant_added_at: string;
+  participant_removed_at?: string;
+  is_owner: boolean;
+  transaction_count: number;
+}
+
+export interface Owner {
+  id: string;
+  name: string;
+  user_name: string;
+}
+
+export interface Currentshift {
+  id: string,
+  outlet_id: string,
+  shift_owner_id: string,
+  status: string,
+  start_time: string,
+  end_time: string,
+  participant_count: number,
+  total_transactions: number,
+  shift_owner: Owner,
+}
+
+export interface Metrics {
+  [userId: string]: any;
+}
+
+export interface AuditLog {
+  id: string;
+  shift_id: string;
+  action: string;
+  user_id: string;
+  action_details?: any;
+  created_at: string;
+}
+
+// Create a singleton state
+const shiftState = {
+  currentShift: reactive<Currentshift>({
+    id: '',
+    outlet_id: '',
+    shift_owner_id: '',
+    status: 'closed',
+    start_time: '',
+    end_time: '',
+    participant_count: 0,
+    total_transactions: 0,
+    shift_owner: {
+      id: '',
+      name: '',
+      user_name: '',
+    },
+  }),
+  participants: ref<Participant[]>([]),
+  metrics: reactive<Metrics>({}),
+  auditLogs: ref<AuditLog[]>([]),
+  loading: ref(false),
+  error: ref(null),
+};
+
+export const useShift = () => {
+  const loading = ref(false);
+  const error = ref(null);
+
+  // State setters
+  const setCurrentShift = (shift: any) => {
+    Object.assign(shiftState.currentShift, shift);
+  };
+
+  const setParticipants = (newParticipants: Participant[]) => {
+    shiftState.participants.value = newParticipants;
+  };
+
+  const addParticipantToList = (participant: Participant) => {
+    shiftState.participants.value.push(participant);
+  };
+
+  const removeParticipantFromList = (userId: string) => {
+    shiftState.participants.value = shiftState.participants.value.filter((p: Participant) => p.user_id !== userId);
+  };
+
+  const setMetrics = ({ userId, metricsData }: any) => {
+    shiftState.metrics[userId] = metricsData;
+  };
+
+  const setAuditLogs = (logs: AuditLog[]) => {
+    shiftState.auditLogs.value = logs;
+  };
+
+  const setLoading = (isLoading: boolean) => {
+    loading.value = isLoading;
+  };
+
+  const setError = (err: any) => {
+    error.value = err;
+  };
+
+  const clearError = () => {
+    error.value = null;
+  };
+
+  // Async actions
+  const fetchShift = async (payload: any) => {
+    try {
+      const { shiftId } = payload || {};
+      if (!shiftId) {
+        throw new Error('shiftId is required');
+      }
+      setLoading(true);
+      const response = await shiftApi.getDetailShift(shiftId);
+      const { data, success } = response?.data || {};
+      console.log('data', data)
+      if (success) {
+        setCurrentShift(data);
+      }
+      return data;
+    } catch (err) {
+      setError(err);
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchShiftParticipants = async (payload: any) => {
+    try {
+      const { shiftId } = payload || {};
+      if (!shiftId) {
+        throw new Error('shiftId is required');
+      }
+      setLoading(true);
+      const response = await shiftApi.getShiftParticipants(shiftId);
+      const { data, success } = response?.data || {};
+      if (success) {
+        setParticipants(data.data || []);
+      }
+      return data;
+    } catch (err) {
+      setError(err);
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const addParticipant = async (payload: any) => {
+    try {
+      const { shiftId, userId } = payload || {};
+      if (!shiftId || !userId) {
+        throw new Error('shiftId and userId are required');
+      }
+      setLoading(true);
+      const response = await shiftApi.addParticipant(shiftId, { user_id: userId });
+      const { data, success } = response?.data || {};
+      if (success) {
+        addParticipantToList(data);
+      }
+      return data;
+    } catch (err) {
+      setError(err);
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const removeParticipant = async (payload: any) => {
+    try {
+      const { shiftId, userId } = payload || {};
+      if (!shiftId || !userId) {
+        throw new Error('shiftId and userId are required');
+      }
+      setLoading(true);
+      const response = await shiftApi.removeParticipant(shiftId, userId);
+      const { success } = response?.data || {};
+      if (success) {
+        removeParticipantFromList(userId);
+      }
+      return success;
+    } catch (err) {
+      setError(err);
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handoffShift = async (payload: any) => {
+    try {
+      const { shiftId, targetUserId, removePreviousOwner } = payload || {};
+      if (!shiftId || !targetUserId) {
+        throw new Error('shiftId and targetUserId are required');
+      }
+      setLoading(true);
+      const response = await shiftApi.handoffShift(shiftId, {
+        target_user_id: targetUserId,
+        remove_previous_owner: removePreviousOwner,
+      });
+      const { data, success } = response?.data || {};
+      if (success) {
+        setCurrentShift(data);
+      }
+      return data;
+    } catch (err) {
+      setError(err);
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchParticipantMetrics = async (payload: any) => {
+    try {
+      const { shiftId, userId } = payload || {};
+      if (!shiftId || !userId) {
+        throw new Error('shiftId and userId are required');
+      }
+      setLoading(true);
+      const response = await shiftApi.getParticipantMetrics(shiftId, userId);
+      const { data, success } = response?.data || {};
+      if (success) {
+        setMetrics({ userId, metricsData: data });
+      }
+      return data;
+    } catch (err) {
+      setError(err);
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchAuditLogs = async (payload: any) => {
+    try {
+      const { shiftId, limit = 50, offset = 0 } = payload || {};
+      if (!shiftId) {
+        throw new Error('shiftId is required');
+      }
+      setLoading(true);
+      const response = await shiftApi.getShiftAuditLog(shiftId, { limit, offset });
+      const { data, success } = response?.data || {};
+      if (success) {
+        setAuditLogs(data.data || []);
+      }
+      return data;
+    } catch (err) {
+      setError(err);
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return {
+    // State
+    currentShift: shiftState.currentShift,
+    participants: shiftState.participants,
+    metrics: shiftState.metrics,
+    auditLogs: shiftState.auditLogs,
+    loading,
+    error,
+    // Actions
+    fetchShift,
+    fetchShiftParticipants,
+    addParticipant,
+    removeParticipant,
+    handoffShift,
+    fetchParticipantMetrics,
+    fetchAuditLogs,
+    // Utilities
+    clearError,
+  };
+};

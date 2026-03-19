@@ -27,12 +27,12 @@
         </Column>
         <Column field="outlet" header="Outlet">
           <template #body="slotProps">
-            {{ slotProps.data.outlets?.name }}
+            {{ slotProps.data.outlet?.name }}
           </template>
         </Column>
         <Column field="users" header="Users">
           <template #body="slotProps">
-            {{ slotProps.data.users?.name }}
+            {{ slotProps.data.shift_owner?.name }}
           </template>
         </Column>
         <Column field="date" header="Date">

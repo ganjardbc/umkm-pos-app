@@ -1,9 +1,5 @@
 <template>
   <div class="pos-product">
-    <h1 class="text-xl font-semibold">
-      Product
-    </h1>
-
     <div class="flex-1">
       <UiSearch
         v-model="form.search"
