@@ -41,7 +41,8 @@
             <span class="text-xs text-gray-500">
               Added: {{ formatDate(participant.participant_added_at) }}
             </span>
-            <span v-if="participant.transaction_count" class="text-xs text-gray-500 ml-2">
+            <Divider v-if="participant.transaction_count" layout="vertical" />
+            <span v-if="participant.transaction_count" class="text-xs text-gray-500">
               Transactions: {{ participant.transaction_count }}
             </span>
           </div>
@@ -288,7 +289,7 @@ onMounted(() => {
 }
 
 .participant-item__meta {
-  @apply flex gap-4 mt-1;
+  @apply flex gap-0 mt-1;
 }
 
 .participant-item__actions {

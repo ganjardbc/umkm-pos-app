@@ -60,9 +60,12 @@
       </div>
     </UiCard>
 
-    <Divider />
+    <Divider v-if="listOfSettingMenus && listOfSettingMenus.length > 0" />
 
-    <div class="space-y-4">
+    <div
+      v-if="listOfSettingMenus && listOfSettingMenus.length > 0"
+      class="space-y-4"
+    >
       <h1 class="text-xl font-semibold">Settings</h1>
       <UiCard
         v-for="(menu, i) in listOfSettingMenus"

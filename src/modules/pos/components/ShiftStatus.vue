@@ -1,19 +1,23 @@
 <template>
   <div
+    v-if="currentShift?.id"
     class="pos-shift-status"
     :class="{
-      'pos-shift-status--open': currentShift.status === 'open',
-      'pos-shift-status--closed': currentShift.status === 'closed',
+      'pos-shift-status--open': currentShift.status === ShiftStatus.OPEN,
+      'pos-shift-status--closed': currentShift.status === ShiftStatus.CLOSED,
       'pos-shift-status--dark': true,
     }"
   >
-    <div class="pos-shift-status__content">
+    <div
+      v-if="currentShift?.id"
+      class="pos-shift-status__content"
+    >
       <div class="pos-shift-status__left">
         <span
           class="pos-shift-status__indicator"
           :class="{
-            'pos-shift-status__indicator--open': currentShift.status === 'open',
-            'pos-shift-status__indicator--closed': currentShift.status === 'closed',
+            'pos-shift-status__indicator--open': currentShift.status === ShiftStatus.OPEN,
+            'pos-shift-status__indicator--closed': currentShift.status === ShiftStatus.CLOSED,
           }"
         >
           ●
@@ -26,27 +30,32 @@
           }"
         >
           {{
-            currentShift.id
+            currentShift.status === ShiftStatus.OPEN
               ? `${currentShift?.shift_owner?.name} is in Shift`
               : 'No Active Shift'
             }}
         </span>
       </div>
-      <div class="pos-shift-status__actions">
+      <div
+        v-if="isUserInShift && !isUserRemovedFromShift"
+        class="pos-shift-status__actions"
+      >
         <Button
-          v-if="!currentShift.id"
+          v-if="currentShift.status === ShiftStatus.CLOSED"
           label="Open Shift"
           size="small"
-          @click="handleOpenShift"
           :loading="loading"
+          :disabled="loading"
+          @click="handleOpenShift"
         />
         <Button
-          v-else-if="currentShift.status === 'open'"
+          v-if="currentShift.status === ShiftStatus.OPEN"
           label="Close Shift"
           size="small"
           severity="danger"
-          @click="handleCloseShift"
           :loading="loading"
+          :disabled="loading"
+          @click="handleCloseConfirm"
         />
       </div>
     </div>
@@ -67,14 +76,38 @@
       />
     </div>
   </div>
+
+  <Message
+    v-if="!isUserInShift"
+    severity="info"
+    icon="pi pi-info-circle"
+  >
+    <b>You're not shift participant.</b><br>
+    <span class="text-sm">
+      To join to this shift you can request to shift owner's.
+    </span>
+  </Message>
+
+  <Message
+    v-if="isUserRemovedFromShift"
+    severity="warn"
+    icon="pi pi-info-circle"
+  >
+    You have been removed from this current shift.
+  </Message>
 </template>
 
 <script setup lang="ts">
 import { computed, onMounted, watch } from 'vue';
-import { useShift, type Participant } from '@/modules/shift/composables/useShift';
-import { showToast } from '@/helpers/toast';
-import { getErrorMessage } from '@/helpers/utils';
-import * as shiftApi from '@/modules/shift/services/api';
+import { useShift, type Participant } from '@/modules/shift/composables/useShift.ts';
+import { showConfirm, showToast } from '@/helpers/toast.ts';
+import { getErrorMessage } from '@/helpers/utils.ts';
+import * as shiftApi from '@/modules/shift/services/api.ts';
+
+const ShiftStatus = {
+  OPEN: 'open',
+  CLOSED: 'closed'
+};
 
 const props = defineProps({
   outletId: {
@@ -85,7 +118,7 @@ const props = defineProps({
 
 const emit = defineEmits(['shift-loaded']);
 
-const { currentShift, participants, loading, fetchShiftParticipants } = useShift();
+const { isUserInShift, isUserRemovedFromShift, currentShift, participants, loading, fetchShiftParticipants } = useShift();
 
 const activeParticipants = computed(() => {
   return participants.value?.filter((p: Participant) => !p.participant_removed_at) || [];
@@ -163,6 +196,19 @@ const handleCloseShift = async () => {
   }
 };
 
+const handleCloseConfirm = () => {
+  showConfirm({
+    header: 'Close Shift',
+    message: 'Are you sure you want to close this shift?',
+    rejectLabel: 'Cancel',
+    acceptLabel: 'Close',
+    type: 'warn',
+    accept: () => {
+      handleCloseShift();
+    },
+  });
+};
+
 onMounted(() => {
   if (props.outletId) {
     fetchOutletShift();
@@ -186,7 +232,7 @@ watch(
 @import "@/assets/styles/themes.css";
 
 .pos-shift-status {
-  @apply w-full p-2 rounded-lg border transition-colors duration-200 mb-4;
+  @apply w-full p-2 rounded-lg border transition-colors duration-200 space-y-2;
 }
 
 .pos-shift-status--open {

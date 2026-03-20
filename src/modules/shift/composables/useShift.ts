@@ -1,4 +1,5 @@
-import { ref, reactive } from 'vue';
+import { ref, reactive, computed } from 'vue';
+import { getUser } from '@/helpers/auth.ts';
 import * as shiftApi from '../services/api';
 
 export interface Participant {
@@ -106,6 +107,28 @@ export const useShift = () => {
     error.value = null;
   };
 
+  const isUserInShift = computed(() => {
+    const user = getUser();
+    const findUser = shiftState.participants.value?.find(
+      (p: Participant) => p.user_id === user?.id,
+    );
+    if (findUser !== undefined) {
+      return true;
+    }
+    return false;
+  });
+
+  const isUserRemovedFromShift = computed(() => {
+    const user = getUser();
+    const findUser = shiftState.participants.value?.find(
+      (p: Participant) => p.user_id === user?.id && p.participant_removed_at,
+    );
+    if (findUser !== undefined) {
+      return true;
+    }
+    return false;
+  });
+
   // Async actions
   const fetchShift = async (payload: any) => {
     try {
@@ -116,7 +139,6 @@ export const useShift = () => {
       setLoading(true);
       const response = await shiftApi.getDetailShift(shiftId);
       const { data, success } = response?.data || {};
-      console.log('data', data)
       if (success) {
         setCurrentShift(data);
       }
@@ -266,6 +288,8 @@ export const useShift = () => {
     auditLogs: shiftState.auditLogs,
     loading,
     error,
+    isUserInShift,
+    isUserRemovedFromShift,
     // Actions
     fetchShift,
     fetchShiftParticipants,

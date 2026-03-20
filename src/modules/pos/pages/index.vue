@@ -57,7 +57,7 @@ const activeTab = ref<string>('0');
 const outlet = getOutlet();
 
 // Use shift composable to get shift data for PosCart
-const { currentShift } = useShift();
+const { isUserRemovedFromShift, currentShift } = useShift();
 
 // Device type
 const authStore = useAuthStore();
@@ -67,6 +67,10 @@ const isWeb = computed(() => deviceType.value === 'web');
 
 // Computed for PosCart
 const isUserInShift = computed(() => {
+  if (isUserRemovedFromShift.value) {
+    return false;
+  }
+
   return currentShift.status === 'open';
 });
 
