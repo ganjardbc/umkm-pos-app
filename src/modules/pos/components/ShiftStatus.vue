@@ -198,7 +198,7 @@ const handleCloseShift = async () => {
 
 const handleCloseConfirm = () => {
   showConfirm({
-    header: 'Close Shift',
+    header: 'Close Shift?',
     message: 'Are you sure you want to close this shift?',
     rejectLabel: 'Cancel',
     acceptLabel: 'Close',

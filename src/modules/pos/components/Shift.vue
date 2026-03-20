@@ -11,10 +11,11 @@
 
     <!-- Handoff Tab -->
     <ShiftHandoff
-      v-if="isShiftOwner && activeParticipants.length > 1"
+      v-if="activeParticipants.length > 1"
       :shift-id="currentShift.id"
       :current-owner-id="currentShift.shift_owner_id"
       :participants="participants"
+      :is-shift-owner="isShiftOwner"
       @handoff-complete="onHandoffComplete"
     />
 
@@ -81,9 +82,11 @@ const onParticipantChanged = async () => {
 };
 
 const onHandoffComplete = async () => {
+  console.log('onHandoffComplete', currentShift.id)
   // Reload shift data after handoff
   if (currentShift.id) {
     await fetchShift({ shiftId: currentShift.id });
+    await fetchShiftParticipants({ shiftId: currentShift.id });
   }
 };
 

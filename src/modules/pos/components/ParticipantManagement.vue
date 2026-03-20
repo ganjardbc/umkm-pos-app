@@ -26,7 +26,7 @@
             {{ participant.user_name }}
             <Tag
               v-if="participant.is_owner"
-              value="Owner"
+              value="Shift Owner"
               severity="info"
               class="ml-2"
             />
@@ -192,11 +192,6 @@ const confirmRemoveParticipant = (participant: Participant) => {
     type: 'warn',
     accept: () => {
       handleRemoveParticipant();
-      showToast({
-        type: 'success',
-        title: 'User Removed',
-        message: 'User has been removed from shift',
-      });
     },
   });
 };

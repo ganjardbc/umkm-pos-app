@@ -14,7 +14,7 @@
        <Tabs v-model:value="activeTab">
         <TabList class="bg-transparent!">
             <Tab value="0">Products</Tab>
-          <Tab value="1">Shifts</Tab>
+          <Tab value="1">Shifts & Metrics</Tab>
         </TabList>
       </Tabs>
 
@@ -93,7 +93,7 @@ const onShiftLoaded = (shiftData: any) => {
 }
 
 .pos-page--desktop {
-  @apply grid-cols-[1fr_420px];
+  @apply grid-cols-[1fr_minmax(0,420px)];
 }
 
 .pos-page__content {

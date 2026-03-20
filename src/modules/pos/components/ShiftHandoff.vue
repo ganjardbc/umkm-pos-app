@@ -6,7 +6,7 @@
 
     <div class="shift-handoff__content">
       <p class="shift-handoff__description">
-        Transfer shift responsibility to another participant
+        Transfer shift responsibility to another participant by Shift Owner.
       </p>
 
       <div class="space-y-4">
@@ -19,11 +19,15 @@
             option-value="user_id"
             placeholder="Choose a participant"
             class="w-full"
+            :disabled="!isShiftOwner"
           />
         </div>
 
         <div class="flex items-center gap-2">
-          <InputSwitch v-model="removePreviousOwner" />
+          <InputSwitch 
+            v-model="removePreviousOwner"
+            :disabled="!isShiftOwner"
+          />
           <label class="text-sm">Remove me from participants after handoff</label>
         </div>
 
@@ -31,14 +35,21 @@
           <Button
             label="Cancel"
             severity="secondary"
+            :disabled="!isShiftOwner || loading"
+            fluid
             @click="resetForm"
           />
           <Button
             label="Handoff"
-            @click="handleHandoff"
             :loading="loading"
-            :disabled="!selectedTargetUserId"
+            :disabled="!isShiftOwner || !selectedTargetUserId"
+            fluid
+            @click="handleConfirmHandoff"
           />
+        </div>
+
+        <div v-if="isHandoffComplete" class="text-center text-sm text-green-600 dark:text-green-400">
+          ✓ Shift handoff completed successfully
         </div>
       </div>
     </div>
@@ -46,9 +57,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed, nextTick } from 'vue';
 import { type Participant, useShift } from '@/modules/shift/composables/useShift';
-import { showToast } from '@/helpers/toast';
+import { showConfirm, showToast } from '@/helpers/toast';
 import { getErrorMessage } from '@/helpers/utils';
 import Button from 'primevue/button';
 import Dropdown from 'primevue/dropdown';
@@ -67,6 +78,10 @@ const props = defineProps({
     type: Array as () => Participant[],
     required: true,
   },
+  isShiftOwner: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits(['handoff-complete']);
@@ -75,6 +90,7 @@ const { loading, handoffShift } = useShift();
 
 const selectedTargetUserId = ref('');
 const removePreviousOwner = ref(false);
+const isHandoffComplete = ref(false);
 
 const otherParticipants = computed(() => {
   return props.participants.filter(
@@ -101,15 +117,33 @@ const handleHandoff = async () => {
       title: 'Success',
       message: 'Shift handed off successfully',
     });
-    resetForm();
+    
+    // Mark as complete to disable form
+    isHandoffComplete.value = true;
+
+    // Emit after handoff shift complete
     emit('handoff-complete');
   } catch (error) {
+    console.error('Handoff error:', error);
     showToast({
       type: 'error',
       title: 'Error',
       message: getErrorMessage(error) || 'Failed to handoff shift',
     });
   }
+};
+
+const handleConfirmHandoff = () => {
+  showConfirm({
+    header: 'Handoff Shift?',
+    message: 'Are you sure you want to handoff this shift?',
+    rejectLabel: 'Cancel',
+    acceptLabel: 'Handoff',
+    type: 'warn',
+    accept: () => {
+      handleHandoff();
+    },
+  });
 };
 </script>
 
