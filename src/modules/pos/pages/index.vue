@@ -21,7 +21,7 @@
       <!-- Products Tab -->
       <PosProduct
         v-if="activeTab === '0'"
-        :is-user-in-shift="isUserInShift"
+        :is-user-in-shift="isUserCanManageTransaction"
       />
 
       <!-- Shift Management Tab -->
@@ -34,7 +34,7 @@
 
     <!-- POS Cart -->
     <PosCart
-      :is-user-in-shift="isUserInShift"
+      :is-user-in-shift="isUserCanManageTransaction"
       :shift-id="currentShift?.id"
       :outlet-id="currentShift?.outlet_id"
       class="pos-page__cart"
@@ -57,7 +57,7 @@ const activeTab = ref<string>('0');
 const outlet = getOutlet();
 
 // Use shift composable to get shift data for PosCart
-const { isUserRemovedFromShift, currentShift } = useShift();
+const { isUserInShift, isUserRemovedFromShift, currentShift } = useShift();
 
 // Device type
 const authStore = useAuthStore();
@@ -66,8 +66,8 @@ const { deviceType } = storeToRefs(authStore);
 const isWeb = computed(() => deviceType.value === 'web');
 
 // Computed for PosCart
-const isUserInShift = computed(() => {
-  if (isUserRemovedFromShift.value) {
+const isUserCanManageTransaction = computed(() => {
+  if (isUserRemovedFromShift.value || !isUserInShift.value) {
     return false;
   }
 
