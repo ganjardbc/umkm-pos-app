@@ -84,7 +84,7 @@
   >
     <b>You're not shift participant.</b><br>
     <span class="text-sm">
-      To join to this shift you can request to shift owner's.
+      To join in this shift you can request to your shift owner's.
     </span>
   </Message>
 
