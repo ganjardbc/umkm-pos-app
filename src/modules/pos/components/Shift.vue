@@ -7,15 +7,6 @@
       :is-shift-open="currentShift.status === 'open'"
       @participant-added="onParticipantChanged"
       @participant-removed="onParticipantChanged"
-    />
-
-    <!-- Handoff Tab -->
-    <ShiftHandoff
-      v-if="activeParticipants.length > 1"
-      :shift-id="currentShift.id"
-      :current-owner-id="currentShift.shift_owner_id"
-      :participants="participants"
-      :is-shift-owner="isShiftOwner"
       @handoff-complete="onHandoffComplete"
     />
 
@@ -29,11 +20,10 @@
 
 <script setup lang="ts">
 import { computed, onMounted, watch } from 'vue';
-import { useShift, type Participant } from '@/modules/shift/composables/useShift';
+import { useShift } from '@/modules/shift/composables/useShift';
 import { getUser } from '@/helpers/auth';
 import * as shiftApi from '@/modules/shift/services/api';
 import ParticipantManagement from './ParticipantManagement.vue';
-import ShiftHandoff from './ShiftHandoff.vue';
 import MetricsDisplay from './MetricsDisplay.vue';
 
 const props = defineProps({
@@ -50,10 +40,6 @@ const user = getUser();
 
 const isShiftOwner = computed(() => {
   return currentShift.shift_owner_id === user?.id;
-});
-
-const activeParticipants = computed(() => {
-  return participants.value?.filter((p: Participant) => !p.participant_removed_at) || [];
 });
 
 const fetchOutletShift = async () => {

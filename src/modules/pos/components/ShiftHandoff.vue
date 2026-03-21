@@ -57,7 +57,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, nextTick } from 'vue';
+import { ref, computed } from 'vue';
 import { type Participant, useShift } from '@/modules/shift/composables/useShift';
 import { showConfirm, showToast } from '@/helpers/toast';
 import { getErrorMessage } from '@/helpers/utils';

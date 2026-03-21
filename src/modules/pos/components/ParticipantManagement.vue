@@ -2,15 +2,26 @@
   <div class="participant-management">
     <div class="participant-management__header">
       <h3 class="participant-management__title">User Shifts</h3>
-      <Button
-        v-if="isShiftOwner && isShiftOpen"
-        icon="pi pi-plus"
-        rounded
-        text
-        severity="success"
-        @click="showAddDialog = true"
-        :loading="loading"
-      />
+      <div class="flex justify-end gap-2 items-center">
+        <Button
+          v-if="isShiftOwner && isShiftOpen"
+          icon="pi pi-pencil"
+          label="Handoff Shift"
+          severity="secondary"
+          size="small"
+          :loading="loading"
+          @click="showHandoffDialog = true"
+        />
+        <Button
+          v-if="isShiftOwner && isShiftOpen"
+          icon="pi pi-plus"
+          rounded
+          text
+          severity="success"
+          :loading="loading"
+          @click="showAddDialog = true"
+        />
+      </div>
     </div>
 
     <!-- Participants List -->
@@ -101,6 +112,59 @@
         </div>
       </div>
     </Dialog>
+
+    <!-- Handoff Shift Dialog -->
+    <Dialog
+      v-model:visible="showHandoffDialog"
+      header="Handoff Shift"
+      :modal="true"
+      class="w-full md:w-96"
+    >
+      <div class="space-y-4">
+        <p class="text-sm text-gray-600 dark:text-gray-400">
+          Transfer shift responsibility to another participant
+        </p>
+        <div>
+          <label class="block text-sm font-medium mb-2">Select Target Participant</label>
+          <Dropdown
+            v-model="selectedHandoffUserId"
+            :options="otherParticipants"
+            option-label="user_name"
+            option-value="user_id"
+            placeholder="Choose a participant"
+            class="w-full"
+            :disabled="isHandoffComplete"
+          />
+        </div>
+
+        <div class="flex items-center gap-2">
+          <InputSwitch 
+            v-model="removePreviousOwner"
+            :disabled="isHandoffComplete"
+          />
+          <label class="text-sm">Remove me from participants after handoff</label>
+        </div>
+
+        <div v-if="isHandoffComplete" class="text-center text-sm text-green-600 dark:text-green-400">
+          ✓ Shift handoff completed successfully
+        </div>
+
+        <div class="flex gap-2 justify-end">
+          <Button
+            label="Cancel"
+            severity="secondary"
+            @click="handleCloseHandoffDialog"
+            :disabled="isHandoffComplete || loading"
+          />
+          <Button
+            label="Handoff"
+            @click="handleConfirmHandoff"
+            :loading="loading"
+            :disabled="!selectedHandoffUserId || isHandoffComplete"
+          />
+        </div>
+      </div>
+    </Dialog>
   </div>
 </template>
 
@@ -113,7 +177,9 @@ import { getErrorMessage } from '@/helpers/utils.ts';
 import Button from 'primevue/button';
 import Dialog from 'primevue/dialog';
 import Dropdown from 'primevue/dropdown';
+import InputSwitch from 'primevue/inputswitch';
 import Tag from 'primevue/tag';
+import Divider from 'primevue/divider';
 
 interface User {
   id: string;
@@ -136,16 +202,30 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['participant-added', 'participant-removed']);
+const emit = defineEmits(['participant-added', 'participant-removed', 'handoff-complete']);
 
-const { participants, loading, addParticipant, removeParticipant } = useShift();
+const { participants, loading, addParticipant, removeParticipant, handoffShift } = useShift();
 
 const showAddDialog = ref(false);
+const showHandoffDialog = ref(false);
 const showRemoveConfirm = ref(false);
 const selectedUserId = ref('');
+const selectedHandoffUserId = ref('');
+const removePreviousOwner = ref(false);
+const isHandoffComplete = ref(false);
 const participantToRemove = ref<Participant | null>(null);
 const availableUsers = ref<User[]>([]);
 const loadingUsers = ref(false);
+
+// const currentShiftOwnerId = computed(() => {
+//   return props.isShiftOwner ? participants.value?.[0]?.user_id : null;
+// });
+
+const otherParticipants = computed(() => {
+  return participants.value?.filter(
+    (p: Participant) => !p.is_owner && !p.participant_removed_at
+  ) || [];
+});
 
 const formatDate = (date: string) => {
   return new Date(date).toLocaleString();
@@ -236,6 +316,63 @@ const loadAvailableUsers = async () => {
   } finally {
     loadingUsers.value = false;
   }
+};
+
+const handleConfirmHandoff = () => {
+  showConfirm({
+    header: 'Handoff Shift?',
+    message: 'Are you sure you want to handoff this shift?',
+    rejectLabel: 'Cancel',
+    acceptLabel: 'Handoff',
+    type: 'warn',
+    accept: () => {
+      handleHandoff();
+    },
+  });
+};
+
+const handleHandoff = async () => {
+  if (!selectedHandoffUserId.value) return;
+
+  try {
+    console.log('Starting handoff with target:', selectedHandoffUserId.value);
+    await handoffShift({
+      shiftId: props.shiftId,
+      targetUserId: selectedHandoffUserId.value,
+      removePreviousOwner: removePreviousOwner.value,
+    });
+    console.log('Handoff successful');
+    showToast({
+      type: 'success',
+      title: 'Success',
+      message: 'Shift handed off successfully',
+    } as any);
+    
+    // Mark as complete to disable form
+    isHandoffComplete.value = true;
+    
+    // Emit event for parent to reload data
+    emit('handoff-complete');
+    
+    // Close modal after a short delay to show success message
+    setTimeout(() => {
+      handleCloseHandoffDialog();
+    }, 1500);
+  } catch (error) {
+    console.error('Handoff error:', error);
+    showToast({
+      type: 'error',
+      title: 'Error',
+      message: getErrorMessage(error) || 'Failed to handoff shift',
+    } as any);
+  }
+};
+
+const handleCloseHandoffDialog = () => {
+  showHandoffDialog.value = false;
+  selectedHandoffUserId.value = '';
+  removePreviousOwner.value = false;
+  isHandoffComplete.value = false;
 };
 
 onMounted(() => {
