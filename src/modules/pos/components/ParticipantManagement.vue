@@ -153,14 +153,14 @@
           <Button
             label="Cancel"
             severity="secondary"
-            @click="handleCloseHandoffDialog"
             :disabled="isHandoffComplete || loading"
+            @click="handleCloseHandoffDialog"
           />
           <Button
             label="Handoff"
-            @click="handleConfirmHandoff"
             :loading="loading"
             :disabled="!selectedHandoffUserId || isHandoffComplete"
+            @click="handleConfirmHandoff"
           />
         </div>
       </div>
@@ -216,10 +216,6 @@ const isHandoffComplete = ref(false);
 const participantToRemove = ref<Participant | null>(null);
 const availableUsers = ref<User[]>([]);
 const loadingUsers = ref(false);
-
-// const currentShiftOwnerId = computed(() => {
-//   return props.isShiftOwner ? participants.value?.[0]?.user_id : null;
-// });
 
 const otherParticipants = computed(() => {
   return participants.value?.filter(
@@ -335,13 +331,11 @@ const handleHandoff = async () => {
   if (!selectedHandoffUserId.value) return;
 
   try {
-    console.log('Starting handoff with target:', selectedHandoffUserId.value);
     await handoffShift({
       shiftId: props.shiftId,
       targetUserId: selectedHandoffUserId.value,
       removePreviousOwner: removePreviousOwner.value,
     });
-    console.log('Handoff successful');
     showToast({
       type: 'success',
       title: 'Success',
@@ -350,14 +344,10 @@ const handleHandoff = async () => {
     
     // Mark as complete to disable form
     isHandoffComplete.value = true;
+    handleCloseHandoffDialog();
     
     // Emit event for parent to reload data
     emit('handoff-complete');
-    
-    // Close modal after a short delay to show success message
-    setTimeout(() => {
-      handleCloseHandoffDialog();
-    }, 1500);
   } catch (error) {
     console.error('Handoff error:', error);
     showToast({

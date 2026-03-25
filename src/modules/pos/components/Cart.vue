@@ -472,6 +472,6 @@ const openCloseCart = () => {
 }
 
 .pos-cart__trigger-content--dark {
-  @apply dark:bg-dark-secondary dark:border-[--p-button-outlined-secondary-border-color];
+  @apply dark:bg-dark-secondary dark:border-dark-secondary;
 }
 </style>
