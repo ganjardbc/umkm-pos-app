@@ -20,9 +20,9 @@
 
 <script setup lang="ts">
 import { computed, onMounted, watch } from 'vue';
-import { useShift } from '@/modules/shift/composables/useShift';
-import { getUser } from '@/helpers/auth';
-import * as shiftApi from '@/modules/shift/services/api';
+import { useShift } from '@/modules/shift/composables/useShift.ts';
+import { getUser } from '@/helpers/auth.ts';
+import * as shiftApi from '@/modules/shift/services/api.ts';
 import ParticipantManagement from './ParticipantManagement.vue';
 import MetricsDisplay from './MetricsDisplay.vue';
 
