@@ -214,6 +214,27 @@ export const useShift = () => {
     }
   };
 
+  const restoreParticipant = async (payload: any) => {
+    try {
+      const { shiftId, userId } = payload || {};
+      if (!shiftId || !userId) {
+        throw new Error('shiftId and userId are required');
+      }
+      setLoading(true);
+      const response = await shiftApi.restoreParticipant(shiftId, userId);
+      const { data, success } = response?.data || {};
+      if (success) {
+        addParticipantToList(data);
+      }
+      return success;
+    } catch (err) {
+      setError(err);
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handoffShift = async (payload: any) => {
     try {
       const { shiftId, targetUserId, removePreviousOwner } = payload || {};
@@ -295,6 +316,7 @@ export const useShift = () => {
     fetchShiftParticipants,
     addParticipant,
     removeParticipant,
+    restoreParticipant,
     handoffShift,
     fetchParticipantMetrics,
     fetchAuditLogs,

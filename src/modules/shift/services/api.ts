@@ -65,6 +65,14 @@ export const removeParticipant = async (shiftId: string | number, userId: string
   );
 };
 
+export const restoreParticipant = async (shiftId: string | number, userId: string | number, options: any = {}) => {
+  return await api.patch(
+    `/api/v1/shifts/${shiftId}/participants/${userId}/restore`,
+    {},
+    { ...(options || {}) },
+  );
+};
+
 export const handoffShift = async (shiftId: string | number, data: any, options: any = {}) => {
   return await api.post(
     `/api/v1/shifts/${shiftId}/handoff`,

@@ -69,6 +69,17 @@
             @click="confirmRemoveParticipant(participant)"
             :loading="loading"
           />
+          <Button
+            v-if="isShiftOwner && isShiftOpen && !participant.is_owner && participant.participant_removed_at"
+            icon="pi pi-undo"
+            rounded
+            text
+            severity="success"
+            size="small"
+            @click="confirmRestoreParticipant(participant)"
+            :loading="loading"
+            title="Restore participant"
+          />
         </div>
       </div>
 
@@ -204,7 +215,7 @@ const props = defineProps({
 
 const emit = defineEmits(['participant-added', 'participant-removed', 'handoff-complete']);
 
-const { participants, loading, addParticipant, removeParticipant, handoffShift } = useShift();
+const { participants, loading, addParticipant, removeParticipant, restoreParticipant, handoffShift } = useShift();
 
 const showAddDialog = ref(false);
 const showHandoffDialog = ref(false);
@@ -293,6 +304,44 @@ const handleRemoveParticipant = async () => {
       type: 'error',
       title: 'Error',
       message: getErrorMessage(error) || 'Failed to remove participant',
+    } as any);
+  }
+};
+
+const confirmRestoreParticipant = (participant: Participant) => {
+  participantToRemove.value = participant;
+  showConfirm({
+    header: 'Restore User',
+    message: 'Are you sure you want to restore this user to the shift?',
+    rejectLabel: 'Cancel',
+    acceptLabel: 'Restore',
+    type: 'info',
+    accept: () => {
+      handleRestoreParticipant();
+    },
+  });
+};
+
+const handleRestoreParticipant = async () => {
+  if (!participantToRemove.value) return;
+
+  try {
+    await restoreParticipant({
+      shiftId: props.shiftId,
+      userId: participantToRemove.value.user_id,
+    });
+    showToast({
+      type: 'success',
+      title: 'Success',
+      message: 'Participant restored successfully',
+    } as any);
+    participantToRemove.value = null;
+    emit('participant-added');
+  } catch (error) {
+    showToast({
+      type: 'error',
+      title: 'Error',
+      message: getErrorMessage(error) || 'Failed to restore participant',
     } as any);
   }
 };
