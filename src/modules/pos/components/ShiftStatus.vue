@@ -93,7 +93,12 @@
     severity="warn"
     icon="pi pi-info-circle"
   >
-    You have been removed from this current shift.
+    <b>
+      You have been removed from this shift.
+    </b><br>
+    <span class="text-sm">
+      Please contact the shift owner to restore your shift.
+    </span>
   </Message>
 </template>
 
