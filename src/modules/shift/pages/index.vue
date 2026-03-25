@@ -59,6 +59,20 @@
             />
           </template>
         </Column>
+        <Column field="action" header="#" class="w-[48px]">
+          <template #body="slotProps">
+            <div class="flex gap-2">
+              <Button
+                severity="secondary" 
+                variant="outlined"
+                icon="pi pi-eye"
+                size="small"
+                :disabled="slotProps.data.status === 'open'"
+                @click="onDetailShift(slotProps.data)"
+              />
+            </div>
+          </template>
+        </Column>
       </DataTable>
       <UiPagination
         v-model="pagination"
@@ -70,7 +84,9 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
+import { useRouter } from 'vue-router';
 import { getNoTable, getErrorMessage, formatDate, formatRangeTime, getDuration } from '@/helpers/utils.ts';
+import { PREFIX_ROUTE_NAME } from '@/modules/shift/services/constants.ts';
 import { getListShift } from '@/modules/shift/services/api.ts';
 import { showToast } from '@/helpers/toast.ts';
 import { getOutlet } from '@/helpers/auth.ts';
@@ -79,6 +95,7 @@ import UiSearch from '@/components/UiSearch.vue';
 import UiPagination from '@/components/UiPagination.vue';
 
 const outlet = getOutlet();
+const router = useRouter();
 
 // Fetch Data
 const shifts = ref([]);
@@ -136,6 +153,14 @@ const getStatusSeverity = (status: string) => {
       return 'warning';
   }
 };
+
+const onDetailShift = (shift: any) => {
+  console.log(shift);
+  router.push({
+    name: `${PREFIX_ROUTE_NAME}-detail`,
+    params: { id: shift.id },
+  });
+}
 
 onMounted(() => {
   fetchShift();

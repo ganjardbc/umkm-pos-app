@@ -14,7 +14,8 @@ export interface Participant {
 export interface Owner {
   id: string;
   name: string;
-  user_name: string;
+  user_name?: string;
+  username?: string;
 }
 
 export interface Currentshift {
@@ -27,6 +28,13 @@ export interface Currentshift {
   participant_count: number,
   total_transactions: number,
   shift_owner: Owner,
+  outlet?: {
+    id: string,
+    name: string,
+    slug: string,
+  },
+  created_at?: string,
+  updated_at?: string,
 }
 
 export interface Metrics {
