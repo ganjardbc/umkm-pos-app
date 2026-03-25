@@ -107,6 +107,14 @@ export const useShift = () => {
     error.value = null;
   };
 
+  const isUserOwner = computed(() => {
+    const user = getUser();
+    if (shiftState.currentShift.shift_owner_id === user?.id) {
+      return true;
+    }
+    return false;
+  });
+
   const isUserInShift = computed(() => {
     const user = getUser();
     const findUser = shiftState.participants.value?.find(
@@ -309,6 +317,7 @@ export const useShift = () => {
     auditLogs: shiftState.auditLogs,
     loading,
     error,
+    isUserOwner,
     isUserInShift,
     isUserRemovedFromShift,
     // Actions

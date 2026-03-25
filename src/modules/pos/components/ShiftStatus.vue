@@ -36,23 +36,24 @@
             }}
         </span>
       </div>
-      <div
-        v-if="isUserInShift && !isUserRemovedFromShift"
-        class="pos-shift-status__actions"
-      >
+      <div class="pos-shift-status__actions">
         <Button
           v-if="currentShift.status === ShiftStatus.CLOSED"
           label="Open Shift"
           size="small"
+          severity="danger"
           :loading="loading"
           :disabled="loading"
           @click="handleOpenShift"
         />
         <Button
-          v-if="currentShift.status === ShiftStatus.OPEN"
+          v-if="
+            isUserOwner &&
+            currentShift.status === ShiftStatus.OPEN
+          "
           label="Close Shift"
           size="small"
-          severity="danger"
+          severity="success"
           :loading="loading"
           :disabled="loading"
           @click="handleCloseConfirm"
@@ -78,7 +79,15 @@
   </div>
 
   <Message
-    v-if="!isUserInShift"
+    v-if="!isUserRemovedFromShift && currentShift.status === ShiftStatus.OPEN"
+    severity="success"
+    icon="pi pi-info-circle"
+  >
+    Only {{ currentShift?.shift_owner?.name }} can close this shift.
+  </Message>
+
+  <Message
+    v-if="!isUserInShift && currentShift.status === ShiftStatus.OPEN"
     severity="info"
     icon="pi pi-info-circle"
   >
@@ -89,7 +98,7 @@
   </Message>
 
   <Message
-    v-if="isUserRemovedFromShift"
+    v-if="isUserRemovedFromShift && currentShift.status === ShiftStatus.OPEN"
     severity="warn"
     icon="pi pi-info-circle"
   >
@@ -123,7 +132,15 @@ const props = defineProps({
 
 const emit = defineEmits(['shift-loaded']);
 
-const { isUserInShift, isUserRemovedFromShift, currentShift, participants, loading, fetchShiftParticipants } = useShift();
+const {
+  isUserOwner,
+  isUserInShift,
+  isUserRemovedFromShift,
+  currentShift,
+  participants,
+  loading,
+  fetchShiftParticipants,
+} = useShift();
 
 const activeParticipants = computed(() => {
   return participants.value?.filter((p: Participant) => !p.participant_removed_at) || [];
@@ -175,18 +192,7 @@ const handleOpenShift = async () => {
 const handleCloseShift = async () => {
   try {
     await shiftApi.closeShift(currentShift.id);
-    // Reset shift state
-    const { currentShift: resetShift } = useShift();
-    Object.assign(resetShift, {
-      id: '',
-      outlet_id: '',
-      shift_owner_id: '',
-      status: 'closed',
-      start_time: '',
-      end_time: '',
-      participant_count: 0,
-      total_transactions: 0,
-    });
+    await fetchOutletShift();
     showToast({
       type: 'success',
       title: 'Success',
