@@ -31,11 +31,19 @@
           >
             <div class="metric-card__header">
               <h4 class="metric-card__name">{{ metric.user_name }}</h4>
-              <Tag
-                v-if="metric.participant_removed_at"
-                value="Inactive"
-                severity="warning"
-              />
+              <div class="flex justify-end gap-2">
+                <Tag
+                  v-if="metric.is_owner"
+                  value="Shift Owner"
+                  severity="info"
+                  class="ml-2"
+                />
+                <Tag
+                  v-if="metric.participant_removed_at"
+                  value="Removed"
+                  severity="warning"
+                />
+              </div>
             </div>
 
             <div class="metric-card__body">
@@ -97,6 +105,16 @@ interface Metric {
   participation_duration_minutes: number;
   participant_added_at: string;
   participant_removed_at?: string;
+  is_owner?: false;
+}
+
+interface Participant {
+  user_id: string;
+  user_name: string;
+  is_owner: boolean;
+  participant_added_at: string;
+  participant_removed_at?: string;
+  transaction_count: number;
 }
 
 const props = defineProps({
@@ -105,7 +123,7 @@ const props = defineProps({
     required: true,
   },
   participants: {
-    type: Array as () => Array<{ user_id: string; user_name: string }>,
+    type: Array as () => Array<Participant>,
     required: true,
   },
 });
@@ -294,13 +312,16 @@ const loadMetrics = async () => {
   loading.value = true;
   try {
     const metricsData: Metric[] = [];
-    for (const participant of props.participants) {
+    for (const participant of props.participants as Participant[]) {
       try {
         const metric = await fetchParticipantMetrics({
           shiftId: props.shiftId,
           userId: participant.user_id,
         });
-        metricsData.push(metric);
+        metricsData.push({
+          ...metric,
+          is_owner: participant.is_owner,
+        });
       } catch (error) {
         console.error(`Failed to load metrics for ${participant.user_name}:`, error);
       }
