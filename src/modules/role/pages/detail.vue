@@ -14,18 +14,18 @@
 
     <UiCard v-if="roleDetail">
       <template #header>  
-      <div class="w-full flex gap-4 items-center justify-between">
-        <h1 class="text-2xl font-semibold">
-          Role Information
-        </h1>
-        <Button
-          icon="pi pi-pencil"
-          label="Edit Role"
-          size="small"
-          :disabled="!isCanUpdate"
-          @click="onEdit"
-        />
-      </div>
+        <div class="w-full flex gap-4 items-center justify-between">
+          <h1 class="text-2xl font-semibold">
+            Role Information
+          </h1>
+          <Button
+            icon="pi pi-pencil"
+            label="Edit Role"
+            size="small"
+            :disabled="!isCanUpdate"
+            @click="onEdit"
+          />
+        </div>
       </template>
 
       <div class="space-y-4">

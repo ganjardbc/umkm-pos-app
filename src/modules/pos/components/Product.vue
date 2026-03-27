@@ -1,9 +1,5 @@
 <template>
   <div class="pos-product">
-    <h1 class="text-xl font-semibold">
-      Product
-    </h1>
-
     <div class="flex-1">
       <UiSearch
         v-model="form.search"
@@ -204,14 +200,5 @@ onMounted(() => {
 
 .pos-product__content {
   @apply grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4;
-  /* @apply grid grid-cols-1 gap-4; */
 }
-
-/* .pos-product__content-cols-2 {
-  @apply grid-cols-2;
-} */
-
-/* .pos-product__content-cols-3 {
-  @apply grid-cols-3;
-} */
 </style>

@@ -136,7 +136,7 @@
               <!-- Outlet Information -->
               <UiCard v-if="outletSelected">
                 <template #header>
-                  <h2 class="text-lg font-semibold text-gray-900">
+                  <h2 class="text-lg font-semibold">
                     Outlet Information
                   </h2>
                 </template>
@@ -176,7 +176,7 @@
               <!-- Role Information -->
               <UiCard v-if="roleSelected">
                 <template #header>
-                  <h2 class="text-lg font-semibold text-gray-900">
+                  <h2 class="text-lg font-semibold">
                     Role Information
                   </h2>
                 </template>
