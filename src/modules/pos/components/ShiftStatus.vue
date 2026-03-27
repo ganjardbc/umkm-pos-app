@@ -1,6 +1,5 @@
 <template>
   <div
-    v-if="currentShift?.id"
     class="pos-shift-status"
     :class="{
       'pos-shift-status--open': currentShift.status === ShiftStatus.OPEN,
@@ -8,10 +7,7 @@
       'pos-shift-status--dark': true,
     }"
   >
-    <div
-      v-if="currentShift?.id"
-      class="pos-shift-status__content"
-    >
+    <div class="pos-shift-status__content">
       <div class="pos-shift-status__left">
         <span
           class="pos-shift-status__indicator"
