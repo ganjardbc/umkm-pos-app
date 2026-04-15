@@ -4,7 +4,8 @@ import {
 } from '@/modules/transaction/services/constants.ts';
 
 import {
-  PERMISSIONS,
+  CREATE,
+  READ,
 } from '@/modules/transaction/services/rbac.ts';
 
 export default [
@@ -15,7 +16,7 @@ export default [
     meta: {
       title: 'Transaction',
       layout: 'default',
-      permission: PERMISSIONS,
+      permission: [READ],
       breadcrumbs: [
         {
           label: 'Home',
@@ -24,6 +25,60 @@ export default [
         },
         {
           label: 'Transaction',
+          route: PREFIX_ROUTE_PATH,
+          isActive: true,
+        },
+      ]
+    }
+  },
+  {
+    path: `${PREFIX_ROUTE_PATH}/create`,
+    name: `${PREFIX_ROUTE_NAME}-create`,
+    component: () => import('@/modules/transaction/pages/create.vue'),
+    meta: {
+      title: 'Transaction',
+      layout: 'default',
+      permission: [CREATE],
+      breadcrumbs: [
+        {
+          label: 'Home',
+          route: '/landing',
+          isActive: false,
+        },
+        {
+          label: 'Transaction',
+          route: PREFIX_ROUTE_PATH,
+          isActive: false,
+        },
+        {
+          label: 'Create',
+          route: PREFIX_ROUTE_PATH,
+          isActive: true,
+        },
+      ]
+    }
+  },
+  {
+    path: `${PREFIX_ROUTE_PATH}/detail/:id`,
+    name: `${PREFIX_ROUTE_NAME}-detail`,
+    component: () => import('@/modules/transaction/pages/detail.vue'),
+    meta: {
+      title: 'Transaction',
+      layout: 'default',
+      permission: [READ],
+      breadcrumbs: [
+        {
+          label: 'Home',
+          route: '/landing',
+          isActive: false,
+        },
+        {
+          label: 'Transaction',
+          route: PREFIX_ROUTE_PATH,
+          isActive: false,
+        },
+        {
+          label: 'Detail',
           route: PREFIX_ROUTE_PATH,
           isActive: true,
         },

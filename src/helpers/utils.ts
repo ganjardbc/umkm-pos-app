@@ -50,18 +50,18 @@ export const formatDuration = (minutes: number): string => {
   const parts: string[] = [];
 
   if (days > 0) {
-    parts.push(`${days} ${days === 1 ? 'day' : 'days'}`);
+    parts.push(`${days}d`);
   }
 
   if (hours > 0) {
-    parts.push(`${hours} ${hours === 1 ? 'hour' : 'hours'}`);
+    parts.push(`${hours}h`);
   }
 
   if (mins > 0) {
-    parts.push(`${mins} ${mins === 1 ? 'minute' : 'minutes'}`);
+    parts.push(`${mins}m`);
   }
 
-  return parts.length > 0 ? parts.join(' ') : '0 minutes';
+  return parts.length > 0 ? parts.join(' ') : '0m';
 };
 
 export const getDuration = (startDate: string, endDate: string) => {
@@ -123,6 +123,15 @@ export const getErrorMessage = (error: any) => {
     return error.message
   }
 }
+
+export const formatPrice = (price: string | number) => {
+  const numPrice = typeof price === 'string' ? parseFloat(price) : price;
+  return new Intl.NumberFormat('id-ID', {
+    style: 'currency',
+    currency: 'IDR',
+    minimumFractionDigits: 0,
+  }).format(numPrice);
+};
 
 export const randomString = (length: number) => {
   let result = '';

@@ -13,7 +13,7 @@
         'pos-cart__header--mobile': !isWeb,
       }"
     >
-      <h1 class="text-2xl font-semibold">
+      <h1 class="text-lg font-semibold">
         Cart ({{ posStore.cartItemCount }})
       </h1>
       <div class="flex gap-4">
@@ -238,7 +238,7 @@
 import { ref, computed, watch } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useAuthStore } from '@/modules/auth/stores/index.ts';
-import { usePosStore } from '@/modules/pos/stores';
+import { usePosStore } from '@/modules/transaction/stores-pos';
 import { getCurrency } from '@/helpers/utils.ts';
 import { showConfirm, showToast } from '@/helpers/toast.ts';
 import { postTransaction } from '@/modules/transaction/services/api.ts';
@@ -259,6 +259,8 @@ const props = defineProps({
   },
 });
 
+const emit = defineEmits(['checkout-success']);
+
 const posStore = usePosStore();
 const isCheckingOut = ref(false);
 
@@ -277,14 +279,6 @@ const paymentMethods = ref([
   { label: 'E-Wallet', value: 'e-wallet' },
   { label: 'QRIS', value: 'qris' },
 ]);
-
-watch(() => props.outletId, (newVal: string) => {
-  transactionForm.value.outlet_id = newVal;
-}, { immediate: true });
-
-watch(() => props.shiftId, (newVal: string) => {
-  transactionForm.value.shift_id = newVal;
-}, { immediate: true });
 
 // Cart Items
 const removeItem = (productId: string) => {
@@ -363,7 +357,7 @@ const onCheckout = async () => {
     isCheckingOut.value = true;
     
     // Prepare transaction payload
-    const payload = {
+    const payload: any = {
       outlet_id: transactionForm.value.outlet_id,
       shift_id: transactionForm.value.shift_id,
       payment_method: transactionForm.value.payment_method,
@@ -386,6 +380,9 @@ const onCheckout = async () => {
       
       posStore.clearCart();
       openCloseCart();
+      
+      // Emit event to parent to handle form clearing
+      emit('checkout-success');
     }
   } catch (error: any) {
     console.error('Checkout error:', error);
@@ -412,6 +409,14 @@ const showCartMobile = ref(false);
 const openCloseCart = () => {
   showCartMobile.value = !showCartMobile.value;
 };
+
+watch(() => props.outletId, (newVal: string) => {
+  transactionForm.value.outlet_id = newVal;
+}, { immediate: true });
+
+watch(() => props.shiftId, (newVal: string) => {
+  transactionForm.value.shift_id = newVal;
+}, { immediate: true });
 </script>
 <style>
 @import 'tailwindcss';

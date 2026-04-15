@@ -3,7 +3,7 @@
     v-model:visible="visibility"
     modal
     group="headless"
-    class="receipt-modal"
+    class="receipt-modal w-120"
   >
     <template #header>
       <h1 class="text-xl font-semibold">
@@ -103,10 +103,6 @@ const onCancel = () => {
 </script>
 
 <style scoped>
-.receipt-modal {
-  width: 32rem;
-}
-
 .receipt-modal :deep(.p-dialog-content) {
   padding-bottom: 0 !important;
 }

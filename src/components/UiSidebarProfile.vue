@@ -4,6 +4,12 @@
       class="ui-sidebar-profile__toggle ui-sidebar-profile__toggle--dark"
       @click="openProfileMenu"
     >
+      <Tag
+        v-if="!isMobile"
+        :severity="isUserInShift ? 'success' : 'secondary'"
+        :value="isUserInShift ? 'In Shift' : 'Not Shift'"
+        class="text-xs! font-medium!"
+      />
       <Avatar
         :label="personalInfo?.user?.name?.charAt(0)"
         size="small"
@@ -16,7 +22,7 @@
       class="ui-sidebar-profile__popper"
     >
       <div class="space-y-4 w-60">
-        <div class="flex items-center gap-2">
+        <div class="relative flex items-center gap-2">
           <Avatar
             :label="personalInfo?.user?.name?.charAt(0)"
             size="small"
@@ -32,6 +38,11 @@
               {{ personalInfo?.user?.email || '-' }}
             </div>
           </div>
+          <Tag
+            :severity="isUserInShift ? 'success' : 'secondary'"
+            :value="isUserInShift ? 'In Shift' : 'Not Shift'"
+            class="text-xs! font-medium!"
+          />
         </div>
         <Divider />
         <div class="space-y-2">
@@ -75,9 +86,12 @@
 <script setup>
 import { ref, computed } from "vue";
 import { useRouter } from 'vue-router';
+import { storeToRefs } from 'pinia';
 import { removeAuth } from '@/helpers/auth.ts';
 import { showConfirm, showToast } from "@/helpers/toast.ts";
 import { getPersonalInformation } from '@/helpers/auth.ts';
+import { useAuthStore } from '@/modules/auth/stores/index.ts';
+import { useShift } from '@/modules/shift/composables/useShift.ts';
 import { PREFIX_ROUTE_PATH as PRP_AUTH } from '@/modules/auth/services/constants.ts';
 import { PREFIX_ROUTE_PATH as PRP_PROFILE } from '@/modules/profile/services/constants.ts';
 import { PREFIX_ROUTE_PATH as PRP_SETTINGS } from '@/modules/settings/services/constants.ts';
@@ -90,8 +104,15 @@ defineProps({
 });
 
 const router = useRouter();
-
 const personalInfo = computed(() => getPersonalInformation());
+
+const authStore = useAuthStore();
+const { deviceType } = storeToRefs(authStore);
+
+const isMobile = computed(() => deviceType.value === 'mobile');
+
+// Computed for Shift
+const { isUserInShift } = useShift();
 
 const handleLogout = () => {
   showConfirm({
@@ -125,7 +146,7 @@ const openProfileMenu = (event) => {
 }
 
 .ui-sidebar-profile__toggle {
-  @apply p-2 rounded-lg cursor-pointer;
+  @apply p-2 rounded-lg cursor-pointer flex items-center gap-2;
 }
 
 .ui-sidebar-profile__toggle--dark {

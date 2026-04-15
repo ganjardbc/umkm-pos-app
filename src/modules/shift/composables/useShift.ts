@@ -115,6 +115,15 @@ export const useShift = () => {
     error.value = null;
   };
 
+  const isShiftClosed = computed(() => {
+    const ShiftStatus = {
+      OPEN: 'open',
+      CLOSED: 'closed'
+    };
+
+    return shiftState.currentShift.status === ShiftStatus.CLOSED;
+  });
+
   const isUserOwner = computed(() => {
     const user = getUser();
     if (shiftState.currentShift.shift_owner_id === user?.id) {
@@ -124,13 +133,19 @@ export const useShift = () => {
   });
 
   const isUserInShift = computed(() => {
+    if (isShiftClosed.value) {
+      return false;
+    }
+
     const user = getUser();
     const findUser = shiftState.participants.value?.find(
       (p: Participant) => p.user_id === user?.id,
     );
+
     if (findUser !== undefined) {
       return true;
     }
+
     return false;
   });
 
@@ -143,6 +158,14 @@ export const useShift = () => {
       return true;
     }
     return false;
+  });
+
+  const isShiftUserCanManage = computed(() => {
+    if (isUserRemovedFromShift.value || !isUserInShift.value) {
+      return false;
+    }
+
+    return !isShiftClosed.value;
   });
 
   // Async actions
@@ -325,9 +348,11 @@ export const useShift = () => {
     auditLogs: shiftState.auditLogs,
     loading,
     error,
+    isShiftClosed,
     isUserOwner,
     isUserInShift,
     isUserRemovedFromShift,
+    isShiftUserCanManage,
     // Actions
     fetchShift,
     fetchShiftParticipants,

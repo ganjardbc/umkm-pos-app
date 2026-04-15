@@ -5,17 +5,25 @@
     </h1>
 
     <div class="flex flex-col md:flex-row gap-4">
-      <UiSearch
-        v-model="form.search"
-        type="search"
-        class="w-full"
-        @input="search"
+      <div class="flex-1">
+        <UiSearch
+          v-model="form.search"
+          type="search"
+          class="w-full"
+          @input="search"
+        />
+      </div>
+      <Button
+        icon="pi pi-plus"
+        label="Create Transaction"
+        class="w-full md:w-[238px]"
+        :disabled="!isCanCreate"
+        @click="createTransaction"
       />
     </div>
 
     <UiCard class="p-0! gap-0! overflow-hidden!">
       <DataTable
-        v-model:expandedRows="expandedRows"
         :value="transactions"
         dataKey="id"
         tableStyle="min-width: 50rem;"
@@ -25,30 +33,24 @@
             Transactions are empty.
           </span>
         </template>
-        <Column expander style="width: 5rem" />
         <Column field="no" header="NO" class="w-18">
           <template #body="slotProps">
             {{ getNoTable(slotProps.index, pagination.page, pagination.rows) }}
           </template>
         </Column>
-        <Column field="outlet" header="Outlet">
-          <template #body="slotProps">
-            {{ slotProps.data.outlets?.name }}
-          </template>
-        </Column>
-        <Column field="users" header="Users">
+        <Column field="users" header="Users" class="min-w-48">
           <template #body="slotProps">
             {{ slotProps.data.users?.name }}
           </template>
         </Column>
-        <Column field="payment_method" header="Payment">
+        <Column field="payment_method" header="Payment" class="min-w-28">
           <template #body="slotProps">
             <span class="capitalize">
               {{ slotProps.data.payment_method }}
             </span>
           </template>
         </Column>
-        <Column field="total_amount" header="Total">
+        <Column field="total_amount" header="Total" class="min-w-38">
           <template #body="slotProps">
             {{ getCurrency(slotProps.data.total_amount) }}
           </template>
@@ -78,12 +80,12 @@
             />
           </template>
         </Column>
-        <Column field="created_at" header="Created At">
+        <Column field="created_at" header="Created At" class="min-w-48">
           <template #body="slotProps">
             {{ formatDateTime(slotProps.data.created_at) }}
           </template>
         </Column>
-        <Column field="action" header="#" class="w-[128px]">
+        <Column field="action" header="#">
           <template #body="slotProps">
             <div class="flex gap-2">
               <Button
@@ -93,6 +95,14 @@
                 size="small"
                 :disabled="!isCanPrint"
                 @click="openPrintReceipt(slotProps.data)"
+              />
+              <Button
+                severity="secondary" 
+                variant="outlined"
+                icon="pi pi-eye"
+                size="small"
+                :disabled="!iscanDetail"
+                @click="openDetail(slotProps.data)"
               />
               <Button
                 severity="danger" 
@@ -105,32 +115,6 @@
             </div>
           </template>
         </Column>
-
-        <template #expansion="slotProps">
-          <div class="py-2 space-y-4">
-            <div class="text-base font-semibold">
-              List Items
-            </div>
-            <DataTable :value="slotProps?.data?.transaction_items" showGridlines>
-              <Column field="no" header="NO" class="w-18">
-                <template #body="slotProps">
-                  {{ slotProps.index + 1 }}
-                </template>
-              </Column>
-              <Column field="product_name_snapshot" header="Product Name" />
-              <Column field="qty" header="Qty" class="w-70">
-                <template #body="slotProps">
-                  {{ slotProps.data.qty }}x
-                </template>
-              </Column>
-              <Column field="subtotal" header="Price" class="w-[144px]">
-                <template #body="slotProps">
-                  {{ getCurrency(slotProps.data.subtotal) }}
-                </template>
-              </Column>
-            </DataTable>
-          </div>
-        </template>
       </DataTable>
       <UiPagination
         v-model="pagination"
@@ -150,6 +134,7 @@
 <script setup lang="ts">
 import { type ReceiptData } from '../utils/receiptGenerator';
 import { onMounted, ref, computed } from 'vue';
+import { useRouter } from 'vue-router';
 import { getNoTable, getErrorMessage, getCurrency, formatDateTime } from '@/helpers/utils.ts';
 import { getListTransaction, postCancelTransaction } from '@/modules/transaction/services/api.ts';
 import { showToast, showConfirm } from '@/helpers/toast.ts';
@@ -160,13 +145,16 @@ import UiCard from '@/components/UiCard.vue';
 import UiSearch from '@/components/UiSearch.vue';
 import UiPagination from '@/components/UiPagination.vue';
 import ReceiptModal from '@/modules/transaction/components/ReceiptModal.vue';
-import { PRINT, CANCEL } from '@/modules/transaction/services/rbac.ts';
+import { CREATE, READ, PRINT, CANCEL } from '@/modules/transaction/services/rbac.ts';
+import { PREFIX_ROUTE_NAME } from '@/modules/transaction/services/constants.ts';
 
+const router = useRouter();
 const outlet = getOutlet();
-const expandedRows = ref({});
 
 // RBAC
+const isCanCreate = computed(() => isHasPermission(CREATE)); 
 const isCanPrint = computed(() => isHasPermission(PRINT));
+const iscanDetail = computed(() => isHasPermission(READ));
 const isCanCancel = computed(() => isHasPermission(CANCEL));
 
 // Fetch Data
@@ -255,6 +243,21 @@ const onCancelTransaction = (transaction: any) => {
     accept: () => {
       cancelTransaction(transaction?.id);
     },
+  });
+};
+
+// Create Transactions
+const createTransaction = () => {
+  router.push({
+    name: `${PREFIX_ROUTE_NAME}-create`
+  });
+};
+
+// Detail Transactions
+const openDetail = (transaction: any) => {
+  router.push({
+    name: `${PREFIX_ROUTE_NAME}-detail`,
+    params: { id: transaction.id }
   });
 };
 

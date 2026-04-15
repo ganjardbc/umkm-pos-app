@@ -14,39 +14,60 @@
 
     <!-- Shift Information -->
     <Information
-      v-if="currentShift.id"
+      v-if="currentShift?.id"
       :current-shift="currentShift"
     />
 
     <!-- Metrics Tab -->
     <MetricsDisplay
-      v-if="currentShift.id"
-      :shift-id="currentShift.id"
+      v-if="currentShift?.id"
+      :shift-id="currentShift?.id"
       :participants="participants"
+      :show-removed-status="false"
     />
   </div>
 </template>
 
 <script setup lang="ts">
-import MetricsDisplay from '@/modules/pos/components/MetricsDisplay.vue';
+import MetricsDisplay from '@/modules/shift/components/MetricsDisplay.vue';
 import Information from '@/modules/shift/components/Information.vue';
-import { useShift } from '@/modules/shift/composables/useShift.ts';
+import { showLoading, hideLoading } from '@/helpers/loading.ts';
+import { getDetailShift, getShiftParticipants } from '@/modules/shift/services/api';
 import { useRoute, useRouter } from 'vue-router';
-import { computed, onMounted } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 
 const route = useRoute();
 const router = useRouter();
 const shiftID = computed(() => route.params.id as string);
 
-const { currentShift, participants, fetchShift, fetchShiftParticipants } = useShift();
+// Fetch Detail Shift
+const currentShift = ref<any>();
 
 const fetchDetailShift = async () => {
   try {
-    // Set current shift
-    await fetchShift({ shiftId: shiftID.value });
-    
-    // Fetch participants
-    await fetchShiftParticipants({ shiftId: shiftID.value });
+    showLoading();
+    const response = await getDetailShift(shiftID.value);
+    const { data, success } = response?.data || {};
+    if (success) {
+      currentShift.value = data;
+    }
+  } catch (error) {
+    console.error('Failed to fetch shift:', error);
+  }  finally {
+    hideLoading();
+  }
+};
+
+// Fetch Participant Shift
+const participants = ref<any[]>([]);
+
+const fetchParticipantShift = async () => {
+  try {
+    const response = await getShiftParticipants(shiftID.value);
+    const { data, success } = response?.data || {};
+    if (success) {
+      participants.value = data.data || [];
+    }
   } catch (error) {
     console.error('Failed to fetch shift:', error);
   }
@@ -57,8 +78,9 @@ const onBack = () => {
   router.back();
 };
 
-onMounted(() => {
-  fetchDetailShift();
+onMounted(async () => {
+  await fetchDetailShift();
+  await fetchParticipantShift();
 });
 </script>
 

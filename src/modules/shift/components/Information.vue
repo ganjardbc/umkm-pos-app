@@ -1,7 +1,7 @@
 <template>
   <UiCard>
     <div class="w-full flex gap-4 items-center justify-between">
-      <h1 class="text-lg font-semibold">
+      <h1 class="text-2xl font-semibold">
         Shift Information
       </h1>
     </div>

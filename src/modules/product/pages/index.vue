@@ -34,27 +34,27 @@
             {{ getNoTable(slotProps.index, pagination.page, pagination.rows) }}
           </template>
         </Column>
-        <Column field="name" header="Name">
+        <Column field="name" header="Name" class="min-w-48">
           <template #body="slotProps">
             {{ slotProps.data.name }}
           </template>
         </Column>
-        <Column field="category" header="Category">
+        <Column field="category" header="Category" class="min-w-48">
           <template #body="slotProps">
             {{ slotProps.data.category }}
           </template>
         </Column>
-        <Column field="price" header="Price">
+        <Column field="price" header="Price" class="min-w-48">
           <template #body="slotProps">
             {{ getCurrency(slotProps.data.price) }}
           </template>
         </Column>
-        <Column field="cost" header="Cost">
+        <Column field="cost" header="Cost" class="min-w-48">
           <template #body="slotProps">
             {{ getCurrency(slotProps.data.cost) }}
           </template>
         </Column>
-        <Column field="min_stock" header="Min Stock">
+        <Column field="min_stock" header="Min Stock" class="min-w-28">
           <template #body="slotProps">
             {{ slotProps.data.min_stock }}
           </template>
@@ -62,11 +62,6 @@
         <Column field="stock_qty" header="Qty">
           <template #body="slotProps">
             {{ slotProps.data.stock_qty }}
-          </template>
-        </Column>
-        <Column field="merchants" header="Merchant">
-          <template #body="slotProps">
-            {{ slotProps.data.merchants.name }}
           </template>
         </Column>
         <Column field="is_active" header="Status">
@@ -78,7 +73,7 @@
             />
           </template>
         </Column>
-        <Column field="created_at" header="Created At">
+        <Column field="created_at" header="Created At" class="min-w-48">
           <template #body="slotProps">
             {{ formatDateTime(slotProps.data.created_at) }}
           </template>
@@ -89,17 +84,17 @@
               <Button
                 severity="secondary" 
                 variant="outlined"
-                icon="pi pi-eye"
-                size="small"
-                @click="onDetailProduct(slotProps.data)"
-              />
-              <Button
-                severity="secondary" 
-                variant="outlined"
                 icon="pi pi-plus"
                 size="small"
                 :disabled="!isCanAdjust"
                 @click="onAddjustProduct(slotProps.data)"
+              />
+              <Button
+                severity="secondary" 
+                variant="outlined"
+                icon="pi pi-eye"
+                size="small"
+                @click="onDetailProduct(slotProps.data)"
               />
               <Button
                 severity="secondary" 

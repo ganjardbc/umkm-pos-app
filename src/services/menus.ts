@@ -28,9 +28,9 @@ import { PERMISSIONS as SHIFT_PERMISSIONS } from '@/modules/shift/services/rbac.
 import { PREFIX_ROUTE_PATH as PRP_TRANSACTION } from '@/modules/transaction/services/constants';
 import { PERMISSIONS as TRANSACTION_PERMISSIONS } from '@/modules/transaction/services/rbac.ts';
 
-// POS
-import { PREFIX_ROUTE_PATH as PRP_POS } from '@/modules/pos/services/constants';
-import { PERMISSIONS as POS_PERMISSIONS } from '@/modules/pos/services/rbac.ts';
+// // POS
+// import { PREFIX_ROUTE_PATH as PRP_POS } from '@/modules/pos/services/constants';
+// import { PERMISSIONS as POS_PERMISSIONS } from '@/modules/pos/services/rbac.ts';
 
 // User
 import { PREFIX_ROUTE_PATH as PRP_USER } from '@/modules/user/services/constants';
@@ -56,12 +56,19 @@ export default [
     permissions: DASHBOARD_PERMISSIONS,
     route: PRP_DASHBOARD,
   },
+  // {
+  //   icon: 'pi pi-desktop',
+  //   label: 'Point of Sale',
+  //   featureFlag: DEFAULT_FEATURE_FLAG,
+  //   permissions: POS_PERMISSIONS,
+  //   route: PRP_POS,
+  // },
   {
-    icon: 'pi pi-desktop',
-    label: 'Point of Sale',
+    icon: 'pi pi-clock',
+    label: 'Shifts',
     featureFlag: DEFAULT_FEATURE_FLAG,
-    permissions: POS_PERMISSIONS,
-    route: PRP_POS,
+    permissions: SHIFT_PERMISSIONS,
+    route: PRP_SHIFT,
   },
   {
     icon: 'pi pi-list',
@@ -69,27 +76,6 @@ export default [
     featureFlag: DEFAULT_FEATURE_FLAG,
     permissions: TRANSACTION_PERMISSIONS,
     route: PRP_TRANSACTION,
-  },
-  {
-    icon: 'pi pi-shop',
-    label: 'Merchants',
-    featureFlag: DEFAULT_FEATURE_FLAG,
-    permissions: MERCHANTS_PERMISSIONS,
-    route: PRP_MERCHANTS,
-  },
-  {
-    icon: 'pi pi-sitemap',
-    label: 'Outlets',
-    featureFlag: DEFAULT_FEATURE_FLAG,
-    permissions: OUTLET_PERMISSIONS,
-    route: PRP_OUTLET,
-  },
-  {
-    icon: 'pi pi-clock',
-    label: 'Shifts',
-    featureFlag: DEFAULT_FEATURE_FLAG,
-    permissions: SHIFT_PERMISSIONS,
-    route: PRP_SHIFT,
   },
   {
     icon: 'pi pi-box',
@@ -104,6 +90,20 @@ export default [
     featureFlag: false,
     permissions: STOCK_PERMISSIONS,
     route: PRP_STOCK,
+  },
+  {
+    icon: 'pi pi-shop',
+    label: 'Merchants',
+    featureFlag: DEFAULT_FEATURE_FLAG,
+    permissions: MERCHANTS_PERMISSIONS,
+    route: PRP_MERCHANTS,
+  },
+  {
+    icon: 'pi pi-sitemap',
+    label: 'Outlets',
+    featureFlag: DEFAULT_FEATURE_FLAG,
+    permissions: OUTLET_PERMISSIONS,
+    route: PRP_OUTLET,
   },
   {
     icon: 'pi pi-users',

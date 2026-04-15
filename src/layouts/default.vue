@@ -54,6 +54,14 @@
           :icon="isDark ? 'pi pi-sun' : 'pi pi-moon'"
           @click="toggleDarkMode"
         />
+        <router-link to="/notification">
+          <Button
+            severity="secondary" 
+            variant="outlined"
+            size="medium"
+            icon="pi pi-bell"
+          />
+        </router-link>
         <router-link to="/settings">
           <Button
             severity="secondary" 
@@ -140,15 +148,6 @@
             />
 
             <Divider layout="vertical" />
-
-            <router-link to="/notification">
-              <Button
-                severity="secondary" 
-                variant="text"
-                size="small"
-                icon="pi pi-bell"
-              />
-            </router-link>
             
             <UiSidebarProfile
               :is-collapsed="isSmallSidebar"
@@ -179,13 +178,15 @@ import { onMounted, computed, ref, watch } from "vue";
 import { useRoute, useRouter } from 'vue-router';
 import defaultLogo from '@/assets/vue.svg';
 
-import { isLogin } from '@/helpers/auth.ts';
+import { isLogin, getOutlet } from '@/helpers/auth.ts';
 import { useDarkMode } from '@/composables/useDarkMode.ts';
 
 import { storeToRefs } from 'pinia';
 import { useAuthStore } from '@/modules/auth/stores/index.ts';
 
 import { PREFIX_ROUTE_PATH as PRP_AUTH } from '@/modules/auth/services/constants.ts';
+import { useShift } from '@/modules/shift/composables/useShift.ts';
+import { getOutletShift } from '@/modules/shift/services/api.ts';
 
 import UiSidebarMenu from '@/components/UiSidebarMenu.vue';
 import UiSidebarOutlet from '@/components/UiSidebarOutlet.vue';
@@ -204,6 +205,7 @@ const home = computed(() => ({
 }));
 
 const router = useRouter();
+const outlet = getOutlet();
 
 // Dark mode
 const { isDark, toggleDarkMode, initializeTheme } = useDarkMode();
@@ -239,11 +241,42 @@ watch(deviceType, () => {
   }
 }, { immediate: true });
 
+// Computed for Shift
+const {
+  fetchShift,
+  fetchShiftParticipants,
+} = useShift();
+
+const fetchOutletShift = async () => {
+  try {
+    const response = await getOutletShift(outlet.id);
+    const shiftData = response?.data?.data || {};
+    if (shiftData?.id) {
+      await fetchShift({ shiftId: shiftData.id });
+      await fetchShiftParticipants({ shiftId: shiftData.id });
+    }
+  } catch (error) {
+    console.error('Failed to fetch outlet shift:', error);
+  }
+};
+
+// Watch for outlet changes
+watch(
+  () => outlet?.id,
+  (newOutletId) => {
+    if (newOutletId) {
+      fetchOutletShift();
+    }
+  },
+  { immediate: true },
+);
+
 onMounted(() => {
   if (!isLogin()) {
     router.push(PRP_AUTH);
   }
   initializeTheme();
+  fetchOutletShift();
 });
 </script>
 <style scoped>
