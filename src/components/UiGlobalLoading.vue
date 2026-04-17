@@ -8,7 +8,7 @@
   >
     <div class="flex flex-col justify-center items-center gap-4">
       <i class="pi pi-spin pi-spinner text-primary" style="font-size: 2rem"></i>
-      <span class="text-base text-gray-900 font-semibold text-center">
+      <span class="text-base font-semibold text-center">
         Please Wait..
       </span>
     </div>

@@ -1,8 +1,8 @@
 <template>
   <UiCard class="register-page">
-    <Image :src="defaultLogo" alt="Image" width="74" />
+    <Image :src="defaultLogo" alt="Image" class="w-44" />
 
-    <div class="w-full pt-6">
+    <div class="w-full pt-2">
       <Stepper v-model:value="activeStep" :linear="true" class="w-full">
         <StepList>
           <Step :value="1">User Info</Step>
@@ -315,7 +315,7 @@ import { zodResolver } from '@primevue/forms/resolvers/zod';
 import { useRouter } from 'vue-router';
 import { z } from 'zod';
 
-import defaultLogo from '@/assets/vue.svg';
+import defaultLogo from '@/assets/insell-logo.png';
 
 import { setAuth } from '@/helpers/auth.ts';
 import { getErrorMessage } from '@/helpers/utils.ts';
@@ -478,7 +478,7 @@ const submitRegistration = async () => {
 @import 'tailwindcss';
 
 .register-page {
-  @apply relative w-150 flex flex-col items-center h-screen md:h-auto overflow-y-auto px-2! rounded-none! md:rounded-lg!;
+  @apply relative w-150 flex flex-col items-center h-screen md:h-auto overflow-y-auto py-8! px-2! rounded-none! md:rounded-lg!;
 }
 
 .register-page .p-step-title {

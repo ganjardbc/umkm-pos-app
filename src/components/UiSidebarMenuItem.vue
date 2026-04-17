@@ -79,7 +79,7 @@ const emit = defineEmits(['navigate']);
 @import "@/assets/styles/themes.css";
 
 .sidebar-menu-item {
-  @apply flex items-center gap-2 rounded-md px-4 py-3 cursor-pointer transition-colors duration-200;
+  @apply flex items-center gap-2 rounded-lg px-4 py-3 cursor-pointer transition-colors duration-200 border-l-3 border-transparent;
 }
 
 .sidebar-menu-item--dark {
@@ -87,7 +87,7 @@ const emit = defineEmits(['navigate']);
 }
 
 .sidebar-menu-item--active {
-  @apply bg-primary-50 text-primary-500 hover:bg-primary-50 hover:text-primary-500;
+  @apply bg-primary-50 text-primary-500 hover:bg-primary-50 hover:text-primary-500 border-primary;
 }
 
 .sidebar-menu-item--active.sidebar-menu-item--dark {

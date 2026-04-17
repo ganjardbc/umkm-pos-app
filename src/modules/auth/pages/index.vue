@@ -1,13 +1,13 @@
 <template>
   <UiCard class="login-page">
-    <Image :src="defaultLogo" alt="Image" width="74" />
+    <Image :src="defaultLogo" alt="Image" class="w-44" />
 
     <Form
       v-slot="$form"
       :resolver="resolver"
       :initialValues="initialValues"
       @submit="onFormSubmit"
-      class="flex flex-col gap-4 w-full pt-6"
+      class="flex flex-col gap-4 w-full pt-2"
     >
       <UiFormGroup label="Email" variant="vertical">
         <InputText
@@ -86,7 +86,7 @@ import { zodResolver } from '@primevue/forms/resolvers/zod';
 import { useRouter } from 'vue-router';
 import { z } from 'zod';
 
-import defaultLogo from '@/assets/vue.svg';
+import defaultLogo from '@/assets/insell-logo.png';
 
 import { setAuth } from '@/helpers/auth.ts';
 import { getErrorMessage } from '@/helpers/utils.ts';
@@ -152,6 +152,6 @@ const onFormSubmit = async ({ valid, values }: { valid: boolean; values: any }) 
 @import '@/assets/styles/themes.css';
 
 .login-page {
-  @apply relative w-100 flex flex-col items-center justify-center m-4;
+  @apply relative w-100 flex flex-col items-center justify-center m-4 py-8;
 }
 </style>

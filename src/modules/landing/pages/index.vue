@@ -3,20 +3,17 @@
     class="w-full h-full md:max-w-3xl mx-auto flex flex-col justify-center items-center py-8"
     style="height: calc(100vh - 90px);"
   >
-    <router-link to="/" class="flex items-center mb-8">
-      <Image :src="defaultLogo" alt="Image" width="60" />
+    <router-link to="/" class="flex items-center mb-4">
+      <Image :src="defaultLogo" alt="Image" class="w-58" />
     </router-link>
-    <div class="w-full text-3xl font-bold mb-4 text-center">
-      Selamat Datang di UMKM POS APP
-    </div>
-    <div class="w-full text-lg text-gray-400 mb-8 text-center">
-      Sistem Informasi Manajemen Transaksi
+    <div class="w-full text-lg text-gray-400 text-center">
+      The simple point of sale for UMKM.
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import defaultLogo from '@/assets/vue.svg';
+import defaultLogo from '@/assets/insell-logo.png';
 </script>
 
 <style scoped></style>

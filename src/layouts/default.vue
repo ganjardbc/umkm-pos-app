@@ -11,16 +11,25 @@
         'default-layout__sidebar--mobile-closed': isMobile && !isCollapsed,
       }"
     >
-      <div class="default-layout__sidebar-header" :class="{ 'default-layout__sidebar-header--mobile': isMobile, 'default-layout__sidebar-header--desktop': !isMobile }">
+      <div
+        class="default-layout__sidebar-header"
+        :class="{
+          'default-layout__sidebar-header--mobile': isMobile,
+          'default-layout__sidebar-header--desktop': !isMobile,
+        }"
+      >
         <router-link
           to="/landing"
           class="default-layout__logo"
           @click="isMobile ? handleOpenSidebar() : null"
         >
           <Image
-            :src="defaultLogo"
+            :src="isSmallSidebar ? defaultIcon : defaultLogo"
             alt="Image"
-            width="40"
+            :class="{
+              'max-w-8': isSmallSidebar,
+              'max-w-28': !isSmallSidebar,
+            }"
           />
         </router-link>
 
@@ -176,7 +185,8 @@
 <script lang="ts" setup>
 import { onMounted, computed, ref, watch } from "vue";
 import { useRoute, useRouter } from 'vue-router';
-import defaultLogo from '@/assets/vue.svg';
+import defaultIcon from '@/assets/logo.png';
+import defaultLogo from '@/assets/insell-logo.png';
 
 import { isLogin, getOutlet } from '@/helpers/auth.ts';
 import { useDarkMode } from '@/composables/useDarkMode.ts';
@@ -294,7 +304,7 @@ onMounted(() => {
 
 /* Sidebar */
 .default-layout__sidebar {
-  @apply top-0 h-screen border-r border-gray-200 flex flex-col justify-between transition-all duration-100;
+  @apply top-0 h-screen border-r border-gray-200 flex flex-col justify-between transition-all duration-100 bg-white;
 }
 
 .default-layout__sidebar--dark {
@@ -322,7 +332,7 @@ onMounted(() => {
 }
 
 .default-layout__sidebar-header {
-  @apply w-full flex items-center p-2;
+  @apply w-full min-h-14 flex items-center px-2;
 }
 
 .default-layout__sidebar-header--mobile {
