@@ -34,11 +34,16 @@
             {{ getNoTable(slotProps.index, pagination.page, pagination.rows) }}
           </template>
         </Column>
-        <Column field="name" header="Name"></Column>
-        <Column field="location" header="Location"></Column>
-        <Column field="merchants" header="Merchant">
+        <Column field="name" header="Name" class="min-w-48" />
+        <Column field="location" header="Location" class="min-w-68" />
+        <Column field="merchants" header="Merchant" class="min-w-48">
           <template #body="slotProps">
             {{ slotProps.data.merchants.name }}
+          </template>
+        </Column>
+        <Column field="created_at" header="Created At" class="min-w-48">
+          <template #body="slotProps">
+            {{ formatDateTime(slotProps.data.created_at) }}
           </template>
         </Column>
         <Column field="status" header="Status">
@@ -48,11 +53,6 @@
               :severity="slotProps.data.is_active ? 'success' : 'danger'"
               class="capitalize"
             />
-          </template>
-        </Column>
-        <Column field="created_at" header="Created At">
-          <template #body="slotProps">
-            {{ formatDateTime(slotProps.data.created_at) }}
           </template>
         </Column>
         <Column field="action" header="#" class="w-[148px]">

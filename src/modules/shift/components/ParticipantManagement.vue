@@ -33,20 +33,22 @@
         :class="{ 'participant-item--removed': participant.participant_removed_at }"
       >
         <div class="participant-item__info">
-          <div class="participant-item__name">
-            {{ participant.user_name }}
-            <Tag
-              v-if="participant.is_owner"
-              value="Shift Owner"
-              severity="info"
-              class="ml-2"
-            />
-            <Tag
-              v-if="participant.participant_removed_at"
-              value="Removed"
-              severity="warning"
-              class="ml-2"
-            />
+          <div class="flex justify-between">
+            <div class="participant-item__name">
+              {{ participant.user_name }}
+            </div>
+            <div class="flex justify-end gap-2">
+              <Tag
+                v-if="participant.is_owner"
+                value="Shift Owner"
+                severity="info"
+              />
+              <Tag
+                v-if="participant.participant_removed_at"
+                value="Removed"
+                severity="warning"
+              />
+            </div>
           </div>
           <div class="participant-item__meta">
             <span class="text-xs text-gray-500">
@@ -58,9 +60,9 @@
             </span>
           </div>
         </div>
-        <div class="participant-item__actions">
+        <div v-if="isShiftOwner && isShiftOpen && !participant.is_owner" class="participant-item__actions">
           <Button
-            v-if="isShiftOwner && isShiftOpen && !participant.is_owner && !participant.participant_removed_at"
+            v-if="!participant.participant_removed_at"
             icon="pi pi-trash"
             rounded
             text
@@ -70,7 +72,7 @@
             :loading="loading"
           />
           <Button
-            v-if="isShiftOwner && isShiftOpen && !participant.is_owner && participant.participant_removed_at"
+            v-if="participant.participant_removed_at"
             icon="pi pi-undo"
             rounded
             text
@@ -436,7 +438,7 @@ onMounted(() => {
 }
 
 .participant-management__list {
-  @apply grid xl:grid-cols-3 gap-4;
+  @apply grid lg:grid-cols-2 xl:grid-cols-3 gap-4;
 }
 
 .participant-management__empty {
@@ -456,7 +458,7 @@ onMounted(() => {
 }
 
 .participant-item__name {
-  @apply font-medium text-gray-900 dark:text-white flex items-center;
+  @apply flex-1 font-medium text-gray-900 dark:text-white flex items-center;
 }
 
 .participant-item__meta {

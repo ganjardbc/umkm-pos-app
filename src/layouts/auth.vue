@@ -44,7 +44,7 @@ onMounted(() => {
 @import '@/assets/styles/themes.css';
 
 .auth-layout {
-  @apply relative w-full h-screen flex items-center justify-center bg-tertiary-25;
+  @apply relative w-full h-screen flex items-center justify-center bg-primary;
 }
 
 .auth-layout--dark {

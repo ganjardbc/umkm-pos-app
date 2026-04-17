@@ -34,19 +34,24 @@
             {{ getNoTable(slotProps.index, pagination.page, pagination.rows) }}
           </template>
         </Column>
-        <Column field="name" header="Name">
+        <Column field="name" header="Name" class="min-w-48">
           <template #body="slotProps">
             {{ slotProps.data.name }}
           </template>
         </Column>
-        <Column field="email" header="Email">
+        <Column field="email" header="Email" class="min-w-68">
           <template #body="slotProps">
             {{ slotProps.data.email }}
           </template>
         </Column>
-        <Column field="merchants" header="Merchant">
+        <Column field="merchants" header="Merchant" class="min-w-38">
           <template #body="slotProps">
             {{ slotProps.data.merchants.name }}
+          </template>
+        </Column>
+        <Column field="created_at" header="Created At" class="min-w-48">
+          <template #body="slotProps">
+            {{ formatDateTime(slotProps.data.created_at) }}
           </template>
         </Column>
         <Column field="status" header="Status">
@@ -56,11 +61,6 @@
               :severity="slotProps.data.is_active ? 'success' : 'danger'"
               class="capitalize"
             />
-          </template>
-        </Column>
-        <Column field="created_at" header="Created At">
-          <template #body="slotProps">
-            {{ formatDateTime(slotProps.data.created_at) }}
           </template>
         </Column>
         <Column field="action" header="#" class="w-[148px]">

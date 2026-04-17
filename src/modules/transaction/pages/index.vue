@@ -62,6 +62,11 @@
             </span>
           </template>
         </Column>
+        <Column field="created_at" header="Created At" class="min-w-48">
+          <template #body="slotProps">
+            {{ formatDateTime(slotProps.data.created_at) }}
+          </template>
+        </Column>
         <Column field="is_offline" header="Mode">
           <template #body="slotProps">
             <Tag
@@ -78,11 +83,6 @@
               :severity="slotProps.data.is_cancelled ? 'danger' : 'info'"
               class="capitalize"
             />
-          </template>
-        </Column>
-        <Column field="created_at" header="Created At" class="min-w-48">
-          <template #body="slotProps">
-            {{ formatDateTime(slotProps.data.created_at) }}
           </template>
         </Column>
         <Column field="action" header="#">

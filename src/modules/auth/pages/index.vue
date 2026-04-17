@@ -1,5 +1,5 @@
 <template>
-  <UiCard class="loagin-page">
+  <UiCard class="login-page">
     <Image :src="defaultLogo" alt="Image" width="74" />
 
     <Form
@@ -57,7 +57,7 @@
       <div class="w-full flex">
         <Button
           type="submit"
-          variant="primary"
+          severity="primary"
           label="Login"
           class="w-full"
           :loading="loading"
@@ -147,10 +147,11 @@ const onFormSubmit = async ({ valid, values }: { valid: boolean; values: any }) 
   }
 };
 </script>
-<style>
+<style scoped>
 @import 'tailwindcss';
+@import '@/assets/styles/themes.css';
 
-.loagin-page {
-  @apply relative w-100 flex flex-col items-center justify-center h-screen md:h-auto;
+.login-page {
+  @apply relative w-100 flex flex-col items-center justify-center m-4;
 }
 </style>

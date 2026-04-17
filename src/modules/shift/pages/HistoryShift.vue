@@ -21,27 +21,27 @@
             {{ getNoTable(slotProps.index, pagination.page, pagination.rows) }}
           </template>
         </Column>
-        <Column field="outlet" header="Outlet">
+        <Column field="outlet" header="Outlet" class="min-w-48">
           <template #body="slotProps">
             {{ slotProps.data.outlet?.name }}
           </template>
         </Column>
-        <Column field="users" header="Users">
+        <Column field="users" header="Users" class="min-w-48">
           <template #body="slotProps">
             {{ slotProps.data.shift_owner?.name }}
           </template>
         </Column>
-        <Column field="date" header="Date">
+        <Column field="date" header="Date" class="min-w-48">
           <template #body="slotProps">
             {{ formatDate(slotProps.data.start_time) }}
           </template>
         </Column>
-        <Column field="time" header="Time">
+        <Column field="time" header="Time" class="min-w-48">
           <template #body="slotProps">
             {{ formatRangeTime(slotProps.data.start_time, slotProps.data.end_time) }}
           </template>
         </Column>
-        <Column field="duration" header="Duration">
+        <Column field="duration" header="Duration" class="min-w-48">
           <template #body="slotProps">
             {{ getDuration(slotProps.data.start_time, slotProps.data.end_time) }}
           </template>

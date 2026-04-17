@@ -54,14 +54,19 @@
             {{ getCurrency(slotProps.data.cost) }}
           </template>
         </Column>
-        <Column field="min_stock" header="Min Stock" class="min-w-28">
+        <Column field="min_stock" header="Min Stock" class="min-w-38">
           <template #body="slotProps">
             {{ slotProps.data.min_stock }}
           </template>
         </Column>
-        <Column field="stock_qty" header="Qty">
+        <Column field="stock_qty" header="Qty" class="min-w-28">
           <template #body="slotProps">
             {{ slotProps.data.stock_qty }}
+          </template>
+        </Column>
+        <Column field="created_at" header="Created At" class="min-w-48">
+          <template #body="slotProps">
+            {{ formatDateTime(slotProps.data.created_at) }}
           </template>
         </Column>
         <Column field="is_active" header="Status">
@@ -71,11 +76,6 @@
               :severity="slotProps.data.is_active ? 'success' : 'danger'"
               class="capitalize"
             />
-          </template>
-        </Column>
-        <Column field="created_at" header="Created At" class="min-w-48">
-          <template #body="slotProps">
-            {{ formatDateTime(slotProps.data.created_at) }}
           </template>
         </Column>
         <Column field="action" header="#" class="w-[184px]">

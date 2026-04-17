@@ -478,7 +478,7 @@ const submitRegistration = async () => {
 @import 'tailwindcss';
 
 .register-page {
-  @apply relative w-150 flex flex-col items-center h-screen md:h-auto overflow-y-auto px-2!;
+  @apply relative w-150 flex flex-col items-center h-screen md:h-auto overflow-y-auto px-2! rounded-none! md:rounded-lg!;
 }
 
 .register-page .p-step-title {
