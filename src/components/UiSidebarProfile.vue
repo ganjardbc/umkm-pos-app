@@ -5,7 +5,7 @@
       @click="openProfileMenu"
     >
       <Tag
-        v-if="!isMobile"
+        v-if="isWeb"
         :severity="isUserInShift ? 'success' : 'secondary'"
         :value="isUserInShift ? 'In Shift' : 'Not Shift'"
         class="text-xs! font-medium!"
@@ -109,7 +109,7 @@ const personalInfo = computed(() => getPersonalInformation());
 const authStore = useAuthStore();
 const { deviceType } = storeToRefs(authStore);
 
-const isMobile = computed(() => deviceType.value === 'mobile');
+const isWeb = computed(() => deviceType.value === 'web');
 
 // Computed for Shift
 const { isUserInShift } = useShift();
