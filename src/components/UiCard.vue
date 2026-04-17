@@ -22,7 +22,7 @@
 @import '@/assets/styles/themes.css';
 
 .ui-card {
-  @apply relative border border-gray-200 bg-white rounded-md p-4 flex flex-col gap-4;
+  @apply relative border border-gray-200 bg-white rounded-lg shadow-sm p-4 flex flex-col gap-4;
 }
 
 .ui-card--dark {
