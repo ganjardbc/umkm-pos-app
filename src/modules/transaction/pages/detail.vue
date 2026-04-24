@@ -17,7 +17,7 @@
       <template #header>  
         <div class="w-full flex flex-col md:flex-row gap-2 items-center justify-between">
           <div class="w-full flex items-center justify-between">
-            <h1 class="flex-1 text-lg font-semibold">
+            <h1 class="flex-1 text-2xl font-semibold">
               Transaction Information
             </h1>
             <Tag

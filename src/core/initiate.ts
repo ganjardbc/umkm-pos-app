@@ -83,11 +83,11 @@ const customPreset = definePreset(Aura, {
 vueInit.use(PrimeVue, {
   theme: {
     preset: customPreset,
-    // options: {
-    //   prefix: 'p',
-    //   darkModeSelector: 'system',
-    //   cssLayer: false
-    // }
+    options: {
+      prefix: 'p',
+      darkModeSelector: 'system',
+      cssLayer: false
+    }
   }
 });
 

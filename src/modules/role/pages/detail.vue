@@ -60,7 +60,7 @@
 
     <UiCard v-if="roleDetail" class="gap-0! p-0! overflow-hidden!">
       <template #header>
-        <h2 class="text-lg font-semibold text-gray-900 pt-4 px-4">
+        <h2 class="text-2xl font-semibold pt-4 px-4">
           Permissions
         </h2>
       </template>

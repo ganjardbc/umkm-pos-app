@@ -16,7 +16,7 @@
     <UiCard v-if="userDetail">
       <template #header>
         <div class="flex items-center justify-between gap-4">
-          <h2 class="text-lg font-semibold">
+          <h2 class="text-2xl font-semibold">
             User Information
           </h2>
           <Button
@@ -86,7 +86,7 @@
     <UiCard class="p-0! gap-0! overflow-hidden!">
       <template #header>
         <div class="flex justify-between items-center pt-4 px-4">
-          <h2 class="text-lg font-semibold">
+          <h2 class="text-2xl font-semibold">
             Outlet Informations
           </h2>
           <Button
