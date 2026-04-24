@@ -32,19 +32,22 @@
           </Message>
         </UiFormGroup>
         <UiFormGroup label="Category" variant="vertical">
-          <InputText
-            name="category"
-            type="text"
-            placeholder=""
-            fluid
+          <Dropdown
+            :options="listOfCategories"
+            name="category_id"
+            option-label="name"
+            option-value="id"
+            placeholder="Choose a user"
+            class="w-full"
+            :loading="loadingCategory"
           />
           <Message
-            v-if="$form.category?.invalid"
+            v-if="$form.category_id?.invalid"
             severity="error"
             size="small"
             variant="simple"
           >
-            {{ $form.category.error?.message }}
+            {{ $form.category_id.error?.message }}
           </Message>
         </UiFormGroup>
         <UiFormGroup label="Price" variant="vertical">
@@ -145,6 +148,7 @@ import { getErrorMessage } from '@/helpers/utils.ts';
 import { showToast } from '@/helpers/toast.ts';
 import { showLoading, hideLoading } from '@/helpers/loading.ts';
 import { putProduct, getDetailProduct } from '@/modules/product/services/api.ts';
+import { getActiveCategories } from '@/modules/categories/services/api.ts';
 import UiCard from '@/components/UiCard.vue';
 import UiFormGroup from '@/components/UiFormGroup.vue';
 
@@ -155,7 +159,7 @@ const productID = computed(() => route.params.id as string);
 const isLoaded = ref(false);
 const initialValues = ref<FormEdit>({
   name: '',
-  category: '',
+  category_id: null,
   price: 0,
   cost: 0,
   min_stock: 0,
@@ -165,7 +169,7 @@ const initialValues = ref<FormEdit>({
 const resolver = ref(zodResolver(
   z.object({
     name: z.string().min(1, { message: 'Name is required.' }),
-    category: z.string().min(1, { message: 'Category is required.' }),
+    category_id: z.string().nullable().optional(),
     price: z.number().min(0, { message: 'Price must be at least 0.' }),
     cost: z.number().min(0, { message: 'Cost must be at least 0.' }),
     min_stock: z.number().min(0, { message: 'Minimum stock must be at least 0.' }),
@@ -173,14 +177,14 @@ const resolver = ref(zodResolver(
   })
 ));
 
-const onFormSubmit = async ({ valid, values }: { valid: boolean; values: FormEdit }) => {
+const onFormSubmit = async ({ valid, values }: any) => {
   if (valid) {
     try {
       showLoading();
 
       const payload = {
         name: values?.name,
-        category: values?.category,
+        category_id: values?.category_id,
         price: values?.price,
         cost: values?.cost,
         min_stock: values?.min_stock,
@@ -213,11 +217,11 @@ const fetchDetail = async () => {
   try {
     const response = await getDetailProduct(productID.value);
     const { data } = response?.data || {};
-    const { name, category, price, cost, min_stock, is_active } = data || {};
+    const { name, category_id, price, cost, min_stock, is_active } = data || {};
 
     initialValues.value = {
       name,
-      category,
+      category_id: category_id,
       price: Number(price),
       cost: Number(cost),
       min_stock: Number(min_stock),
@@ -234,7 +238,32 @@ const fetchDetail = async () => {
   }
 };
 
+// Fetch Categories
+const listOfCategories = ref<any[]>([]);
+const loadingCategory = ref<boolean>(false);
+  const pagination = ref({
+  page: 1,
+});
+
+const fetchCategories = async () => {
+  try {
+    loadingCategory.value = true;
+    const payload = {
+      page: pagination.value.page,
+    }
+    const response = await getActiveCategories(payload);
+    const { data } = response?.data || {};
+
+    listOfCategories.value = data;
+  } catch (err) {
+    console.warn('fetch categories', err);
+  } finally {
+    loadingCategory.value = false;
+  }
+};
+
 onMounted(() => {
   fetchDetail();
+  fetchCategories();
 });
 </script>

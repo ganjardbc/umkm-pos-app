@@ -58,9 +58,9 @@
             <div class="text-base font-semibold truncate">
               {{ product.name }}
             </div>
-            <div class="flex justify-between items-center">
-              <div class="text-sm text-gray-400">
-                {{ product.category }}
+            <div class="flex justify-between items-center gap-4">
+              <div class="text-sm text-gray-400 truncate">
+                {{ product.product_categories?.name || '-' }}
               </div>
               <div class="text-sm text-gray-400">
                 {{ product.stock_qty }}x

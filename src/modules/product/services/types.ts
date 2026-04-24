@@ -1,7 +1,29 @@
+/**
+ * Product interface - Represents a product in the system
+ */
+export interface Product {
+  id: string;
+  merchant_id: string;
+  slug: string;
+  name: string;
+  category_id?: string;
+  category?: string;
+  thumbnail: string;
+  price: number;
+  cost: number;
+  stock_qty: number;
+  min_stock: number;
+  is_active: boolean;
+  created_by?: string;
+  updated_by?: string;
+  created_at: string;
+  updated_at: string;
+}
+
 export interface FormCreate {
   slug: string,
   name: string,
-  category: string,
+  category_id?: string | null,
   thumbnail: string,
   price: number,
   cost: number,
@@ -12,7 +34,7 @@ export interface FormCreate {
 
 export interface FormEdit {
   name: string,
-  category: string,
+  category_id?: string | null,
   price: number,
   cost: number,
   min_stock: number,

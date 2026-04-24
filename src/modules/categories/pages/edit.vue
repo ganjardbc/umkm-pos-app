@@ -2,7 +2,7 @@
   <UiCard class="max-w-2xl mx-auto">
     <template #header>
       <h1 class="text-xl font-semibold">
-        Edit Merchant
+        Edit Category
       </h1>
     </template>
 
@@ -31,35 +31,33 @@
             {{ $form.name.error?.message }}
           </Message>
         </UiFormGroup>
-        <UiFormGroup label="Phone" variant="vertical">
-          <InputText
-            name="phone"
-            type="text"
+        <UiFormGroup label="Description" variant="vertical">
+          <Textarea
+            name="description"
             placeholder=""
             fluid
           />
           <Message
-            v-if="$form.phone?.invalid"
+            v-if="$form.description?.invalid"
             severity="error"
             size="small"
             variant="simple"
           >
-            {{ $form.phone.error?.message }}
+            {{ $form.description.error?.message }}
           </Message>
         </UiFormGroup>
-        <UiFormGroup label="Address" variant="vertical">
-          <Textarea
-            name="address"
-            placeholder=""
-            fluid
+        <UiFormGroup label="Active Status" variant="vertical">
+          <Checkbox
+            name="is_active"
+            binary
           />
           <Message
-            v-if="$form.address?.invalid"
+            v-if="$form.is_active?.invalid"
             severity="error"
             size="small"
             variant="simple"
           >
-            {{ $form.address.error?.message }}
+            {{ $form.is_active.error?.message }}
           </Message>
         </UiFormGroup>
       </div>
@@ -82,8 +80,8 @@
     </Form>
   </UiCard>
 </template>
-<script setup lang="ts">
-import type { FormEdit } from '@/modules/merchants/services/types.ts';
+<script lang="ts" setup>
+import type { FormCreate } from '@/modules/categories/services/types.ts';
 import { ref, computed, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { z } from 'zod';
@@ -91,40 +89,42 @@ import { zodResolver } from '@primevue/forms/resolvers/zod';
 import { getErrorMessage } from '@/helpers/utils.ts';
 import { showToast } from '@/helpers/toast.ts';
 import { showLoading, hideLoading } from '@/helpers/loading.ts';
-import { putMerchants, getDetailMerchants } from '@/modules/merchants/services/api.ts';
+import { putCategories, getDetailCategories } from '@/modules/categories/services/api.ts';
 import UiCard from '@/components/UiCard.vue';
 import UiFormGroup from '@/components/UiFormGroup.vue';
 
 const route = useRoute();
 const router = useRouter();
-const merchantID = computed(() => route.params.id as string);
+const categoryID = computed(() => route.params.id as string);
 
 const isLoaded = ref(false);
-const initialValues = ref<FormEdit>({
+const initialValues = ref<FormCreate>({
   name: '',
-  phone: '',
-  address: ''
+  description: '',
+  is_active: true
 });
 
 const resolver = ref(zodResolver(
   z.object({
-    name: z.string().min(1, { message: 'Name is required.' }),
-    phone: z.string().min(1, { message: 'Phone is required.' }),
-    address: z.string().min(1, { message: 'Address is required.' })
+    name: z.string().min(1, 'Name is required'),
+    description: z.string(),
+    is_active: z.boolean()
   })
 ));
 
-const onFormSubmit = async ({ valid, values }: { valid: boolean; values: FormEdit }) => {
+// Submit Edit
+const onFormSubmit = async ({ valid, values }: any) => {
+  console.log('onFormSubmit', valid, values);
   if (valid) {
     try {
       showLoading();
 
       const payload = {
         name: values?.name,
-        phone: values?.phone,
-        address: values?.address
+        description: values?.description,
+        is_active: values?.is_active,
       };
-      const response = await putMerchants(merchantID.value, payload);
+      const response = await putCategories(categoryID.value, payload);
       const { success } = response?.data || {};
 
       if (success) {
@@ -133,7 +133,7 @@ const onFormSubmit = async ({ valid, values }: { valid: boolean; values: FormEdi
     } catch (error) {
       showToast({
         type: 'error',
-        title: 'Update Merchant Failed.',
+        title: 'Create Category Failed.',
         message: getErrorMessage(error) || 'There was an error.',
       });
     } finally {
@@ -149,14 +149,14 @@ const onCancel = () => {
 // Fetch Detail
 const fetchDetail = async () => {
   try {
-    const response = await getDetailMerchants(merchantID.value);
+    const response = await getDetailCategories(categoryID.value);
     const { data } = response?.data || {};
-    const { name, phone, address } = data || {};
+    const { name, description, is_active } = data || {};
 
     initialValues.value = {
       name,
-      phone,
-      address
+      description,
+      is_active
     };
     
     isLoaded.value = true;

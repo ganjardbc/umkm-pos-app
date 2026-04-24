@@ -45,10 +45,10 @@
           </div>
         </div>
       </div>
+    </div>
 
-      <div v-if="participants.length === 0" class="text-center py-4 text-gray-500 dark:text-gray-400">
-        No participants
-      </div>
+    <div v-if="participants.length === 0" class="text-center py-4 text-gray-500 dark:text-gray-400">
+      No participants
     </div>
   </UiCard>
 </template>

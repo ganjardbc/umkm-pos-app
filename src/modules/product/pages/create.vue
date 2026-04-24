@@ -10,8 +10,8 @@
       v-slot="$form"
       :resolver="resolver"
       :initialValues="initialValues"
-      @submit="onFormSubmit"
       class="flex flex-col gap-4 w-full"
+      @submit="onFormSubmit"
     >
       <div class="w-full space-y-4">
         <UiFormGroup label="Name" variant="vertical">
@@ -50,19 +50,22 @@
           </Message>
         </UiFormGroup>
         <UiFormGroup label="Category" variant="vertical">
-          <InputText
-            name="category"
-            type="text"
-            placeholder=""
-            fluid
+          <Dropdown
+            :options="listOfCategories"
+            name="category_id"
+            option-label="name"
+            option-value="id"
+            placeholder="Choose a user"
+            class="w-full"
+            :loading="loadingCategory"
           />
           <Message
-            v-if="$form.category?.invalid"
+            v-if="$form.category_id?.invalid"
             severity="error"
             size="small"
             variant="simple"
           >
-            {{ $form.category.error?.message }}
+            {{ $form.category_id.error?.message }}
           </Message>
         </UiFormGroup>
         <UiFormGroup label="Price" variant="vertical">
@@ -171,7 +174,7 @@
 </template>
 <script setup lang="ts">
 import type { FormCreate } from '@/modules/product/services/types.ts';
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { z } from 'zod';
 import { zodResolver } from '@primevue/forms/resolvers/zod';
@@ -179,6 +182,7 @@ import { getErrorMessage } from '@/helpers/utils.ts';
 import { showToast } from '@/helpers/toast.ts';
 import { showLoading, hideLoading } from '@/helpers/loading.ts';
 import { postProduct } from '@/modules/product/services/api.ts';
+import { getActiveCategories } from '@/modules/categories/services/api.ts';
 import UiCard from '@/components/UiCard.vue';
 import UiFormGroup from '@/components/UiFormGroup.vue';
 
@@ -187,7 +191,7 @@ const router = useRouter();
 const initialValues = ref<FormCreate>({
   slug: '',
   name: '',
-  category: '',
+  category_id: null as any,
   thumbnail: '',
   price: 0,
   cost: 0,
@@ -200,7 +204,7 @@ const resolver = ref(zodResolver(
   z.object({
     slug: z.string().min(1, { message: 'Slug is required.' }),
     name: z.string().min(1, { message: 'Name is required.' }),
-    category: z.string().min(1, { message: 'Category is required.' }),
+    category_id: z.string().nullable().optional(),
     price: z.number().min(0, { message: 'Price must be at least 0.' }),
     cost: z.number().min(0, { message: 'Cost must be at least 0.' }),
     stock_qty: z.number().min(0, { message: 'Stock quantity must be at least 0.' }),
@@ -209,7 +213,7 @@ const resolver = ref(zodResolver(
   })
 ));
 
-const onFormSubmit = async ({ valid, values }: { valid: boolean; values: FormCreate }) => {
+const onFormSubmit = async ({ valid, values }: any) => {
   if (valid) {
     try {
       showLoading();
@@ -217,7 +221,7 @@ const onFormSubmit = async ({ valid, values }: { valid: boolean; values: FormCre
       const payload = {
         slug: values?.slug,
         name: values?.name,
-        category: values?.category,
+        category_id: values?.category_id,
         thumbnail: values?.thumbnail,
         price: values?.price,
         cost: values?.cost,
@@ -256,5 +260,34 @@ const onNameChange = (name: string, form: any) => {
 
 const onCancel = () => {
   router.back();
-}
+};
+
+// Fetch Categories
+const listOfCategories = ref<any[]>([]);
+const loadingCategory = ref<boolean>(false);
+const pagination = ref({
+  page: 1,
+});
+
+const fetchCategories = async () => {
+  try {
+    loadingCategory.value = true;
+
+    const payload = {
+      page: pagination.value.page,
+    }
+    const response = await getActiveCategories(payload);
+    const { data } = response?.data || {};
+
+    listOfCategories.value = data;
+  } catch (err) {
+    console.warn('fetch categories', err);
+  } finally {
+    loadingCategory.value = false;
+  }
+};
+
+onMounted(() => {
+  fetchCategories();
+});
 </script>

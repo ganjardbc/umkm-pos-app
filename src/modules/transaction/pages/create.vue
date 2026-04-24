@@ -21,16 +21,7 @@
       </div>
 
       <!-- Warning Shift -->
-      <Message
-        v-if="isShiftClosed"
-        severity="warn"
-        icon="pi pi-info-circle"
-      >
-        <b>Shift is closed.</b><br>
-        <span class="text-sm">
-          Please open new shit to create transactions.
-        </span>
-      </Message>
+      <ShiftStatus />
 
       <!-- Products Tab -->
       <PosProduct
@@ -50,7 +41,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { storeToRefs } from 'pinia';
 import { getOutlet } from '@/helpers/auth.ts';
@@ -58,6 +49,7 @@ import { useAuthStore } from '@/modules/auth/stores/index.ts';
 import { useShift } from '@/modules/shift/composables/useShift.ts';
 import { getOutletShift } from '@/modules/shift/services/api.ts';
 import { usePosStore } from '@/modules/transaction/stores-pos';
+import ShiftStatus from '@/modules/transaction/components/ShiftStatus.vue';
 import PosCart from '@/modules/transaction/components/Cart.vue';
 import PosProduct from '@/modules/transaction/components/Product.vue';
 
@@ -73,7 +65,6 @@ const isWeb = computed(() => deviceType.value === 'web');
 
 // Computed for Shift
 const {
-  isShiftClosed,
   isShiftUserCanManage,
   currentShift,
   fetchShift,

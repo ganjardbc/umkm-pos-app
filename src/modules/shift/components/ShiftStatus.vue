@@ -152,14 +152,9 @@ const {
   isUserInShift,
   isUserRemovedFromShift,
   currentShift,
-  participants,
   loading,
   fetchShiftParticipants,
 } = useShift();
-
-const activeParticipants = computed(() => {
-  return participants.value?.filter((p: Participant) => !p.participant_removed_at) || [];
-});
 
 const fetchOutletShift = async () => {
   try {

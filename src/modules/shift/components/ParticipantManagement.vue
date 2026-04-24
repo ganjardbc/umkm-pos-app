@@ -84,10 +84,9 @@
           />
         </div>
       </div>
-
-      <div v-if="participants.length === 0" class="participant-management__empty">
-        <p>No participants yet</p>
-      </div>
+    </div>
+    <div v-if="participants.length === 0" class="participant-management__empty">
+      <p>No participants yet</p>
     </div>
 
     <!-- Add Participant Dialog -->

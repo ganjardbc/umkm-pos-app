@@ -43,7 +43,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label class="text-sm font-medium text-gray-500">Category</label>
-            <p class="text-base mt-1">{{ productDetail.category || '-' }}</p>
+            <p class="text-base mt-1">{{ productDetail.product_categories?.name || '-' }}</p>
           </div>
           <div>
             <label class="text-sm font-medium text-gray-500">Merchant</label>

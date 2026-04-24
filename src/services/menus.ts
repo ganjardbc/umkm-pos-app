@@ -16,6 +16,10 @@ import { PERMISSIONS as OUTLET_PERMISSIONS } from '@/modules/outlet/services/rba
 import { PREFIX_ROUTE_PATH as PRP_PRODUCT } from '@/modules/product/services/constants';
 import { PERMISSIONS as PRODUCT_PERMISSIONS } from '@/modules/product/services/rbac.ts';
 
+// Categories
+import { PREFIX_ROUTE_PATH as PRP_CATEGORY } from '@/modules/categories/services/constants';
+import { PERMISSIONS as CATEGORY_PERMISSIONS } from '@/modules/categories/services/rbac.ts';
+
 // Stock
 import { PREFIX_ROUTE_PATH as PRP_STOCK } from '@/modules/stock/services/constants';
 import { PERMISSIONS as STOCK_PERMISSIONS } from '@/modules/stock/services/rbac.ts';
@@ -28,9 +32,9 @@ import { PERMISSIONS as SHIFT_PERMISSIONS } from '@/modules/shift/services/rbac.
 import { PREFIX_ROUTE_PATH as PRP_TRANSACTION } from '@/modules/transaction/services/constants';
 import { PERMISSIONS as TRANSACTION_PERMISSIONS } from '@/modules/transaction/services/rbac.ts';
 
-// // POS
-// import { PREFIX_ROUTE_PATH as PRP_POS } from '@/modules/pos/services/constants';
-// import { PERMISSIONS as POS_PERMISSIONS } from '@/modules/pos/services/rbac.ts';
+// POS
+import { PREFIX_ROUTE_PATH as PRP_POS } from '@/modules/pos/services/constants';
+import { PERMISSIONS as POS_PERMISSIONS } from '@/modules/pos/services/rbac.ts';
 
 // User
 import { PREFIX_ROUTE_PATH as PRP_USER } from '@/modules/user/services/constants';
@@ -56,19 +60,12 @@ export default [
     permissions: DASHBOARD_PERMISSIONS,
     route: PRP_DASHBOARD,
   },
-  // {
-  //   icon: 'pi pi-desktop',
-  //   label: 'Point of Sale',
-  //   featureFlag: DEFAULT_FEATURE_FLAG,
-  //   permissions: POS_PERMISSIONS,
-  //   route: PRP_POS,
-  // },
   {
-    icon: 'pi pi-clock',
-    label: 'Shifts',
+    icon: 'pi pi-desktop',
+    label: 'Point of Sale',
     featureFlag: DEFAULT_FEATURE_FLAG,
-    permissions: SHIFT_PERMISSIONS,
-    route: PRP_SHIFT,
+    permissions: POS_PERMISSIONS,
+    route: PRP_POS,
   },
   {
     icon: 'pi pi-list',
@@ -78,11 +75,25 @@ export default [
     route: PRP_TRANSACTION,
   },
   {
+    icon: 'pi pi-clock',
+    label: 'Shifts',
+    featureFlag: DEFAULT_FEATURE_FLAG,
+    permissions: SHIFT_PERMISSIONS,
+    route: PRP_SHIFT,
+  },
+  {
     icon: 'pi pi-box',
     label: 'Products',
     featureFlag: DEFAULT_FEATURE_FLAG,
     permissions: PRODUCT_PERMISSIONS,
     route: PRP_PRODUCT,
+  },
+  {
+    icon: 'pi pi-table',
+    label: 'Categories',
+    featureFlag: DEFAULT_FEATURE_FLAG,
+    permissions: CATEGORY_PERMISSIONS,
+    route: PRP_CATEGORY,
   },
   {
     icon: 'pi pi-table',

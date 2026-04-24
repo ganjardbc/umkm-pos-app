@@ -1,63 +1,63 @@
 <template>
   <div
-    class="pos-page"
+    class="pos"
     :class="{
-      'pos-page--mobile': !isWeb,
-      'pos-page--desktop': isWeb,
+      'pos--mobile': !isWeb,
+      'pos--desktop': isWeb,
     }"
   >
     <!-- POS Product -->
-    <div class="pos-page__content">
-      <ShiftStatus :outlet-id="outlet?.id" />
+    <div class="pos__content">
+      <h1 class="text-2xl font-semibold">
+        Create Transaction
+      </h1>
 
-      <!-- Tabs for Products and Shift Management -->
-       <Tabs v-model:value="activeTab">
-        <TabList class="bg-transparent!">
-            <Tab value="0">Products</Tab>
-          <Tab value="1">Shifts & Metrics</Tab>
-        </TabList>
-      </Tabs>
+      <!-- Warning Shift -->
+      <Message
+        v-if="isShiftClosed"
+        severity="warn"
+        icon="pi pi-info-circle"
+      >
+        <b>Shift is closed.</b><br>
+        <span class="text-sm">
+          Please open new shit to create transactions.
+        </span>
+      </Message>
+
+      <!-- Warning Shift -->
+      <ShiftStatus />
 
       <!-- Products Tab -->
       <PosProduct
-        v-if="activeTab === '0'"
-        :is-user-in-shift="isUserCanManageTransaction"
-      />
-
-      <!-- Shift Management Tab -->
-      <PosShift
-        v-if="activeTab === '1'"
-        :outlet-id="outlet?.id"
-        @shift-loaded="onShiftLoaded"
+        :is-user-in-shift="isShiftUserCanManage"
       />
     </div>
 
     <!-- POS Cart -->
     <PosCart
-      :is-user-in-shift="isUserCanManageTransaction"
+      :is-user-in-shift="isShiftUserCanManage"
       :shift-id="currentShift?.id"
       :outlet-id="currentShift?.outlet_id"
-      class="pos-page__cart"
+      class="pos__cart"
+      @checkout-success="clearForm"
     />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { computed, onMounted } from 'vue';
 import { storeToRefs } from 'pinia';
+import { getOutlet } from '@/helpers/auth.ts';
 import { useAuthStore } from '@/modules/auth/stores/index.ts';
 import { useShift } from '@/modules/shift/composables/useShift.ts';
-import { getOutlet } from '@/helpers/auth.ts';
-import PosCart from '@/modules/pos/components/Cart.vue';
-import PosProduct from '@/modules/pos/components/Product.vue';
-import PosShift from '@/modules/pos/components/Shift.vue';
-import ShiftStatus from '@/modules/pos/components/ShiftStatus.vue';
+import { getOutletShift } from '@/modules/shift/services/api.ts';
+import { usePosStore } from '@/modules/transaction/stores-pos';
+import ShiftStatus from '@/modules/transaction/components/ShiftStatus.vue';
+import PosCart from '@/modules/transaction/components/Cart.vue';
+import PosProduct from '@/modules/transaction/components/Product.vue';
 
-const activeTab = ref<string>('0');
 const outlet = getOutlet();
-
-// Use shift composable to get shift data for PosCart
-const { isUserInShift, isUserRemovedFromShift, currentShift } = useShift();
+const posStore = usePosStore();
 
 // Device type
 const authStore = useAuthStore();
@@ -65,42 +65,57 @@ const { deviceType } = storeToRefs(authStore);
 
 const isWeb = computed(() => deviceType.value === 'web');
 
-// Computed for PosCart
-const isUserCanManageTransaction = computed(() => {
-  if (isUserRemovedFromShift.value || !isUserInShift.value) {
-    return false;
-  }
+// Computed for Shift
+const {
+  isShiftClosed,
+  isShiftUserCanManage,
+  currentShift,
+  fetchShift,
+} = useShift();
 
-  return currentShift.status === 'open';
-});
-
-const onShiftLoaded = (shiftData: any) => {
-  // Handle shift loaded event if needed
-  console.log('Shift loaded:', shiftData);
+// Task 26: Clear form - reset all state to defaults
+const clearForm = () => {
+  posStore.clearCart();
 };
+
+const fetchOutletShift = async () => {
+  try {
+    const response = await getOutletShift(outlet.id);
+    const shiftData = response?.data?.data || {};
+    if (shiftData?.id) {
+      await fetchShift({ shiftId: shiftData.id });
+    }
+  } catch (error) {
+    console.error('Failed to fetch outlet shift:', error);
+  }
+};
+
+onMounted(() => {
+  fetchOutletShift();
+});
 </script>
 
 <style scoped>
 @import "tailwindcss";
 @import "@/assets/styles/themes.css";
 
-.pos-page {
+.pos {
   @apply w-full h-full grid gap-4;
 }
 
-.pos-page--mobile {
+.pos--mobile {
   @apply grid-cols-1 pb-20;
 }
 
-.pos-page--desktop {
-  @apply grid-cols-[1fr_minmax(0,420px)];
+.pos--desktop {
+  @apply grid-cols-[1fr_minmax(0,380px)];
 }
 
-.pos-page__content {
+.pos__content {
   @apply relative flex-1 space-y-4;
 }
 
-.pos-page__cart {
+.pos__cart {
   @apply sticky right-0 flex-1;
   top: 72px;
   height: max(100vh - 90px);
