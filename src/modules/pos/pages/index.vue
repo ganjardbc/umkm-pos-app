@@ -104,7 +104,8 @@ onMounted(() => {
 }
 
 .pos--mobile {
-  @apply grid-cols-1 pb-20;
+  @apply grid-cols-1;
+  /* @apply grid-cols-1 pb-20; */
 }
 
 .pos--desktop {

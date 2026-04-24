@@ -190,10 +190,10 @@
 
   <!-- Mobile Cart Trigger -->
   <div
-    class="pos-cart__trigger"
+    class="pos-cart__trigger pos-cart__trigger--sticky"
     :class="{
-      'pl-4 pr-4': isMobile,
-      'pl-20 pr-4': !isMobile,
+      // 'pos-cart__trigger--mobile': isMobile,
+      // 'pos-cart__trigger--desktop': !isMobile,
       'pos-cart__trigger--open': !isWeb,
     }"
   >
@@ -464,8 +464,24 @@ watch(() => props.shiftId, (newVal: string) => {
 }
 
 .pos-cart__trigger {
-  @apply fixed bottom-0 left-0 w-full py-4 hidden;
+  @apply left-0 w-full hidden;
   z-index: 10;
+}
+
+.pos-cart__trigger--fixed {
+  @apply fixed bottom-0 py-4;
+}
+
+.pos-cart__trigger--sticky {
+  @apply sticky bottom-4;
+}
+
+.pos-cart__trigger--mobile {
+  @apply pl-4 pr-4;
+}
+
+.pos-cart__trigger--desktop {
+  @apply pl-20 pr-4;
 }
 
 .pos-cart__trigger--open {
