@@ -1,5 +1,5 @@
 <template>
-  <div class="shift-handoff">
+  <UiCard class="shift-handoff">
     <div class="shift-handoff__header">
       <h3 class="shift-handoff__title">Handoff Shift</h3>
     </div>
@@ -53,7 +53,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </UiCard>
 </template>
 
 <script setup lang="ts">
@@ -61,6 +61,7 @@ import { ref, computed } from 'vue';
 import { type Participant, useShift } from '@/modules/shift/composables/useShift';
 import { showConfirm, showToast } from '@/helpers/toast';
 import { getErrorMessage } from '@/helpers/utils';
+import UiCard from '@/components/UiCard.vue';
 import Button from 'primevue/button';
 import Dropdown from 'primevue/dropdown';
 import InputSwitch from 'primevue/inputswitch';

@@ -7,7 +7,7 @@
         size="small"
         @click="onBack"
       />
-      <h1 class="text-2xl font-semibold">
+      <h1 class="text-lg font-semibold">
         Category Detail
       </h1>
     </div>
@@ -15,7 +15,7 @@
     <UiCard v-if="categoryDetail">
       <template #header>  
         <div class="w-full flex gap-4 items-center justify-between">
-          <h1 class="text-2xl font-semibold">
+          <h1 class="text-lg font-semibold">
             Category Information
           </h1>
           <Button

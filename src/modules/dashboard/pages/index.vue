@@ -2,7 +2,7 @@
   <div class="w-full space-y-4">
     <!-- Page Header -->
     <div class="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-4">
-      <h1 class="flex-1 text-2xl font-bold">Dashboard</h1>
+      <h1 class="flex-1 text-lg font-bold">Dashboard</h1>
 
       <div class="flex flex-col lg:flex-row gap-4">
         <DatePicker

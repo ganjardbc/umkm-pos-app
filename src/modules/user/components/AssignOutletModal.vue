@@ -24,7 +24,7 @@
           <StepPanel :value="1">
             <UiCard class="p-0! gap-0! overflow-hidden!">
               <template #header>
-                <h2 class="text-lg font-semibold text-gray-900 pt-4 px-4">
+                <h2 class="text-lg font-semibold pt-4 px-4">
                   Outlets
                 </h2>
               </template>
@@ -75,7 +75,7 @@
           <StepPanel :value="2">
             <UiCard class="p-0! gap-0! overflow-hidden!">
               <template #header>
-                <h2 class="text-lg font-semibold text-gray-900 pt-4 px-4">
+                <h2 class="text-lg font-semibold pt-4 px-4">
                   Roles
                 </h2>
               </template>
@@ -134,7 +134,7 @@
           <StepPanel :value="3">
             <div class="space-y-6">
               <!-- Outlet Information -->
-              <UiCard v-if="outletSelected">
+              <UiCard v-if="outletSelected" class="dark:bg-dark!">
                 <template #header>
                   <h2 class="text-lg font-semibold">
                     Outlet Information
@@ -174,7 +174,7 @@
               </UiCard>
 
               <!-- Role Information -->
-              <UiCard v-if="roleSelected">
+              <UiCard v-if="roleSelected" class="dark:bg-dark!">
                 <template #header>
                   <h2 class="text-lg font-semibold">
                     Role Information

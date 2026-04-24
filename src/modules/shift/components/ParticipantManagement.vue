@@ -1,5 +1,5 @@
 <template>
-  <div class="participant-management">
+  <UiCard class="participant-management">
     <div class="participant-management__header">
       <h3 class="participant-management__title">User Shifts</h3>
       <div class="flex justify-end gap-2 items-center">
@@ -88,96 +88,96 @@
     <div v-if="participants.length === 0" class="participant-management__empty">
       <p>No participants yet</p>
     </div>
+  </UiCard>
 
-    <!-- Add Participant Dialog -->
-    <Dialog
-      v-model:visible="showAddDialog"
-      header="Add Participant"
-      :modal="true"
-      class="w-full md:w-96"
-    >
-      <div class="space-y-4">
-        <div>
-          <label class="block text-sm font-medium mb-2">Select User</label>
-          <Dropdown
-            v-model="selectedUserId"
-            :options="usersNotInShift"
-            option-label="name"
-            option-value="id"
-            placeholder="Choose a user"
-            class="w-full"
-            :loading="loadingUsers"
-          />
-        </div>
-        <div class="flex gap-2 justify-end">
-          <Button
-            label="Cancel"
-            severity="secondary"
-            @click="showAddDialog = false"
-          />
-          <Button
-            label="Add"
-            @click="handleAddParticipant"
-            :loading="loading"
-            :disabled="!selectedUserId"
-          />
-        </div>
+  <!-- Add Participant Dialog -->
+  <Dialog
+    v-model:visible="showAddDialog"
+    header="Add Participant"
+    :modal="true"
+    class="w-full md:w-96"
+  >
+    <div class="space-y-4">
+      <div>
+        <label class="block text-sm font-medium mb-2">Select User</label>
+        <Dropdown
+          v-model="selectedUserId"
+          :options="usersNotInShift"
+          option-label="name"
+          option-value="id"
+          placeholder="Choose a user"
+          class="w-full"
+          :loading="loadingUsers"
+        />
       </div>
-    </Dialog>
-
-    <!-- Handoff Shift Dialog -->
-    <Dialog
-      v-model:visible="showHandoffDialog"
-      header="Handoff Shift"
-      :modal="true"
-      class="w-full md:w-96"
-    >
-      <div class="space-y-4">
-        <p class="text-sm text-gray-600 dark:text-gray-400">
-          Transfer shift responsibility to another participant
-        </p>
-        <div>
-          <label class="block text-sm font-medium mb-2">Select Target Participant</label>
-          <Dropdown
-            v-model="selectedHandoffUserId"
-            :options="otherParticipants"
-            option-label="user_name"
-            option-value="user_id"
-            placeholder="Choose a participant"
-            class="w-full"
-            :disabled="isHandoffComplete"
-          />
-        </div>
-
-        <div class="flex items-center gap-2">
-          <InputSwitch 
-            v-model="removePreviousOwner"
-            :disabled="isHandoffComplete"
-          />
-          <label class="text-sm">Remove me from participants after handoff</label>
-        </div>
-
-        <div v-if="isHandoffComplete" class="text-center text-sm text-green-600 dark:text-green-400">
-          ✓ Shift handoff completed successfully
-        </div>
-
-        <div class="flex gap-2 justify-end">
-          <Button
-            label="Cancel"
-            severity="secondary"
-            :disabled="isHandoffComplete || loading"
-            @click="handleCloseHandoffDialog"
-          />
-          <Button
-            label="Handoff"
-            :loading="loading"
-            :disabled="!selectedHandoffUserId || isHandoffComplete"
-            @click="handleConfirmHandoff"
-          />
-        </div>
+      <div class="flex gap-2 justify-end">
+        <Button
+          label="Cancel"
+          severity="secondary"
+          @click="showAddDialog = false"
+        />
+        <Button
+          label="Add"
+          @click="handleAddParticipant"
+          :loading="loading"
+          :disabled="!selectedUserId"
+        />
       </div>
-    </Dialog>
-  </div>
+    </div>
+  </Dialog>
+
+  <!-- Handoff Shift Dialog -->
+  <Dialog
+    v-model:visible="showHandoffDialog"
+    header="Handoff Shift"
+    :modal="true"
+    class="w-full md:w-96"
+  >
+    <div class="space-y-4">
+      <p class="text-sm text-gray-600 dark:text-gray-400">
+        Transfer shift responsibility to another participant
+      </p>
+      <div>
+        <label class="block text-sm font-medium mb-2">Select Target Participant</label>
+        <Dropdown
+          v-model="selectedHandoffUserId"
+          :options="otherParticipants"
+          option-label="user_name"
+          option-value="user_id"
+          placeholder="Choose a participant"
+          class="w-full"
+          :disabled="isHandoffComplete"
+        />
+      </div>
+
+      <div class="flex items-center gap-2">
+        <InputSwitch 
+          v-model="removePreviousOwner"
+          :disabled="isHandoffComplete"
+        />
+        <label class="text-sm">Remove me from participants after handoff</label>
+      </div>
+
+      <div v-if="isHandoffComplete" class="text-center text-sm text-green-600 dark:text-green-400">
+        ✓ Shift handoff completed successfully
+      </div>
+
+      <div class="flex gap-2 justify-end">
+        <Button
+          label="Cancel"
+          severity="secondary"
+          :disabled="isHandoffComplete || loading"
+          @click="handleCloseHandoffDialog"
+        />
+        <Button
+          label="Handoff"
+          :loading="loading"
+          :disabled="!selectedHandoffUserId || isHandoffComplete"
+          @click="handleConfirmHandoff"
+        />
+      </div>
+    </div>
+  </Dialog>
 </template>
 
 <script setup lang="ts">
@@ -192,6 +192,7 @@ import Dropdown from 'primevue/dropdown';
 import InputSwitch from 'primevue/inputswitch';
 import Tag from 'primevue/tag';
 import Divider from 'primevue/divider';
+import UiCard from '@/components/UiCard.vue';
 
 interface User {
   id: string;

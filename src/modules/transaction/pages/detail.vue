@@ -7,7 +7,7 @@
         size="small"
         @click="onBack"
       />
-      <h1 class="text-2xl font-semibold">
+      <h1 class="text-lg font-semibold">
         Transaction Detail
       </h1>
     </div>
@@ -17,7 +17,7 @@
       <template #header>  
         <div class="w-full flex flex-col md:flex-row gap-2 items-center justify-between">
           <div class="w-full flex items-center justify-between">
-            <h1 class="flex-1 text-2xl font-semibold">
+            <h1 class="flex-1 text-lg font-semibold">
               Transaction Information
             </h1>
             <Tag
@@ -90,7 +90,7 @@
     <!-- Transaction Items -->
     <UiCard v-if="transactionDetail && transactionDetail.transaction_items">
       <template #header>
-        <h1 class="text-2xl font-semibold">
+        <h1 class="text-lg font-semibold">
           Transaction Items
         </h1>
       </template>

@@ -7,7 +7,7 @@
         size="small"
         @click="onBack"
       />
-      <h1 class="text-2xl font-semibold">
+      <h1 class="text-lg font-semibold">
         Shift Detail
       </h1>
     </div>

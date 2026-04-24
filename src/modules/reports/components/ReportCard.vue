@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white dark:bg-dark-secondary! rounded-lg shadow p-6">
+  <UiCard class="bg-white dark:bg-dark-secondary! rounded-lg shadow">
     <!-- Header -->
     <div class="flex flex-col lg:flex-row lg:justify-between lg:items-start gap-4">
       <div class="flex-1">
@@ -26,18 +26,14 @@
     >
       {{ error }}
     </Message>
-
-    <!-- Content Slot -->
-    <div v-if="!error" class="text-gray-400 text-sm">
-      <slot />
-    </div>
-  </div>
+  </UiCard>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue';
 import Button from 'primevue/button';
 import Message from 'primevue/message';
+import UiCard from '@/components/UiCard.vue';
 
 interface Props {
   title: string;

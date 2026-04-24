@@ -1,5 +1,5 @@
 <template>
-  <div class="metrics-display">
+  <UiCard class="metrics-display">
     <div class="metrics-display__header">
       <h3 class="metrics-display__title">Performance Metrics</h3>
     </div>
@@ -86,7 +86,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </UiCard>
 </template>
 
 <script setup lang="ts">
@@ -97,6 +97,7 @@ import { showToast } from '@/helpers/toast';
 import { getErrorMessage, formatDuration } from '@/helpers/utils';
 import Tag from 'primevue/tag';
 import ProgressSpinner from 'primevue/progressspinner';
+import UiCard from '@/components/UiCard.vue';
 
 // Register Chart.js components
 Chart.register(...registerables);

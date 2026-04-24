@@ -7,7 +7,7 @@
         size="small"
         @click="onBack"
       />
-      <h1 class="text-2xl font-semibold">
+      <h1 class="text-lg font-semibold">
         Role Detail
       </h1>
     </div>
@@ -15,7 +15,7 @@
     <UiCard v-if="roleDetail">
       <template #header>  
         <div class="w-full flex gap-4 items-center justify-between">
-          <h1 class="text-2xl font-semibold">
+          <h1 class="text-lg font-semibold">
             Role Information
           </h1>
           <Button
@@ -60,7 +60,7 @@
 
     <UiCard v-if="roleDetail" class="gap-0! p-0! overflow-hidden!">
       <template #header>
-        <h2 class="text-2xl font-semibold pt-4 px-4">
+        <h2 class="text-lg font-semibold pt-4 px-4">
           Permissions
         </h2>
       </template>

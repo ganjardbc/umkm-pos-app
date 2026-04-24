@@ -1,6 +1,6 @@
 <template>
   <div class="w-full space-y-4">
-    <h1 class="text-2xl font-semibold">
+    <h1 class="text-lg font-semibold">
       Stock
     </h1>
 
