@@ -58,7 +58,7 @@ export default [
   },
   {
     icon: 'pi pi-desktop',
-    label: 'Point of Sale',
+    label: 'Cashier',
     featureFlag: DEFAULT_FEATURE_FLAG,
     permissions: POS_PERMISSIONS,
     route: PRP_POS,
