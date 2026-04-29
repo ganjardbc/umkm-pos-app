@@ -34,7 +34,7 @@
               label="Receipt"
               size="small"
               class="w-full"
-              :disabled="!isCanPrint"
+              :disabled="!isCanPrint || transactionDetail?.is_cancelled"
               @click="openPrintReceipt(transactionDetail)"
             />
             <Button

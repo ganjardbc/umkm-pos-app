@@ -1,24 +1,28 @@
 <template>
   <div class="w-full space-y-4">
     <h1 class="text-lg font-semibold">
-      Transaction
+      Transactions
     </h1>
 
-    <div class="flex flex-col md:flex-row gap-4">
-      <div class="flex-1">
-        <UiSearch
-          v-model="form.search"
-          type="search"
-          class="w-full"
-          @input="search"
-        />
+    <div class="flex-1">
+      <UiSearch
+        v-model="form.search"
+        type="search"
+        class="w-full"
+        @input="search"
+      />
+    </div>
+
+    <div class="flex gap-2 items-center">
+      <div class="text-sm text-gray-400">
+        Status:
       </div>
-      <Button
-        icon="pi pi-plus"
-        label="Create Transaction"
-        class="w-full md:w-[238px]"
-        :disabled="!isCanCreate"
-        @click="createTransaction"
+      <Tag
+        v-for="cancel in listOfCancellFilters"
+        :value="cancel.label "
+        :severity="filter.is_cancelled === cancel.value ? 'success' : 'secondary'"
+        class="cursor-pointer! rounded-full! px-3! py-1!"
+        @click="handleCancelFilters(cancel)"
       />
     </div>
 
@@ -91,18 +95,18 @@
               <Button
                 severity="secondary" 
                 variant="outlined"
-                icon="pi pi-print"
-                size="small"
-                :disabled="!isCanPrint"
-                @click="openPrintReceipt(slotProps.data)"
-              />
-              <Button
-                severity="secondary" 
-                variant="outlined"
                 icon="pi pi-eye"
                 size="small"
                 :disabled="!iscanDetail"
                 @click="openDetail(slotProps.data)"
+              />
+              <Button
+                severity="secondary" 
+                variant="outlined"
+                icon="pi pi-print"
+                size="small"
+                :disabled="!isCanPrint || slotProps.data.is_cancelled"
+                @click="openPrintReceipt(slotProps.data)"
               />
               <Button
                 severity="danger" 
@@ -145,20 +149,29 @@ import UiCard from '@/components/UiCard.vue';
 import UiSearch from '@/components/UiSearch.vue';
 import UiPagination from '@/components/UiPagination.vue';
 import ReceiptModal from '@/modules/transaction/components/ReceiptModal.vue';
-import { CREATE, READ, PRINT, CANCEL } from '@/modules/transaction/services/rbac.ts';
+import { READ, PRINT, CANCEL } from '@/modules/transaction/services/rbac.ts';
 import { PREFIX_ROUTE_NAME } from '@/modules/transaction/services/constants.ts';
 
 const router = useRouter();
 const outlet = getOutlet();
 
 // RBAC
-const isCanCreate = computed(() => isHasPermission(CREATE)); 
 const isCanPrint = computed(() => isHasPermission(PRINT));
 const iscanDetail = computed(() => isHasPermission(READ));
 const isCanCancel = computed(() => isHasPermission(CANCEL));
 
+const listOfCancellFilters = [
+  { label: 'All Status', value: null },
+  { label: 'Active', value: false },
+  { label: 'Cancelled', value: true },
+];
+
 // Fetch Data
 const transactions = ref([]);
+const filter = ref({
+  outlet_id: outlet?.id,
+  is_cancelled: null,
+});
 const pagination = ref({
   page: 1,
   pageCount: 0,
@@ -172,6 +185,7 @@ const fetchTransaction = async () => {
       outlet_id: outlet?.id,
       page: pagination.value.page,
       limit: pagination.value.rows,
+      is_cancelled: filter.value.is_cancelled,
     }
     const response = await getListTransaction(payload);
     const { data, meta } = response?.data?.data || {};
@@ -246,19 +260,18 @@ const onCancelTransaction = (transaction: any) => {
   });
 };
 
-// Create Transactions
-const createTransaction = () => {
-  router.push({
-    name: `${PREFIX_ROUTE_NAME}-create`
-  });
-};
-
 // Detail Transactions
 const openDetail = (transaction: any) => {
   router.push({
     name: `${PREFIX_ROUTE_NAME}-detail`,
     params: { id: transaction.id }
   });
+};
+
+// Filters
+const handleCancelFilters =  (cancel: any) => {
+  filter.value.is_cancelled = cancel.value;
+  fetchTransaction();
 };
 
 // Search

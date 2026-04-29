@@ -14,7 +14,7 @@ export default [
     name: PREFIX_ROUTE_NAME,
     component: () => import('@/modules/transaction/pages/index.vue'),
     meta: {
-      title: 'Transaction',
+      title: 'Transactions',
       layout: 'default',
       permission: [READ],
       breadcrumbs: [
@@ -24,7 +24,7 @@ export default [
           isActive: false,
         },
         {
-          label: 'Transaction',
+          label: 'Transactions',
           route: PREFIX_ROUTE_PATH,
           isActive: true,
         },
@@ -36,7 +36,7 @@ export default [
     name: `${PREFIX_ROUTE_NAME}-create`,
     component: () => import('@/modules/transaction/pages/create.vue'),
     meta: {
-      title: 'Transaction',
+      title: 'Transactions',
       layout: 'default',
       permission: [CREATE],
       breadcrumbs: [
@@ -46,7 +46,7 @@ export default [
           isActive: false,
         },
         {
-          label: 'Transaction',
+          label: 'Transactions',
           route: PREFIX_ROUTE_PATH,
           isActive: false,
         },
@@ -63,7 +63,7 @@ export default [
     name: `${PREFIX_ROUTE_NAME}-detail`,
     component: () => import('@/modules/transaction/pages/detail.vue'),
     meta: {
-      title: 'Transaction',
+      title: 'Transactions',
       layout: 'default',
       permission: [READ],
       breadcrumbs: [
@@ -73,7 +73,7 @@ export default [
           isActive: false,
         },
         {
-          label: 'Transaction',
+          label: 'Transactions',
           route: PREFIX_ROUTE_PATH,
           isActive: false,
         },
