@@ -13,7 +13,7 @@ export default [
     name: PREFIX_ROUTE_NAME,
     component: () => import('@/modules/pos/pages/index.vue'),
     meta: {
-      title: 'Point of Sale',
+      title: 'Cashier',
       layout: 'default',
       permission: [CREATE],
       breadcrumbs: [
@@ -23,7 +23,7 @@ export default [
           isActive: false,
         },
         {
-          label: 'POS',
+          label: 'Cashier',
           route: PREFIX_ROUTE_PATH,
           isActive: true,
         },

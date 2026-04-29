@@ -9,7 +9,7 @@
     <!-- POS Product -->
     <div class="pos__content">
       <h1 class="text-lg font-semibold">
-        Create Transaction
+        Cashier
       </h1>
 
       <!-- Warning Shift -->
