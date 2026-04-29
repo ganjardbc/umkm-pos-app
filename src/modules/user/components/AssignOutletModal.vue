@@ -108,7 +108,10 @@
                 </Column>
                 <Column field="action" header="#" class="w-[152px]">
                   <template #body="slotProps">
-                    <div class="flex gap-2">
+                    <div
+                      v-if="slotProps.data.name !== 'admin'"
+                      class="flex gap-2"
+                    >
                       <Button
                         :severity="isRoleSelected(slotProps.data) ? 'default' : 'secondary'"
                         :variant="isRoleSelected(slotProps.data) ? 'soft' : 'outlined'"
