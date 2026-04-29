@@ -1,13 +1,9 @@
 <template>
   <div class="w-full space-y-4">
-    <h1 class="text-lg font-semibold">
-      Products
-    </h1>
-
     <!-- Tabs Shift Management -->
     <Tabs v-model:value="activeTab">
       <TabList class="bg-transparent!">
-        <Tab value="products">Lists</Tab>
+        <Tab value="products">Products</Tab>
         <Tab value="categories">Categories</Tab>
       </TabList>
     </Tabs>
