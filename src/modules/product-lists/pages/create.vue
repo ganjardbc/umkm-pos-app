@@ -173,7 +173,7 @@
   </UiCard>
 </template>
 <script setup lang="ts">
-import type { FormCreate } from '@/modules/product/services/types.ts';
+import type { FormCreate } from '@/modules/product-lists/services/types';
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { z } from 'zod';
@@ -181,8 +181,8 @@ import { zodResolver } from '@primevue/forms/resolvers/zod';
 import { getErrorMessage } from '@/helpers/utils.ts';
 import { showToast } from '@/helpers/toast.ts';
 import { showLoading, hideLoading } from '@/helpers/loading.ts';
-import { postProduct } from '@/modules/product/services/api.ts';
-import { getActiveCategories } from '@/modules/categories/services/api.ts';
+import { postProduct } from '@/modules/product-lists/services/api';
+import { getActiveCategories } from '@/modules/product-categories/services/api';
 import UiCard from '@/components/UiCard.vue';
 import UiFormGroup from '@/components/UiFormGroup.vue';
 

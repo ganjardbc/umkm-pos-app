@@ -6,7 +6,7 @@
 </template>
 <script setup lang="ts">
 import { ref } from 'vue';
-import { useProductStore } from '@/modules/product/stores';
+import { useProductStore } from '@/modules/product-lists/stores';
 
 const productStore = useProductStore();
 const message = ref(productStore.message);

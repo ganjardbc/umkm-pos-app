@@ -6,7 +6,7 @@
 </template>
 <script setup lang="ts">
 import { ref } from 'vue';
-import { useCategoriesStore } from '@/modules/categories/stores';
+import { useCategoriesStore } from '@/modules/product-categories/stores';
 
 const categoriesStore = useCategoriesStore();
 const message = ref(categoriesStore.message);

@@ -80,7 +80,7 @@
   </UiCard>
 </template>
 <script lang="ts" setup>
-import type { FormCreate } from '@/modules/categories/services/types.ts';
+import type { FormCreate } from '@/modules/product-categories/services/types';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { z } from 'zod';
@@ -88,7 +88,7 @@ import { zodResolver } from '@primevue/forms/resolvers/zod';
 import { getErrorMessage } from '@/helpers/utils.ts';
 import { showToast } from '@/helpers/toast.ts';
 import { showLoading, hideLoading } from '@/helpers/loading.ts';
-import { postCategories } from '@/modules/categories/services/api.ts';
+import { postCategories } from '@/modules/product-categories/services/api';
 import UiCard from '@/components/UiCard.vue';
 import UiFormGroup from '@/components/UiFormGroup.vue';
 

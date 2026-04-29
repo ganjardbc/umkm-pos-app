@@ -73,9 +73,9 @@ import { useRoute, useRouter } from 'vue-router';
 import { getErrorMessage, formatDateTime } from '@/helpers/utils.ts';
 import { showToast } from '@/helpers/toast.ts';
 import { isHasPermission } from '@/helpers/auth.ts';
-import { getDetailCategories } from '@/modules/categories/services/api.ts';
-import { PREFIX_ROUTE_NAME } from '@/modules/categories/services/constants.ts';
-import { UPDATE } from '@/modules/categories/services/rbac.ts';
+import { getDetailCategories } from '@/modules/product-categories/services/api';
+import { PREFIX_ROUTE_NAME } from '@/modules/product-categories/services/constants';
+import { UPDATE } from '@/modules/product-categories/services/rbac';
 import UiCard from '@/components/UiCard.vue';
 
 const route = useRoute();

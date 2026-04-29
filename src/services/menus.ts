@@ -14,11 +14,7 @@ import { PERMISSIONS as OUTLET_PERMISSIONS } from '@/modules/outlet/services/rba
 
 // Product
 import { PREFIX_ROUTE_PATH as PRP_PRODUCT } from '@/modules/product/services/constants';
-import { PERMISSIONS as PRODUCT_PERMISSIONS } from '@/modules/product/services/rbac.ts';
-
-// Categories
-import { PREFIX_ROUTE_PATH as PRP_CATEGORY } from '@/modules/categories/services/constants';
-import { PERMISSIONS as CATEGORY_PERMISSIONS } from '@/modules/categories/services/rbac.ts';
+import { PERMISSIONS as PRODUCT_PERMISSIONS } from '@/modules/product-lists/services/rbac';
 
 // Stock
 import { PREFIX_ROUTE_PATH as PRP_STOCK } from '@/modules/stock/services/constants';
@@ -87,13 +83,6 @@ export default [
     featureFlag: DEFAULT_FEATURE_FLAG,
     permissions: PRODUCT_PERMISSIONS,
     route: PRP_PRODUCT,
-  },
-  {
-    icon: 'pi pi-table',
-    label: 'Categories',
-    featureFlag: DEFAULT_FEATURE_FLAG,
-    permissions: CATEGORY_PERMISSIONS,
-    route: PRP_CATEGORY,
   },
   {
     icon: 'pi pi-table',

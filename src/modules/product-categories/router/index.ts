@@ -1,19 +1,23 @@
 import {
   PREFIX_ROUTE_PATH,
   PREFIX_ROUTE_NAME,
-} from '@/modules/categories/services/constants.ts';
+} from '@/modules/product-categories/services/constants';
+
+import {
+  PREFIX_ROUTE_PATH as PRP_PRODUCT,
+} from '@/modules/product/services/constants';
 
 import {
   READ,
   CREATE,
   UPDATE,
-} from '@/modules/categories/services/rbac.ts';
+} from '@/modules/product-categories/services/rbac';
 
 export default [
   {
     path: PREFIX_ROUTE_PATH,
     name: PREFIX_ROUTE_NAME,
-    component: () => import('@/modules/categories/pages/index.vue'),
+    component: () => import('@/modules/product-categories/pages/index.vue'),
     meta: {
       title: 'Categories',
       layout: 'default',
@@ -26,8 +30,8 @@ export default [
         },
         {
           label: 'Categories',
-          route: PREFIX_ROUTE_PATH,
-          isActive: true,
+          route: `${PRP_PRODUCT}?tab=categories`,
+          isActive: false,
         },
       ]
     }
@@ -35,7 +39,7 @@ export default [
   {
     path: `${PREFIX_ROUTE_PATH}/create`,
     name: `${PREFIX_ROUTE_NAME}-create`,
-    component: () => import('@/modules/categories/pages/create.vue'),
+    component: () => import('@/modules/product-categories/pages/create.vue'),
     meta: {
       title: 'Categories',
       layout: 'default',
@@ -48,7 +52,7 @@ export default [
         },
         {
           label: 'Categories',
-          route: PREFIX_ROUTE_PATH,
+          route: `${PRP_PRODUCT}?tab=categories`,
           isActive: false,
         },
         {
@@ -62,7 +66,7 @@ export default [
   {
     path: `${PREFIX_ROUTE_PATH}/edit/:id`,
     name: `${PREFIX_ROUTE_NAME}-edit`,
-    component: () => import('@/modules/categories/pages/edit.vue'),
+    component: () => import('@/modules/product-categories/pages/edit.vue'),
     meta: {
       title: 'Categories',
       layout: 'default',
@@ -75,7 +79,7 @@ export default [
         },
         {
           label: 'Categories',
-          route: PREFIX_ROUTE_PATH,
+          route: `${PRP_PRODUCT}?tab=categories`,
           isActive: false,
         },
         {
@@ -89,7 +93,7 @@ export default [
   {
     path: `${PREFIX_ROUTE_PATH}/detail/:id`,
     name: `${PREFIX_ROUTE_NAME}-detail`,
-    component: () => import('@/modules/categories/pages/detail.vue'),
+    component: () => import('@/modules/product-categories/pages/detail.vue'),
     meta: {
       title: 'Categories',
       layout: 'default',
@@ -102,7 +106,7 @@ export default [
         },
         {
           label: 'Categories',
-          route: PREFIX_ROUTE_PATH,
+          route: `${PRP_PRODUCT}?tab=categories`,
           isActive: false,
         },
         {

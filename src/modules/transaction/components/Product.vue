@@ -101,7 +101,7 @@ import { onMounted, ref, computed } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useAuthStore } from '@/modules/auth/stores/index.ts';
 import { getErrorMessage, getCurrency } from '@/helpers/utils.ts';
-import { getListProduct } from '@/modules/product/services/api.ts';
+import { getListProduct } from '@/modules/product-lists/services/api';
 import { showToast } from '@/helpers/toast.ts';
 import { usePosStore } from '@/modules/transaction/stores-pos';
 import UiSearch from '@/components/UiSearch.vue';

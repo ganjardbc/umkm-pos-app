@@ -91,7 +91,7 @@
   </Dialog>
 </template>
 <script lang="ts" setup>
-import type { AdjustStock } from '@/modules/product/services/types.ts';
+import type { AdjustStock } from '@/modules/product-lists/services/types';
 import { ref } from 'vue';
 import { z } from 'zod';
 import { zodResolver } from '@primevue/forms/resolvers/zod';

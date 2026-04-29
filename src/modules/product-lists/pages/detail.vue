@@ -181,13 +181,13 @@ import { getErrorMessage, getCurrency, formatDateTime, getNoTable } from '@/help
 import { showToast } from '@/helpers/toast.ts';
 import { showLoading, hideLoading } from '@/helpers/loading.ts';
 import { isHasPermission } from '@/helpers/auth.ts';
-import { getDetailProduct, getProductStock, postAdjustStock } from '@/modules/product/services/api.ts';
-import { PREFIX_ROUTE_NAME } from '@/modules/product/services/constants.ts';
-import { UPDATE, ADJUST } from '@/modules/product/services/rbac.ts';
+import { getDetailProduct, getProductStock, postAdjustStock } from '@/modules/product-lists/services/api';
+import { PREFIX_ROUTE_NAME } from '@/modules/product-lists/services/constants';
+import { UPDATE, ADJUST } from '@/modules/product-lists/services/rbac';
 import UiCard from '@/components/UiCard.vue';
 import UiSearch from '@/components/UiSearch.vue';
 import UiPagination from '@/components/UiPagination.vue';
-import AdjustStockModal from '@/modules/product/components/AdjustStockModal.vue';
+import AdjustStockModal from '@/modules/product-lists/components/AdjustStockModal.vue';
 
 const route = useRoute();
 const router = useRouter();
