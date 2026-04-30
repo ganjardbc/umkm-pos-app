@@ -56,14 +56,14 @@
           severity="secondary"
           label="Cancel"
           size="medium"
-          class="w-[128px]"
+          class="w-full md:w-[128px]"
           @click="onCancel"
         />
         <Button
           type="submit"
           label="Send Code"
           size="medium"
-          class="w-[128px]"
+          class="w-full md:w-[128px]"
         />
       </div>
     </Form>
@@ -121,14 +121,14 @@
           severity="secondary"
           label="Back"
           size="medium"
-          class="w-[128px]"
+          class="w-full md:w-[128px]"
           @click="step = 1"
         />
         <Button
           type="submit"
           label="Verify"
           size="medium"
-          class="w-[128px]"
+          class="w-full md:w-[128px]"
         />
       </div>
     </Form>

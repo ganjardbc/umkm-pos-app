@@ -234,13 +234,13 @@
           severity="secondary"
           :label="activeStep === 1 ? 'Cancel' : 'Back'"
           size="medium"
-          class="w-[128px]"
+          class="w-full md:w-[128px]"
           @click="onCancel"
         />
         <Button
           :label="activeStep === 3 ? 'Save' : 'Next'"
           size="medium"
-          class="w-[128px]"
+          class="w-full md:w-[128px]"
           :disabled="disabledSave"
           @click="onSave"
         />

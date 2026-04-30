@@ -381,14 +381,6 @@ onBeforeUnmount(() => {
 @import "tailwindcss";
 @import "@/assets/styles/themes.css";
 
-.metrics-display {
-  @apply bg-white dark:bg-dark-secondary rounded-lg p-4 border border-gray-200 dark:border-dark;
-}
-
-.metrics-display__header {
-  @apply mb-4;
-}
-
 .metrics-display__title {
   @apply text-lg font-semibold text-gray-900 dark:text-white;
 }

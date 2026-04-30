@@ -1,9 +1,5 @@
 <template>
   <div class="max-w-2xl mx-auto space-y-4">
-    <h1 class="text-lg font-semibold">
-      My Profile
-    </h1>
-
     <!-- Loading State -->
     <UiCard v-if="!profile">
       <div class="flex justify-center items-center py-8">
@@ -66,7 +62,6 @@
       v-if="listOfSettingMenus && listOfSettingMenus.length > 0"
       class="space-y-4"
     >
-      <h1 class="text-xl font-semibold">Settings</h1>
       <UiCard
         v-for="(menu, i) in listOfSettingMenus"
         :key="i"
@@ -91,6 +86,7 @@
               {{ menu?.description }}
             </p>
           </div>
+          <i class="pi pi-chevron-right text-xs!" />
         </div>
       </UiCard>
     </div>

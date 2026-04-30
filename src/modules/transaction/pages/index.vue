@@ -1,9 +1,5 @@
 <template>
   <div class="w-full space-y-4">
-    <h1 class="text-lg font-semibold">
-      Transactions
-    </h1>
-
     <div class="flex-1">
       <UiSearch
         v-model="form.search"

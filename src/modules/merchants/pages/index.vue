@@ -1,9 +1,5 @@
 <template>
   <div class="w-full space-y-4">
-    <h1 class="text-lg font-semibold">
-      Merchants
-    </h1>
-
     <div class="flex flex-col md:flex-row gap-4">
       <div class="flex-1">
         <UiSearch
@@ -40,7 +36,7 @@
             {{ formatDateTime(slotProps.data.created_at) }}
           </template>
         </Column>
-        <Column field="action" header="#" class="w-[128px]">
+        <Column field="action" header="#" class="w-full md:w-[128px]">
           <template #body="slotProps">
             <div class="flex gap-2">
               <Button

@@ -425,12 +425,8 @@ onMounted(() => {
 @import "tailwindcss";
 @import "@/assets/styles/themes.css";
 
-.participant-management {
-  @apply bg-white dark:bg-dark-secondary rounded-lg p-4 border border-gray-200 dark:border-dark;
-}
-
 .participant-management__header {
-  @apply flex items-center justify-between mb-4;
+  @apply flex items-center justify-between;
 }
 
 .participant-management__title {

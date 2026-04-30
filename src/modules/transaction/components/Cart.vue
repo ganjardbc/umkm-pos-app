@@ -197,40 +197,42 @@
       'pos-cart__trigger--open': !isWeb,
     }"
   >
-    <div class="pos-cart__trigger-content pos-cart__trigger-content--dark">
-      <div class="flex items-center gap-3">
-        <div class="w-12 h-12 bg-primary-50 dark:bg-primary-900 flex flex-col justify-center items-center rounded-full">
-          <i class="pi pi-shopping-cart text-primary-500 dark:text-primary-400" />
-        </div>
-        <div class="flex-1 space-y-1">
-          <div class="text-sm text-gray-400">
-            Outlet Cart
+    <UiCard class="pos-cart__trigger-content pos-cart__trigger-content--dark">
+      <div class="flex justify-between items-center">
+        <div class="flex items-center gap-3">
+          <div class="w-12 h-12 bg-primary-50 dark:bg-primary-900 flex flex-col justify-center items-center rounded-full">
+            <i class="pi pi-shopping-cart text-primary-500 dark:text-primary-400" />
           </div>
-          <div class="flex items-center">
-            <span class="text-base font-bold">
-              {{ posStore.cartItemCount || 0 }} Items
-            </span>
-            <Divider layout="vertical" />
-            <span
-              class="text-base font-bold"
-              :class="{
-                'text-primary dark:text-primary-400': posStore.cartTotal,
-              }"
-            >
-              {{ getCurrency(posStore.cartTotal) }}
-            </span>
+          <div class="flex-1 space-y-1">
+            <div class="text-sm text-gray-400">
+              Outlet Cart
+            </div>
+            <div class="flex items-center">
+              <span class="text-base font-bold">
+                {{ posStore.cartItemCount || 0 }} Items
+              </span>
+              <Divider layout="vertical" />
+              <span
+                class="text-base font-bold"
+                :class="{
+                  'text-primary dark:text-primary-400': posStore.cartTotal,
+                }"
+              >
+                {{ getCurrency(posStore.cartTotal) }}
+              </span>
+            </div>
           </div>
         </div>
-      </div>
 
-      <Button
-        severity="secondary"
-        variant="outlined"
-        size="medium"
-        icon="pi pi-arrow-right"
-        @click="openCloseCart"
-      />
-    </div>
+        <Button
+          severity="secondary"
+          variant="outlined"
+          size="medium"
+          icon="pi pi-arrow-right"
+          @click="openCloseCart"
+        />
+      </div>
+    </UiCard>
   </div>
 </template>
 
@@ -489,7 +491,7 @@ watch(() => props.shiftId, (newVal: string) => {
 }
 
 .pos-cart__trigger-content {
-  @apply w-full py-2 px-3 shadow-md rounded-lg border border-gray-200 bg-white flex justify-between items-center;
+  @apply w-full py-2! px-3! shadow-xl!;
 }
 
 .pos-cart__trigger-content--dark {

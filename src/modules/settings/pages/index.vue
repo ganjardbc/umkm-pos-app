@@ -1,7 +1,5 @@
 <template>
   <div class="max-w-2xl mx-auto space-y-4">
-    <h1 class="text-2xl! font-semibold">Settings</h1>
-
     <div class="grid grid-cols-1 gap-4">
       <UiCard
         v-for="(menu, i) in listOfSettingMenus"
@@ -27,6 +25,7 @@
               {{ menu?.description }}
             </p>
           </div>
+          <i class="pi pi-chevron-right text-xs!" />
         </div>
       </UiCard>
     </div>

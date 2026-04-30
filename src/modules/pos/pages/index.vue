@@ -8,10 +8,6 @@
   >
     <!-- POS Product -->
     <div class="pos__content">
-      <h1 class="text-lg font-semibold">
-        Cashier
-      </h1>
-
       <!-- Warning Shift -->
       <Message
         v-if="isShiftClosed"

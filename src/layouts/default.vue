@@ -430,6 +430,14 @@ onMounted(() => {
   @apply container mx-auto min-h-[calc(100vh-88px)];
 }
 
+/* .default-layout__content-container:not(:has(.pos)) {
+  @apply max-w-6xl;
+}
+
+.default-layout__content-container:has(.pos) {
+  @apply container;
+} */
+
 /* Footer */
 .default-layout__footer {
   @apply sticky bottom-0 w-full h-18.5 bg-white border-t border-gray-200 py-2;

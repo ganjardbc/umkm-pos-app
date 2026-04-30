@@ -1,23 +1,23 @@
 <template>
   <div class="w-full space-y-4">
     <!-- Page Header -->
-    <div class="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-4">
+    <DatePicker
+      v-model="dateRange"
+      selection-mode="range"
+      :max-date="new Date()"
+      date-format="yy-mm-dd"
+      show-button-bar
+      :manual-input="false"
+      placeholder="Select date range"
+      showIcon
+      class="w-full"
+    />
+    <!-- <div class="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-4">
       <h1 class="flex-1 text-lg font-bold">Reports</h1>
 
       <div class="flex flex-col lg:flex-row gap-4">
-        <DatePicker
-          v-model="dateRange"
-          selection-mode="range"
-          :max-date="new Date()"
-          date-format="yy-mm-dd"
-          show-button-bar
-          :manual-input="false"
-          placeholder="Select date range"
-          showIcon
-          class="w-full lg:w-80"
-        />
       </div>
-    </div>
+    </div> -->
 
     <!-- Validation Error Message -->
     <Message
