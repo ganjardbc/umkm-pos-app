@@ -25,6 +25,7 @@ export interface FormCreate {
   name: string,
   category_id?: string | null,
   thumbnail: string,
+  upload_id?: string | null,
   price: number,
   cost: number,
   stock_qty: number,
@@ -35,6 +36,8 @@ export interface FormCreate {
 export interface FormEdit {
   name: string,
   category_id?: string | null,
+  thumbnail?: string,
+  upload_id?: string | null,
   price: number,
   cost: number,
   min_stock: number,

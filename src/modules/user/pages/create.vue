@@ -82,22 +82,11 @@
           </Message>
         </UiFormGroup>
 
-        <UiFormGroup label="Avatar URL (Optional)" variant="vertical">
-          <InputText
-            name="avatar"
-            type="text"
-            placeholder=""
-            fluid
-          />
-          <Message
-            v-if="$form.avatar?.invalid"
-            severity="error"
-            size="small"
-            variant="simple"
-          >
-            {{ $form.avatar.error?.message }}
-          </Message>
-        </UiFormGroup>
+        <UiFileUpload
+          :previewUrl="imagePreview"
+          @select="onUploadImage"
+          @remove="onRemoveImage"
+        />
 
         <UiFormGroup label="Active Status" variant="vertical">
           <div class="flex items-center gap-2">
@@ -138,10 +127,19 @@ import { getErrorMessage } from '@/helpers/utils.ts';
 import { showToast } from '@/helpers/toast.ts';
 import { showLoading, hideLoading } from '@/helpers/loading.ts';
 import { postUser } from '@/modules/user/services/api.ts';
+import { setUserAvatar } from '@/services/uploads';
+import { useFileUpload } from '@/composables/useFileUpload';
 import UiCard from '@/components/UiCard.vue';
 import UiFormGroup from '@/components/UiFormGroup.vue';
 
 const router = useRouter();
+
+const {
+  selectedUploadId,
+  imagePreview,
+  onUploadImage,
+  onRemoveImage,
+} = useFileUpload();
 
 // State Form
 const initialValues = ref<FormCreate>({
@@ -179,9 +177,12 @@ const onFormSubmit = async ({ valid, values }: { valid: boolean; values: FormCre
         is_active: values?.is_active,
       };
       const response = await postUser(payload);
-      const { success } = response?.data || {};
+      const { success, data } = response?.data || {};
 
       if (success) {
+        if (selectedUploadId.value) {
+          await setUserAvatar(data?.id, selectedUploadId.value);
+        }
         router.back();
       }
     } catch (error) {

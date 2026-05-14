@@ -14,7 +14,8 @@
         Status:
       </div>
       <Tag
-        v-for="cancel in listOfCancellFilters"
+        v-for="(cancel, index) in listOfCancellFilters"
+        :key="index"
         :value="cancel.label "
         :severity="filter.is_cancelled === cancel.value ? 'success' : 'secondary'"
         class="cursor-pointer! rounded-full! px-3! py-1!"
@@ -186,7 +187,7 @@ const fetchTransaction = async () => {
     const response = await getListTransaction(payload);
     const { data, meta } = response?.data?.data || {};
 
-    transactions.value = data;
+    transactions.value = data || [];
     pagination.value.totalRecords = meta?.total;
     pagination.value.pageCount = meta?.totalPages;
   } catch (error) {

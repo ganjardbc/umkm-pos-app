@@ -64,22 +64,11 @@
             {{ $form.location.error?.message }}
           </Message>
         </UiFormGroup>
-        <!-- <UiFormGroup label="Logo" variant="vertical">
-          <InputText
-            name="logo"
-            type="text"
-            placeholder=""
-            fluid
-          />
-          <Message
-            v-if="$form.logo?.invalid"
-            severity="error"
-            size="small"
-            variant="simple"
-          >
-            {{ $form.logo.error?.message }}
-          </Message>
-        </UiFormGroup> -->
+        <UiFileUpload
+          :previewUrl="imagePreview"
+          @select="onUploadImage"
+          @remove="onRemoveImage"
+        />
         <UiFormGroup label="Active Status" variant="vertical">
           <Checkbox
             name="is_active"
@@ -124,10 +113,19 @@ import { getErrorMessage } from '@/helpers/utils.ts';
 import { showToast } from '@/helpers/toast.ts';
 import { showLoading, hideLoading } from '@/helpers/loading.ts';
 import { postOutlet } from '@/modules/outlet/services/api.ts';
+import { setOutletImage } from '@/services/uploads';
+import { useFileUpload } from '@/composables/useFileUpload';
 import UiCard from '@/components/UiCard.vue';
 import UiFormGroup from '@/components/UiFormGroup.vue';
 
 const router = useRouter();
+
+const {
+  selectedUploadId,
+  imagePreview,
+  onUploadImage,
+  onRemoveImage,
+} = useFileUpload();
 
 const initialValues = ref<FormCreate>({
   slug: '',
@@ -159,9 +157,12 @@ const onFormSubmit = async ({ valid, values }: { valid: boolean; values: FormCre
         is_active: values?.is_active,
       };
       const response = await postOutlet(payload);
-      const { success } = response?.data || {};
+      const { success, data } = response?.data || {};
 
       if (success) {
+        if (selectedUploadId.value) {
+          await setOutletImage(data?.id, selectedUploadId.value);
+        }
         router.back();
       }
     } catch (error) {

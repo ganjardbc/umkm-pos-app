@@ -21,9 +21,12 @@
       </div>
 
       <Avatar
-        icon="pi pi-shop"
+        :image="activeOutlet?.logo"
+        :label="activeOutlet?.logo ? undefined : activeOutlet?.name?.charAt(0)"
         size="small"
         shape="square"
+        :icon="activeOutlet?.logo ? undefined : 'pi pi-store'"
+        class="ui-sidebar-outlet__avatar"
       />
     </div>
     <Popover
@@ -41,9 +44,11 @@
         >
           <div class="flex items-center gap-2">
             <Avatar
-              :label="outlet?.outlet?.name?.charAt(0)"
+              :image="outlet?.outlet?.logo"
+              :label="outlet?.outlet?.logo ? undefined : outlet?.outlet?.name?.charAt(0)"
               size="small"
               shape="square"
+              class="ui-sidebar-outlet__avatar"
             />
             <div
               class="flex-1 overflow-hidden flex flex-col"
@@ -61,7 +66,7 @@
               size="small"
               :label="activeOutlet.id === outlet?.outlet?.id ? 'Current' : 'Visit'"
               :disabled="activeOutlet.id === outlet?.outlet?.id"
-              class="h-[32px] text-xs!"
+              class="h-8 text-xs!"
               @click="onVisitOutlet(outlet)"
             />
           </div>
@@ -147,5 +152,13 @@ const onVisitOutlet = async (outlet) => {
 .ui-sidebar-outlet__popper.p-popover:before,
 .ui-sidebar-outlet__popper.p-popover:after {
   @apply hidden;
+}
+
+.ui-sidebar-outlet__avatar {
+  @apply rounded-md overflow-hidden;
+}
+
+.ui-sidebar-outlet__avatar img {
+  object-fit: cover !important;
 }
 </style>

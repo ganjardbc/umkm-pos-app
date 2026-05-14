@@ -11,9 +11,11 @@
         class="text-xs! font-medium!"
       />
       <Avatar
-        :label="personalInfo?.user?.name?.charAt(0)"
+        :image="personalInfo?.user?.avatar"
+        :label="personalInfo?.user?.avatar ? undefined : personalInfo?.user?.name?.charAt(0)"
         size="small"
         shape="circle"
+        class="ui-sidebar-profile__avatar"
       />
     </div>
     <Popover
@@ -24,9 +26,11 @@
       <div class="space-y-4 w-60">
         <div class="relative flex items-center gap-2">
           <Avatar
-            :label="personalInfo?.user?.name?.charAt(0)"
+            :image="personalInfo?.user?.avatar"
+            :label="personalInfo?.user?.avatar ? undefined : personalInfo?.user?.name?.charAt(0)"
             size="small"
             shape="circle"
+            class="ui-sidebar-profile__avatar"
           />
           <div
             class="flex-1 overflow-hidden flex flex-col"
@@ -160,5 +164,9 @@ const openProfileMenu = (event) => {
 .ui-sidebar-profile__popper.p-popover:before,
 .ui-sidebar-profile__popper.p-popover:after {
   @apply hidden;
+}
+
+.ui-sidebar-profile__avatar img {
+  object-fit: cover !important;
 }
 </style>

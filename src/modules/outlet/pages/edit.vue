@@ -46,6 +46,11 @@
             {{ $form.location.error?.message }}
           </Message>
         </UiFormGroup>
+        <UiFileUpload
+          :previewUrl="imagePreview"
+          @select="onUploadImage"
+          @remove="onRemoveImage"
+        />
         <UiFormGroup label="Active Status" variant="vertical">
           <Checkbox
             name="is_active"
@@ -90,6 +95,8 @@ import { getErrorMessage } from '@/helpers/utils.ts';
 import { showToast } from '@/helpers/toast.ts';
 import { showLoading, hideLoading } from '@/helpers/loading.ts';
 import { putOutlet, getDetailOutlet } from '@/modules/outlet/services/api.ts';
+import { setOutletImage, removeOutletImage } from '@/services/uploads';
+import { useFileUpload } from '@/composables/useFileUpload';
 import UiCard from '@/components/UiCard.vue';
 import UiFormGroup from '@/components/UiFormGroup.vue';
 
@@ -98,6 +105,15 @@ const router = useRouter();
 const outletID = computed(() => route.params.id as string);
 
 const isLoaded = ref(false);
+const hasExistingLogo = ref(false);
+
+const {
+  selectedUploadId,
+  imagePreview,
+  onUploadImage,
+  onRemoveImage,
+} = useFileUpload();
+
 const initialValues = ref<FormEdit>({
   name: '',
   location: '',
@@ -126,6 +142,11 @@ const onFormSubmit = async ({ valid, values }: { valid: boolean; values: FormEdi
       const { success } = response?.data || {};
 
       if (success) {
+        if (selectedUploadId.value) {
+          await setOutletImage(outletID.value, selectedUploadId.value);
+        } else if (hasExistingLogo.value && !imagePreview.value) {
+          await removeOutletImage(outletID.value);
+        }
         router.back();
       }
     } catch (error) {
@@ -149,13 +170,18 @@ const fetchDetail = async () => {
   try {
     const response = await getDetailOutlet(outletID.value);
     const { data } = response?.data || {};
-    const { name, location, is_active } = data || {};
+    const { name, location, is_active, logo } = data || {};
 
     initialValues.value = {
       name,
       location,
       is_active
     };
+
+    if (logo) {
+      hasExistingLogo.value = true
+      imagePreview.value = logo
+    }
     
     isLoaded.value = true;
   } catch (error) {

@@ -80,6 +80,11 @@
             {{ $form.address.error?.message }}
           </Message>
         </UiFormGroup>
+        <UiFileUpload
+          :previewUrl="imagePreview"
+          @select="onUploadImage"
+          @remove="onRemoveImage"
+        />
       </div>
 
       <div class="w-full flex justify-end gap-4">
@@ -110,10 +115,19 @@ import { getErrorMessage } from '@/helpers/utils.ts';
 import { showToast } from '@/helpers/toast.ts';
 import { showLoading, hideLoading } from '@/helpers/loading.ts';
 import { postMerchants } from '@/modules/merchants/services/api.ts';
+import { setMerchantImage } from '@/services/uploads';
+import { useFileUpload } from '@/composables/useFileUpload';
 import UiCard from '@/components/UiCard.vue';
 import UiFormGroup from '@/components/UiFormGroup.vue';
 
 const router = useRouter();
+
+const {
+  selectedUploadId,
+  imagePreview,
+  onUploadImage,
+  onRemoveImage,
+} = useFileUpload();
 
 const initialValues = ref<FormCreate>({
   slug: '',
@@ -145,9 +159,12 @@ const onFormSubmit = async ({ valid, values }: { valid: boolean; values: FormCre
         logo: values?.logo
       };
       const response = await postMerchants(payload);
-      const { success } = response?.data || {};
+      const { success, data } = response?.data || {};
 
       if (success) {
+        if (selectedUploadId.value) {
+          await setMerchantImage(data?.id, selectedUploadId.value);
+        }
         router.back();
       }
     } catch (error) {

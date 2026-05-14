@@ -65,6 +65,11 @@
           </Message>
         </UiFormGroup>
 
+        <UiFileUpload
+          :previewUrl="imagePreview"
+          @select="onUploadImage"
+          @remove="onRemoveImage"
+        />
         <UiFormGroup label="Bio" variant="vertical">
           <Textarea
             name="bio"
@@ -107,7 +112,7 @@ import { onMounted, ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { z } from 'zod';
 import { zodResolver } from '@primevue/forms/resolvers/zod';
-import { isHasPermission } from '@/helpers/auth.ts';
+import { isHasPermission, getUser } from '@/helpers/auth.ts';
 import { getErrorMessage } from '@/helpers/utils.ts';
 import { showToast } from '@/helpers/toast.ts';
 import { showLoading, hideLoading } from '@/helpers/loading.ts';
@@ -119,10 +124,13 @@ import Button from 'primevue/button';
 import Message from 'primevue/message';
 import { Form } from '@primevue/forms';
 import { getProfile, updateProfile } from '@/modules/settings/services/api.ts';
+import { setUserAvatar, removeUserAvatar } from '@/services/uploads';
+import { useFileUpload } from '@/composables/useFileUpload';
 import { PROFILE_READ, PROFILE_UPDATE } from '@/modules/settings/services/rbac.ts';
 import type { UpdateProfileDto } from '@/modules/settings/services/types';
 
 const router = useRouter();
+const currentUserId = computed(() => getUser()?.id || '');
 
 // RBAC
 const isCanRead = computed(() => isHasPermission(PROFILE_READ));
@@ -130,6 +138,15 @@ const isCanUpdate = computed(() => isHasPermission(PROFILE_UPDATE));
 
 // Form state
 const isLoaded = ref(false);
+const hasExistingAvatar = ref(false);
+
+const {
+  selectedUploadId,
+  imagePreview,
+  onUploadImage,
+  onRemoveImage,
+} = useFileUpload();
+
 const initialValues = ref({
   name: '',
   email: '',
@@ -159,6 +176,11 @@ const fetchProfile = async () => {
         phone: data.phone || '',
         bio: data.bio || '',
       };
+
+      if (data.avatar) {
+        hasExistingAvatar.value = true
+        imagePreview.value = data.avatar
+      }
     }
     isLoaded.value = true;
   } catch (error) {
@@ -188,6 +210,12 @@ const onFormSubmit = async ({ valid, values }: { valid: boolean; values: any }) 
       const { success } = response?.data || {};
 
       if (success) {
+        if (selectedUploadId.value) {
+          await setUserAvatar(currentUserId.value, selectedUploadId.value);
+        } else if (hasExistingAvatar.value && !imagePreview.value) {
+          await removeUserAvatar(currentUserId.value);
+        }
+
         showToast({
           type: 'success',
           title: 'Success',

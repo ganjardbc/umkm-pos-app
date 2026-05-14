@@ -32,8 +32,7 @@
       >
         <div class="relative space-y-4">
           <div
-            v-if="product.thumbnail"
-            class="relative w-full h-40 bg-gray-100 rounded-xl flex items-center justify-center overflow-hidden"
+            class="relative w-full aspect-video bg-gray-50 dark:bg-dark! rounded-xl flex items-center justify-center overflow-hidden"
           >
             <img
               v-if="product.thumbnail"

@@ -19,9 +19,11 @@
             />
           </div>
           <Avatar
-            :label="profile?.name?.charAt(0)"
+            :image="profile?.avatar"
+            :label="profile?.avatar ? undefined : profile?.name?.charAt(0)"
             size="xlarge"
             shape="circle"
+            class="profile-avatar"
           />
         </div>
 
@@ -69,7 +71,7 @@
         @click="navigateTo(menu?.route)"
       >
         <div class="flex items-center gap-3">
-          <div class="w-[42px] text-center">
+          <div class="w-10.5 text-center">
             <i
               class="text-xl!"
               :class="[
@@ -170,4 +172,7 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.profile-avatar:deep(img) {
+  object-fit: cover;
+}
 </style>

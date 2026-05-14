@@ -30,6 +30,22 @@
             {{ getNoTable(slotProps.index, pagination.page, pagination.rows) }}
           </template>
         </Column>
+        <Column field="thumbnail" header="Image" class="w-20">
+          <template #body="slotProps">
+            <img
+              v-if="slotProps.data.thumbnail"
+              :src="slotProps.data.thumbnail"
+              alt=""
+              class="w-10 h-10 rounded-lg object-cover"
+            />
+            <div
+              v-else
+              class="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center"
+            >
+              <i class="pi pi-image text-sm text-gray-400" />
+            </div>
+          </template>
+        </Column>
         <Column field="name" header="Name" class="min-w-68">
           <template #body="slotProps">
             <h2>

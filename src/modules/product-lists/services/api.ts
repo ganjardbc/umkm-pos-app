@@ -1,4 +1,5 @@
 import api from '@/plugins/axios.ts';
+export { postUpload, setProductImage, removeProductImage } from '@/services/uploads';
 
 export const getListProduct = async (data: any, options: any = {}) => {
   return await api.get(
@@ -51,3 +52,5 @@ export const getProductStock = async (data: any, options: any = {}) => {
     { params: data, ...(options || {}) },
   );
 };
+
+

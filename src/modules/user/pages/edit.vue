@@ -49,6 +49,11 @@
           </Message>
         </UiFormGroup>
 
+        <UiFileUpload
+          :previewUrl="imagePreview"
+          @select="onUploadImage"
+          @remove="onRemoveImage"
+        />
         <UiFormGroup label="Active Status" variant="vertical">
           <div class="flex items-center gap-2">
             <Checkbox
@@ -88,6 +93,8 @@ import { getErrorMessage } from '@/helpers/utils.ts';
 import { showToast } from '@/helpers/toast.ts';
 import { showLoading, hideLoading } from '@/helpers/loading.ts';
 import { putUser, getDetailUser } from '@/modules/user/services/api.ts';
+import { setUserAvatar, removeUserAvatar } from '@/services/uploads';
+import { useFileUpload } from '@/composables/useFileUpload';
 import UiCard from '@/components/UiCard.vue';
 import UiFormGroup from '@/components/UiFormGroup.vue';
 
@@ -96,6 +103,15 @@ const router = useRouter();
 const userID = computed(() => route.params.id as string);
 
 const isLoaded = ref(false);
+const hasExistingAvatar = ref(false);
+
+const {
+  selectedUploadId,
+  imagePreview,
+  onUploadImage,
+  onRemoveImage,
+} = useFileUpload();
+
 const initialValues = ref<FormEdit>({
   name: '',
   email: '',
@@ -124,6 +140,11 @@ const onFormSubmit = async ({ valid, values }: { valid: boolean; values: FormEdi
       const { success } = response?.data || {};
 
       if (success) {
+        if (selectedUploadId.value) {
+          await setUserAvatar(userID.value, selectedUploadId.value);
+        } else if (hasExistingAvatar.value && !imagePreview.value) {
+          await removeUserAvatar(userID.value);
+        }
         router.back();
       }
     } catch (error) {
@@ -147,13 +168,18 @@ const fetchDetail = async () => {
   try {
     const response = await getDetailUser(userID.value);
     const { data } = response?.data || {};
-    const { name, email, is_active } = data || {};
+    const { name, email, is_active, avatar } = data || {};
 
     initialValues.value = {
       name,
       email,
       is_active
     };
+
+    if (avatar) {
+      hasExistingAvatar.value = true
+      imagePreview.value = avatar
+    }
     
     isLoaded.value = true;
   } catch (error) {

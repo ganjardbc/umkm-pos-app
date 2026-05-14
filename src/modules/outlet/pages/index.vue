@@ -12,7 +12,7 @@
       <Button
         icon="pi pi-plus"
         label="Add Outlet"
-        class="w-full md:w-[192px]"
+        class="w-full md:w-48"
         :disabled="!isCanCreate"
         @click="addOutlet"
       />
@@ -28,6 +28,19 @@
         <Column field="no" header="NO" class="w-18">
           <template #body="slotProps">
             {{ getNoTable(slotProps.index, pagination.page, pagination.rows) }}
+          </template>
+        </Column>
+        <Column field="logo" header="Logo" class="w-20">
+          <template #body="slotProps">
+            <img
+              v-if="slotProps.data.logo"
+              :src="slotProps.data.logo"
+              alt=""
+              class="w-10 h-10 rounded-lg object-cover"
+            />
+            <div v-else class="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center">
+              <i class="pi pi-image text-sm text-gray-400" />
+            </div>
           </template>
         </Column>
         <Column field="name" header="Name" class="min-w-48" />

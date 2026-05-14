@@ -29,6 +29,14 @@
       </template>
 
       <div class="space-y-4">
+        <div v-if="productDetail.thumbnail" class="flex justify-center md:justify-start">
+          <img
+            :src="productDetail.thumbnail"
+            alt="Product Image"
+            class="w-40 h-40 rounded-lg object-cover border border-gray-200"
+          />
+        </div>
+
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label class="text-sm font-medium text-gray-500">Name</label>
